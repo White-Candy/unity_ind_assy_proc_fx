@@ -15,8 +15,8 @@ public class MessagePanel : BasePanel
 
     public override void Awake()
     {
-        Debug.Log("Awake!");
         base.Awake();
+        timer = TimerConsole.Instance.CreateTimer();
     }
 
     void Start()
@@ -40,7 +40,10 @@ public class MessagePanel : BasePanel
         Active(true);
         m_TipText.text = str;
 
-        // TODO..Timer
+        timer.Run(4.0f, () => 
+        {
+            Active(false);
+        });
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(m_layoutGruop);
     }
