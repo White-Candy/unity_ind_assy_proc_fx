@@ -51,6 +51,8 @@ namespace sugar
                 return;
             }
 
+            // TODO..URL
+            Client.Instance.Login("", m_UserIF.text, m_PwdIF.text);
         }
     }
 }

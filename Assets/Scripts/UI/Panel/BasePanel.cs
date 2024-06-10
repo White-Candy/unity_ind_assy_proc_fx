@@ -26,6 +26,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
     /// <param name="b"></param>
     public virtual void Active(bool b)
     {
+        // m_Visible = b;
         if (m_Content != null)
         {
             m_Visible = b;

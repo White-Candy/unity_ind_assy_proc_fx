@@ -23,9 +23,9 @@ public class TimerConsole : Singleton<TimerConsole>
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnUnSceneLoaded;
-
-        GameObject.DontDestroyOnLoad(gameObject);
-        GameObject.DontDestroyOnLoad(m_Root);
+        
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(m_Root);
     }
 
     public Timer CreateTimer(bool global = false)

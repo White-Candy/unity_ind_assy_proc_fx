@@ -6,6 +6,12 @@ public class UIConsole : Singleton<UIConsole>
 {
     public Dictionary<string, BasePanel> m_List = new Dictionary<string, BasePanel>();
 
+    public override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+
     public T FindPanel<T>() where T : class, IBasePanel
     {
         foreach (var panel in m_List.Values)
