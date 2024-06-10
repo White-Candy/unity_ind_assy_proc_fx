@@ -8,7 +8,7 @@ public static class UITools
     public static void ShowMessage(string mess, float duration = 3.0f)
     {
         MessagePanel panel = FindAssetPanel<MessagePanel>();
-        //panel.Show(mess, duration);
+        panel.Show(mess, duration);
     }
 
     public static T FindAssetPanel<T>() where T : BasePanel

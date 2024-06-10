@@ -11,12 +11,13 @@ public class BasePanel : MonoBehaviour, IBasePanel
     // Panel Ç¿ÒýÓÃ
     public GameObject m_Content;
 
+    protected bool m_Visible;
 
     public virtual void Awake()
     {
         m_NameP = this.GetType().ToString();
-        Debug.Log("NAME: " + m_NameP);
         UIConsole.Instance.m_List.Add(m_NameP, this);
+        m_Visible = m_Content == null ? false : m_Content.activeSelf;
     }
 
     /// <summary>
@@ -27,6 +28,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
     {
         if (m_Content != null)
         {
+            m_Visible = b;
             m_Content.SetActive(b);
         }
     }
