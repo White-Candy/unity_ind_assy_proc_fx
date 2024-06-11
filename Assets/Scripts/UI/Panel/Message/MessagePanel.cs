@@ -32,7 +32,7 @@ public class MessagePanel : BasePanel
     public override void Active(bool b)
     {
         base.Active(b);
-        transform.SetAsLastSibling();
+        transform.SetAsLastSibling(); // 设置为组中最后一个
     }
 
     public void Show(string str, float time)
@@ -45,7 +45,7 @@ public class MessagePanel : BasePanel
             Active(false);
         });
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(m_layoutGruop);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(m_layoutGruop); //强制立即重建布局
     }
 }
 

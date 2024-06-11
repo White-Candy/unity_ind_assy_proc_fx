@@ -14,5 +14,11 @@ namespace sugar
         {
             Url = $"http://{_ip}:{_port}";
         }
+
+        public static string token;
+
+        public static int SuccessCode = 200;//请求成功
+        public static int ErrorCode = 500;//业务异常 
+        public static int WarningCode = 601;//系统警告信息
     }
 }

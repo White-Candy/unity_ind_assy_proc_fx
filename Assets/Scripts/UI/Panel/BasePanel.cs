@@ -16,7 +16,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
     public virtual void Awake()
     {
         m_NameP = this.GetType().ToString();
-        UIConsole.Instance.m_List.Add(m_NameP, this);
+        UIConsole.Instance.AddPanel(m_NameP, this);
         m_Visible = m_Content == null ? false : m_Content.activeSelf;
     }
 
@@ -26,6 +26,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
     /// <param name="b"></param>
     public virtual void Active(bool b)
     {
+        // m_Visible = b;
         if (m_Content != null)
         {
             m_Visible = b;
@@ -34,6 +35,9 @@ public class BasePanel : MonoBehaviour, IBasePanel
     }
 }
 
+/// <summary>
+/// 全局的panel都要去用這個顯示。
+/// </summary>
 public interface IGlobalPanel
 {
 
