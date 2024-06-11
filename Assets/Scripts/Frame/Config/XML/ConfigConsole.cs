@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class ConfigConsole : Singleton<ConfigConsole>
@@ -20,6 +22,7 @@ public class ConfigConsole : Singleton<ConfigConsole>
         if (!m_Loaded)
         {
             m_RootPath = Application.streamingAssetsPath;
+            LoadConfig(m_RootPath);
         }
     }
 
@@ -29,7 +32,45 @@ public class ConfigConsole : Singleton<ConfigConsole>
             return;
 
         // Web端讀取
+        NetworkManager._Instance.DownLoadTextFromServer(Tools.LocalPathEncode(Path.Combine(root_path, @"Config/Config.xml")), (text) =>
+        {
+            //Debug.Log("Config text: " + text);
+            XDocument doc = XDocument.Parse(text);
+            XElement root = doc.Root;
 
+            int idx = 0;
+            foreach (var item in root.Elements("Item"))
+            {
+                string name = item.Attribute("name").Value;
+                string path = Path.Combine(m_RootPath, item.Attribute("path").Value);
+
+                ConfigTemplate template = Tools.CreateObject<ConfigTemplate>(name);
+                template.id = idx;
+                template.name = name;
+                template.path = path;
+
+                try
+                {
+                    template.ReadXML(path);
+                }
+                catch
+                {
+                    Debug.LogError(string.Format("读取{0}失败，原因:解析失败 , 路径:{1}", name, path));
+                    continue;
+                }
+
+                if (!m_ConfigList.ContainsKey(name))
+                {
+                    m_ConfigList.Add(name, template);
+                }
+                else
+                {
+                    Debug.LogError(string.Format("添加{0}失败，原因:名称重复 , 路径:{1}", name, path));
+                }
+                idx++;
+            }
+            m_Loaded = true;
+        });
     }
 
     /// <summary>

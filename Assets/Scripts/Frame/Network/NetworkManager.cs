@@ -2,6 +2,7 @@ using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NetworkManager : MonoBehaviour
@@ -11,6 +12,12 @@ public class NetworkManager : MonoBehaviour
     private void Awake()
     {
         _Instance = this;
+        DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
+      
     }
 
     /// <summary>
