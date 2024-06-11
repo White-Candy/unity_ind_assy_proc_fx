@@ -28,6 +28,25 @@ public static class UITools
         load_panel.LoadScene(scene, model_name, real);
     }
 
+
+    /// <summary>
+    /// 關閉游戲
+    /// </summary>
+    public static void Quit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+
+    /// <summary>
+    /// UI資源的加載
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static T FindAssetPanel<T>() where T : BasePanel
     {
         T t = UIConsole.Instance.FindPanel<T>();
@@ -41,10 +60,12 @@ public static class UITools
                 go.name = typeof(T).Name;
                 if (t is IGlobalPanel)
                 {
+                    // 全局UI加載
                     go.transform.SetParent(GlobalCanvas.Instance.transform);
                 }
                 else
                 {
+                    // 場景UI加載
                     go.transform.SetParent(GameObject.Find("Canvas/").transform);
                 }
                 go.transform.localScale = Vector3.one;

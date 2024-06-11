@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<Root>
+	<Item name="ConfigModuleList" path="Config/ModuleList.xml"/>
+	<Item name="ConfigMenuList" path="Config/MenuListConfig.xml"/>
+</Root>
