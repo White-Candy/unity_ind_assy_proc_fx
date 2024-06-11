@@ -24,6 +24,14 @@ public class UIConsole : Singleton<UIConsole>
         }
         return null;
     }
+
+    public void AddPanel(string key, BasePanel panel)
+    {
+        if (!m_List.ContainsKey(key))
+        {
+            m_List.Add(key, panel);
+        }
+    }
 }
 
 public interface IBasePanel

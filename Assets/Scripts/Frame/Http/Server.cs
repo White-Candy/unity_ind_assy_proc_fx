@@ -19,6 +19,7 @@ public class Server : MonoBehaviour
     /// <returns></returns>
     public IEnumerator Post(string url, string body, Action<string> callback)
     {
+        //Debug.Log("Body: " + body);
         byte[] bytes = null;
         if (body != null)
         {

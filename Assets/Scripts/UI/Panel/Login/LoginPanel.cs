@@ -50,9 +50,9 @@ namespace sugar
                 UITools.ShowMessage("密码不能为空");
                 return;
             }
-
-            // TODO..URL
-            Client.Instance.Login("", m_UserIF.text, m_PwdIF.text);
+            
+            // 客户端请求登录
+            Client.Instance.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
         }
     }
 }
