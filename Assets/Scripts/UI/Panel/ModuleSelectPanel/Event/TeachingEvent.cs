@@ -1,3 +1,4 @@
+using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,5 +10,10 @@ public class TeachingEvent : ModuleEvent
     {
         base.OnEvent(args);
         Debug.Log("Teaching Event!");
+
+        foreach (var t in GlobalData.moduleContent)
+        {
+            SwitchSceneAccName(m_Name, t[1]);
+        }
     }
 }

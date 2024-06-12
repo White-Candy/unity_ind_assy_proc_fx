@@ -22,6 +22,7 @@ public class AssessEvent : ModuleEvent
             return;
         }
 
+        // «@È¡¿¼ºËîÐÍ
         m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
         {
             Debug.Log(dataServer);
@@ -36,7 +37,19 @@ public class AssessEvent : ModuleEvent
                 item.GetComponentInChildren<TextMeshProUGUI>().text = js_data["data"][i]["examName"].ToString();
                 item.onClick.AddListener(() =>
                 {
-                    
+                    GlobalData.examId = examID;
+                    m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.startExam, (dataExam) =>
+                    {
+                        Debug.Log(dataExam);
+                        ExamJsonData ex_js_data = JsonMapper.ToObject<ExamJsonData>(dataExam);
+                        GlobalData.examData = ex_js_data;
+
+                        GlobalData.TaskListPanel.gameObject.SetActive(false);
+                        foreach (var t in GlobalData.moduleContent)
+                        {
+                            SwitchSceneAccName(m_Name, t[1]);
+                        }
+                    }));
                 });
             }
         }));

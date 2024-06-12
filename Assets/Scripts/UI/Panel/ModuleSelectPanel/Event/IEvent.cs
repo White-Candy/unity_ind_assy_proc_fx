@@ -1,3 +1,4 @@
+using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,4 +47,30 @@ public class ModuleEvent
     /// <param name="module_name"></param>
     /// <param name="args"></param>
     public virtual void OnEvent(params object[] args) { }
+
+    public virtual void SwitchSceneAccName(string module_name, string module_code)
+    {
+        GlobalData.currModuleName = module_name;
+        GlobalData.currModuleCode = module_code;
+        if (GlobalData.mode == Mode.Examinaion)
+        {
+            if (GlobalData.FinishExamModule.Contains(module_name))
+            {
+                // TODO... dialog
+                Debug.Log(@"您已完成本模块考核，不可再次进入。");
+                return;
+            }
+            else
+            {
+                GlobalData.FinishExamModule.Add(module_name);
+                UITools.Loading("Main", false, module_name);
+                return;
+            }
+        }
+        else
+        {
+            UITools.Loading("Main", false, module_name);
+            return;
+        }
+    }
 }
