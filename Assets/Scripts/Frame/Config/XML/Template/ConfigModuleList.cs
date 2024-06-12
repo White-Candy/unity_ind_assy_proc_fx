@@ -12,11 +12,12 @@ public struct ModuleData
 
 public class ConfigModuleList : ConfigTemplate
 {
+    // 所有文件中的 XML Item都放进去
     public List<ModuleData> m_ModuleList = new List<ModuleData>();
 
     public override void ReadXML(XDocument doc)
     {
-        Debug.Log("ConfigModuleList ReadXML");
+        //Debug.Log("ConfigModuleList ReadXML");
         base.ReadXML(doc);
         foreach (var item in doc.Root.Elements("List")) 
         {

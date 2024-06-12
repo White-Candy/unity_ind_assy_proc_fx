@@ -69,4 +69,29 @@ public class Server : MonoBehaviour
             }
         }
     }
+
+    public IEnumerator Get_SetHeader(string url, Action<string> callback)
+    {
+        using (UnityWebRequest req = UnityWebRequest.Get(url))
+        {
+            //Debug.Log($"AuthorizationBearer {GlobalData.token}");
+            req.SetRequestHeader("Authorization", $"Bearer {GlobalData.token}");
+            yield return req.SendWebRequest();
+
+            if (req.error != null)
+            {
+                Debug.LogError(req.error + " = " + url);
+            }
+
+            while (!req.isDone)
+            {
+                yield return null;
+            }
+
+            if (callback != null)
+            {
+                callback(req.downloadHandler.text);
+            }
+        }
+    }
 }

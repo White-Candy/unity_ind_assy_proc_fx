@@ -44,7 +44,7 @@ public class ConfigConsole : Singleton<ConfigConsole>
                 string name = item.Attribute("name").Value;
                 string path = Path.Combine(m_RootPath, item.Attribute("path").Value);
 
-                ConfigTemplate template = Tools.CreateObject<ConfigTemplate>(name);
+                ConfigTemplate template = Tools.CreateObject<ConfigTemplate>(name); // 把 XML 中的name字段变成相应的 实例(基类都是 ConfigTemplate)。
                 template.id = idx;
                 template.name = name;
                 template.path = path;
