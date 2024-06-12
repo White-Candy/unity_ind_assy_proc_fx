@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<Root>
+	<List ModuleName="教学" ModuleCode="0"/>
+	<List ModuleName="训练" ModuleCode="1"/>
+	<List ModuleName="考核" ModuleCode="2"/>
+</Root>

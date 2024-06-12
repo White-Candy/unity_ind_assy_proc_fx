@@ -15,6 +15,7 @@ namespace sugar
         public TMP_InputField m_UserIF;
         public TMP_InputField m_PwdIF;
         public Button m_Login;
+        public Button m_Close;
 
         private void Awake()
         {
@@ -27,6 +28,11 @@ namespace sugar
             if (m_Login != null)
             {
                 m_Login.onClick.AddListener(LoginRequest);
+            }
+
+            if (m_Close != null)
+            {
+                m_Close.onClick.AddListener(UITools.Quit);
             }
         }
 

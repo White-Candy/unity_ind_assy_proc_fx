@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<Root>
+	<Item MenuName="认知学习">
+		<SubMenuItems SubMenuName="图片" Enum="0"/>
+		<SubMenuItems SubMenuName="PDF" Enum="1"/>
+		<SubMenuItems SubMenuName="视频" Enum="2"/>
+		<SubMenuItems SubMenuName="部件展示" Enum="3"/>
+	</Item>
+	<Item MenuName="构造原理">
+		<SubMenuItems SubMenuName="结构图" Enum="0"/>
+		<SubMenuItems SubMenuName="构造认知" Enum="1"/>
+	</Item>
+	<Item MenuName="拆装仿真">
+		<SubMenuItems SubMenuName="自动拆卸" Enum="0"/>
+		<SubMenuItems SubMenuName="自动组装" Enum="1"/>
+		<SubMenuItems SubMenuName="手动拆卸" Enum="2"/>
+		<SubMenuItems SubMenuName="手动组装" Enum="3"/>
+	</Item>
+	<Item MenuName="实训考核">
+		<SubMenuItems SubMenuName="理论考核" Enum="0"/>
+		<SubMenuItems SubMenuName="实训考核" Enum="1"/>
+	</Item>
+</Root>

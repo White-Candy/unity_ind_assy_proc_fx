@@ -17,4 +17,12 @@ public class URL
     {
         get { return ROOT_API + "login"; }
     }
+
+    /// <summary>
+    /// ©╪йтап╠М
+    /// </summary>
+    public static string QUERY_MY_EXAM
+    {
+        get { return ROOT_API + "queryMyExam"; }
+    }
 }

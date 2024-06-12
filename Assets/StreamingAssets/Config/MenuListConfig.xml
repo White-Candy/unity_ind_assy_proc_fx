@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<Root>
+	<Item MenuName="教学资源_教学">
+		<SubMenuItems SubMenuName="教案" Enum="0"/>
+		<SubMenuItems SubMenuName="图片" Enum="1"/>
+		<SubMenuItems SubMenuName="视频" Enum="2"/>
+		<SubMenuItems SubMenuName="动画" Enum="3"/>
+		<SubMenuItems SubMenuName="图纸" Enum="4"/>
+		<SubMenuItems SubMenuName="方案" Enum="5"/>
+		<SubMenuItems SubMenuName="规范" Enum="6"/>
+		<SubMenuItems SubMenuName="构造" Enum="7"/>
+	</Item>
+	<Item MenuName="施工准备_教学">
+		<SubMenuItems SubMenuName="工种" Enum="0"/>
+		<SubMenuItems SubMenuName="材料" Enum="1"/>
+		<SubMenuItems SubMenuName="机具" Enum="2"/>
+		<SubMenuItems SubMenuName="作业条件" Enum="3"/>
+	</Item>
+	<Item MenuName="拆装仿真_训练">
+		<SubMenuItems SubMenuName="yangou" Enum="10002"/>
+		<SubMenuItems SubMenuName="jishui" Enum="10001"/>
+		<SubMenuItems SubMenuName="yushui" Enum="10003"/>
+		<SubMenuItems SubMenuName="dieheyangtaiyi" Enum="10005"/>
+		<SubMenuItems SubMenuName="dieheyangtaier" Enum="10008"/>
+		<SubMenuItems SubMenuName="dieheyangtaisan" Enum="10010"/>
+		<SubMenuItems SubMenuName="dieheyangtaisi" Enum="10011"/>
+		<SubMenuItems SubMenuName="diehebanyi" Enum="10013"/>
+		<SubMenuItems SubMenuName="diehebaner" Enum="10014"/>
+		<SubMenuItems SubMenuName="diehebansan" Enum="10015"/>
+		<SubMenuItems SubMenuName="diehebansi" Enum="10016"/>
+		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqiangyi" Enum="10020"/>
+		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqianger" Enum="10022"/>
+		<SubMenuItems SubMenuName="yuzhijianliqiangneiqiangyi" Enum="10023"/>
+0		<SubMenuItems SubMenuName="yuzhijianliqiangneiqianger" Enum="10024"/>
+		<SubMenuItems SubMenuName="yuzhiyangtaiyi" Enum="10026"/>
+		<SubMenuItems SubMenuName="yuzhiyangtaier" Enum="10027"/>
+		<SubMenuItems SubMenuName="yuzhiyangtaisan" Enum="10028"/>
+		<SubMenuItems SubMenuName="yuzhiyangtaisi" Enum="10029"/>
+		<SubMenuItems SubMenuName="yuzhizhu" Enum="10030"/>
+		<SubMenuItems SubMenuName="dieheliang" Enum="10031"/>
+	</Item>
+	<Item MenuName="考核_考核">
+		<SubMenuItems SubMenuName="理论考核" Enum="0"/>
+		<SubMenuItems SubMenuName="实训考核" Enum="1"/>
+	</Item>
+</Root>
