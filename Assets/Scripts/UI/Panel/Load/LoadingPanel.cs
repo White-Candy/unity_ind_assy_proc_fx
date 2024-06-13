@@ -81,7 +81,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
 
             if (real_percent > percent) // 顯示Loading窗口，比較平緩的滑動進度條。
             {
-                if (real_percent <= 0.9f) 
+                if (percent <= 0.9f) 
                 {
                     percent += Time.deltaTime;
                 }
