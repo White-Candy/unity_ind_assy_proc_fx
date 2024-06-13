@@ -49,7 +49,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (m_ItemModel == null)
         {
             if (Camera.main == null) return;
-            m_ItemModel = Instantiate(Resources.Load<GameObject>("Model/" + (m_Name.Split('_').Length > 1 ? m_Name.Split('_')[0] : m_Name)));
+            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + (m_Name.Split('_').Length > 1 ? m_Name.Split('_')[0] : m_Name)));
             m_ItemModel.name = m_Name;
             Debug.Log("m_ItemModel: " + m_ItemModel.name);
         }
@@ -109,7 +109,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
                     }
                 }
             }         
-            //Destroy(m_ItemModel);
+            Destroy(m_ItemModel);
         }           
     }
 }

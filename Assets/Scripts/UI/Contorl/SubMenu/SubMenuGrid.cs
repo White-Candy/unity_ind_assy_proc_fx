@@ -31,7 +31,7 @@ public class SubMenuGrid : MonoBehaviour
                 {
                     SubMenuDragItem drag_item = Instantiate(m_DragItem, this.transform);
                     drag_item.gameObject.GetComponent<Image>().sprite = 
-                        Resources.Load<Sprite>("Texture/Tools/" + 
+                        Resources.Load<Sprite>("Textures/Tools/" + 
                         (subMenu.subMenuName.Split('_').Length > 1 ? subMenu.subMenuName.Split('_')[0] : subMenu.subMenuName));
                     drag_item.gameObject.SetActive(true);
                     drag_item.Init(subMenu.subMenuName, subMenu.enumID);
