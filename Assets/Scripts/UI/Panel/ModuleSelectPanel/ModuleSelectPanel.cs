@@ -19,8 +19,7 @@ public class ModuleSelectPanel : BasePanel
 
     private ConfigModuleList m_configModuleList; // 選擇界面中有那些模式都在這個裏面保存
 
-    private Dictionary<string, string> EscDic = new Dictionary<string, string>{ { @"教学", "TeachingEvent"}, {@"训练", "TrainEvent"},
-                                                                                {@"考核", "AssessEvent"} };
+    
 
     public override void Awake()
     {
@@ -73,14 +72,9 @@ public class ModuleSelectPanel : BasePanel
             button.onClick.AddListener(() =>
             {
                 // 不同模式执行不同的 OnEvent.
-                ModuleEvent @event = ModuleEventSpawn.Spawn<ModuleEvent>(CnEscapingEn(item.moduleName), item.moduleCode, this);
+                ModuleEvent @event = ModuleEventSpawn.Spawn<ModuleEvent>(Tools.Escaping(item.moduleName), item.moduleCode, this);
                 @event.OnEvent();
             });
         }
-    }
-
-    private string CnEscapingEn(string name)
-    {
-        return EscDic.ContainsKey(name) == true ? EscDic[name] : "";
     }
 }

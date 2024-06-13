@@ -33,7 +33,7 @@ public class ConfigTemplate
     }
 
     /// <summary>
-    /// 解析配置
+    /// 解析不同的xml文件，并存储在内存中
     /// </summary>
     /// <param name="doc"></param>
     public virtual void ReadXML(XDocument doc)

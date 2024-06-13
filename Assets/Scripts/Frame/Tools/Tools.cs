@@ -6,6 +6,9 @@ using UnityEngine;
 
 public static class Tools
 {
+    public static Dictionary<string, string> EscDic = new Dictionary<string, string>{ { @"½ÌÑ§", "TeachingEvent"}, {@"ÑµÁ·", "TrainEvent"},
+                                                                                {@"¿¼ºË", "AssessEvent"} };
+
     public static bool CheckMessageSuccess(int code)
     {
         return code == GlobalData.SuccessCode;
@@ -46,5 +49,25 @@ public static class Tools
     public static string LocalPathEncode(string txt)
     {
         return txt;
+    }
+
+
+    /// <summary>
+    /// Cn To En Or En To Cn
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public static string Escaping(string name)
+    {
+        string TypeName = "";
+        if (EscDic.ContainsKey(name))
+        {
+            TypeName = EscDic[name];
+            if (!EscDic.ContainsKey(TypeName))
+            {
+                EscDic.Add(TypeName, name);
+            }
+        }
+        return TypeName;
     }
 }

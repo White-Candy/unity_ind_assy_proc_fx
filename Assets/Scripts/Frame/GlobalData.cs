@@ -9,7 +9,7 @@ namespace sugar
     {
         None,
         Practice,
-        Examinaion
+        Examination
     }
 
     public static class GlobalData
