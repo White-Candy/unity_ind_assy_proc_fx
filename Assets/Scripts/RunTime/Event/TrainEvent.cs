@@ -9,7 +9,7 @@ public class TrainEvent : ModuleEvent
     public override void OnEvent(params object[] args)
     {
         base.OnEvent(args);
-        Debug.Log("Train Event!");
+        //Debug.Log("Train Event!");
 
         foreach (var t in GlobalData.moduleContent)
         {

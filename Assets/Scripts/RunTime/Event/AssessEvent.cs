@@ -12,13 +12,13 @@ public class AssessEvent : ModuleEvent
     public override void OnEvent(params object[] args)
     {
         base.OnEvent(args);
-        Debug.Log("Assess Event!");
+        //Debug.Log("Assess Event!");
 
         GlobalData.mode = Mode.Examination;
         if (GlobalData.currentExamIsFinish)
         {
-            // TODO..Dialog
-            Debug.Log("您已完成本次考核!");
+            UITools.OpenDialog("", "您已完成本次考核!", () => { });
+            //Debug.Log("您已完成本次考核!");
             return;
         }
 

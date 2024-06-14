@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,10 @@ public static class UITools
         load_panel.LoadScene(scene, model_name, real);
     }
 
+    public static void OpenDialog(string title, string info, Action callback)
+    {
+        DialogPanel.OpenDialog(title, info, callback);
+    }
 
     /// <summary>
     /// ЙPИ]сн▒Р

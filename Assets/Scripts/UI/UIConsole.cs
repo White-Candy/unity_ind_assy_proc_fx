@@ -18,7 +18,7 @@ public class UIConsole : Singleton<UIConsole>
         {
             if (panel is T)
             {
-                Debug.Log(typeof(T).Name);
+                //Debug.Log(typeof(T).Name);
                 return panel as T;
             }
         }

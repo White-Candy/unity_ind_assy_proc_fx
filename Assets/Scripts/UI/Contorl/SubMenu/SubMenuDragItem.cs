@@ -45,7 +45,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     /// <param name="eventdata"></param>
     public void OnBeginDrag(PointerEventData eventdata)
     {
-        Debug.Log("OnBeginDrag: " + m_Name);
+        //Debug.Log("OnBeginDrag: " + m_Name);
         if (m_ItemModel == null)
         {
             if (Camera.main == null) return;
@@ -61,7 +61,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     /// <param name="eventdata"></param>
     public void OnDrag(PointerEventData eventdata)
     {
-        Debug.Log("OnDrag: " + m_Name);
+        //Debug.Log("OnDrag: " + m_Name);
         if (m_ItemModel != null)
         {
             m_ItemModel.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 1f));
@@ -74,7 +74,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     /// <param name="eventdata"></param>
     public void OnEndDrag(PointerEventData eventdata)
     {
-        Debug.Log("OnEndDrag: " + m_Name);
+       // Debug.Log("OnEndDrag: " + m_Name);
         if (m_ItemModel != null)
         {
             RaycastHit hit;
