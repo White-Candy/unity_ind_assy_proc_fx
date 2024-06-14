@@ -24,9 +24,10 @@ public class SubMenuGrid : MonoBehaviour
                 m_DragItem = transform.GetChild(1).GetComponent<SubMenuDragItem>();
             }
 
+            // 每個工具欄中Item的實例創建，SubMenus就是需要用到的工具信息
             foreach(var subMenu in subMenus)
             {
-                Debug.Log("subMenuGrid: " + subMenu.subMenuName);
+                //Debug.Log("subMenuGrid: " + subMenu.subMenuName);
                 if (!subMenu.subMenuName.Contains("示意图"))
                 {
                     SubMenuDragItem drag_item = Instantiate(m_DragItem, this.transform);

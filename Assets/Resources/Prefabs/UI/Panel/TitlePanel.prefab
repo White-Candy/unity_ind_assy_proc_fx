@@ -541,13 +541,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8308452236007258513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eed8b1d05ad6f3343a901272a9bc076b, type: 3}
+  m_Script: {fileID: 11500000, guid: a4fb252b1ad2c524ba1d8ed2e36beee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_NameP: 
   m_Content: {fileID: 8308452236202814002}
-  m_ExitBtn: {fileID: 8308452235327602995}
-  m_TitleText: {fileID: 8308452234858693188}
+  m_Exit: {fileID: 8308452235327602995}
+  m_Title: {fileID: 8308452234858693188}
 --- !u!1 &8308452236202814002
 GameObject:
   m_ObjectHideFlags: 0
