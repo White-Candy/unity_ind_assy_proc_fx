@@ -9,7 +9,7 @@ public class TeachingEvent : ModuleEvent
     public override void OnEvent(params object[] args)
     {
         base.OnEvent(args);
-        Debug.Log("Teaching Event!");
+        //Debug.Log("Teaching Event!");
 
         foreach (var t in GlobalData.moduleContent)
         {

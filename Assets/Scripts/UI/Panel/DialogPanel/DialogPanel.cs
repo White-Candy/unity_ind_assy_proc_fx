@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class DialogPanel : BasePanel
 {
@@ -28,6 +30,9 @@ public class DialogPanel : BasePanel
 
     // 背景
     public Image m_BG;
+
+    // List
+    List<Tween> m_TweenList = new List<Tween>();
 
     public override void Awake()
     {
@@ -85,6 +90,56 @@ public class DialogPanel : BasePanel
     }
 
     /// <summary>
+    /// 打開開關
+    /// </summary>
+    /// <param name="b"></param>
+    public override void Active(bool b)
+    {
+        foreach (var item in m_TweenList)
+        {
+            // 如果item動畫在運行，停止他
+            if (item.IsPlaying())
+            {
+                item.Kill();
+            }
+        }
+        m_TweenList.Clear(); //清空
+
+        RectTransform rect = m_Content.transform as RectTransform;
+        if (b) // 顯示時，背景動畫漸變顯示
+        {
+            Tween tween0 = DOTween.To(() => 0, (a) => m_BG.color = new Color(0, 0, 0, a), 0.75f, 0.2f).OnStart(() =>
+            {
+                m_BG.gameObject.SetActive(true);
+            });
+
+            Tween tween1 = DOTween.To(() => Vector3.zero, (a) => rect.localScale = a, Vector3.one, 0.2f).OnStart(() =>
+            {
+                base.Active(b);
+            });
+
+            m_TweenList.Add(tween0);
+            m_TweenList.Add(tween1);
+        }
+        else // 關閉時，背景動畫漸變消失
+        {
+            Tween tween0 = DOTween.To(() => 0.75f, (a) => m_BG.color = new Color(0, 0, 0, a), 0, 0.2f).OnComplete(() =>
+            {
+                m_BG.gameObject.SetActive(false);
+            });
+
+            Tween tween1 = DOTween.To(() => Vector3.one, (a) => rect.localScale = a, Vector3.zero, 0.2f).OnComplete(() =>
+            {
+                base.Active(b);
+                Clear();
+            });
+
+            m_TweenList.Add(tween0);
+            m_TweenList.Add(tween1);
+        }
+    }
+
+    /// <summary>
     /// 清理面板
     /// </summary>
     public void Clear()
@@ -108,7 +163,7 @@ public class DialogPanel : BasePanel
         DialogPanel panel = UITools.FindAssetPanel<DialogPanel>();
         if (panel != null)
         {
-            panel.UpdateData(title, info, new ButtonData("确定", callback), "取消");
+            panel.UpdateData(title, info, new ButtonData("确定", callback), new ButtonData("取消", callback));
             panel.Active(true);
         }
         else
@@ -127,7 +182,7 @@ public class ButtonData
     public Action method;
 
     // 点击后关闭面板
-    public bool isClose;
+    public bool isClose = false;
 
     public ButtonData(string txt, bool close = true)
     {

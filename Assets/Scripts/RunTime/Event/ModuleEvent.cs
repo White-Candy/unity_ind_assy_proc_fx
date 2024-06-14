@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 分發器
 public static class ModuleEventSpawn
 {
 
@@ -31,6 +32,7 @@ public static class ModuleEventSpawn
     }
 }
 
+// 選擇模式板塊事件
 public class ModuleEvent
 {
     // 模式的名字
@@ -57,8 +59,8 @@ public class ModuleEvent
         {
             if (GlobalData.FinishExamModule.Contains(module_name))
             {
-                // TODO... dialog
-                Debug.Log(@"您已完成本模块考核，不可再次进入。");
+                //UITools.OpenDialog("", "您已完成本模块考核，不可再次进入。", () => { });
+                //Debug.Log(@"您已完成本模块考核，不可再次进入。");
                 return;
             }
             else

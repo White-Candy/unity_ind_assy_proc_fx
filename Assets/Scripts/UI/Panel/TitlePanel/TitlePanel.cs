@@ -23,6 +23,8 @@ public class TitlePanel : BasePanel
         if (GlobalData.mode == Mode.Examination)
         {
             // TODO..考核模式下退出提交成績
+            UITools.Loading("Menu", false);
+            GlobalData.currentExamIsFinish = true;
         }
         else
         {

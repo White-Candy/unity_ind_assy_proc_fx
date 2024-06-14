@@ -37,7 +37,7 @@ public class Client : Singleton<Client>
 
         StartCoroutine(m_Server.Post(path, json, (body) =>
         {
-            Debug.Log(body);
+            // Debug.Log(body);
             JsonData data = JsonMapper.ToObject(body);
             GlobalData.token = data["token"]?.ToString();
 

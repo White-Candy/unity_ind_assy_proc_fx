@@ -12,7 +12,7 @@ public class DialogPanelItem : MonoBehaviour
     public Button m_Button;
 
     // 文本显示
-    public List<TextMeshProUGUI> m_Text = new List<TextMeshProUGUI>();
+    public TextMeshProUGUI m_Text;
 
     // 按钮点击事件
     private Action OnButtonClicked = () => { };
@@ -24,7 +24,8 @@ public class DialogPanelItem : MonoBehaviour
 
     public void UpdateData(string text)
     {
-        m_Text.ForEach(a => a.text = text);
+        //m_Text.ForEach(a => a.text = text);
+        m_Text.text = text;
     }
 
     /// <summary>
@@ -41,6 +42,7 @@ public class DialogPanelItem : MonoBehaviour
     /// </summary>
     public void Clear()
     {
-        m_Text.ForEach(a => a.text = "");
+        m_Text.text = "";
+        //m_Text.ForEach(a => a.text = "");
     }
 }
