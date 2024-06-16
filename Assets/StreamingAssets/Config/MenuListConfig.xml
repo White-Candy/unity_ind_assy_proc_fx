@@ -32,7 +32,7 @@
 		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqiangyi" Enum="10020"/>
 		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqianger" Enum="10022"/>
 		<SubMenuItems SubMenuName="yuzhijianliqiangneiqiangyi" Enum="10023"/>
-0		<SubMenuItems SubMenuName="yuzhijianliqiangneiqianger" Enum="10024"/>
+		<SubMenuItems SubMenuName="yuzhijianliqiangneiqianger" Enum="10024"/>
 		<SubMenuItems SubMenuName="yuzhiyangtaiyi" Enum="10026"/>
 		<SubMenuItems SubMenuName="yuzhiyangtaier" Enum="10027"/>
 		<SubMenuItems SubMenuName="yuzhiyangtaisan" Enum="10028"/>
