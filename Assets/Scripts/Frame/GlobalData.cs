@@ -33,6 +33,7 @@ namespace sugar
         public static Mode mode = Mode.None;
         public static string currModuleCode = "";
         public static string currModuleName = "";
+        public static Target ModelTarget; // 训练/实训考核的模型场景 Addressables Groups Default Name.
 
         // 已经完成本次考核，重新登录后才可再次考试
         public static bool currentExamIsFinish = false;
