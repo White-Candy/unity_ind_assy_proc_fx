@@ -82,7 +82,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             //开启射线检测
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                Debug.Log("播放动画 = " + m_ItemModel.name + "，步骤列表:" + string.Join(",", stepNameList));
+                //Debug.Log("播放动画 = " + m_ItemModel.name + "，步骤列表:" + string.Join(",", stepNameList));
                 if (hit.collider.name == m_ItemModel.name || stepNameList.Contains(hit.collider.name))
                 {
                     // TODO..

@@ -36,7 +36,7 @@ public class MenuPanel : BasePanel
         foreach (var menu in m_MenuList)
         {
             string[] menuName = menu.menuName.Split('_');
-            Debug.Log("GlobalData.currModuleName: " + GlobalData.currModuleName + "| menuName[1]: " + menuName[1]);
+            //Debug.Log("GlobalData.currModuleName: " + GlobalData.currModuleName + "| menuName[1]: " + menuName[1]);
             if (GlobalData.currModuleName == menuName[1])
             {
                 if (menuName[0] != "拆装仿真")
@@ -50,7 +50,7 @@ public class MenuPanel : BasePanel
                     List<SubMenu> list = new List<SubMenu>();
                     foreach (var item in menu.subMenuList)
                     {
-                        Debug.Log("当前code为 = " + GlobalData.currModuleCode + " | 列表ID为 = " + item.enumID.ToString());
+                        //Debug.Log("当前code为 = " + GlobalData.currModuleCode + " | 列表ID为 = " + item.enumID.ToString());
                         if (int.Parse(GlobalData.currModuleCode) == item.enumID)
                         {
                             Debug.Log("curr Name: " + item.subMenuName);

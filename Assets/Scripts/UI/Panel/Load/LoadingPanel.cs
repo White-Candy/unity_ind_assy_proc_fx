@@ -1,7 +1,10 @@
+using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -29,15 +32,15 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     {
         if (real)
         {
-            StartCoroutine(ModelLoad(scene));
+            StartCoroutine(RealLoad(scene));
         }
         else
         {
-            StartCoroutine(PanelLoad(scene, model_name));
+            StartCoroutine(UnRealLoad(scene, model_name));
         }
     }
 
-    private IEnumerator ModelLoad(string name)
+    private IEnumerator RealLoad(string name)
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(name);
         async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
@@ -59,21 +62,37 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     }
 
     /// <summary>
+    /// 假进度条加载
     /// PanelLoad的UI Percent因爲加載太快會直接跳過...
     /// ...爲了讓他流暢的顯示，故這樣去處理進度條的percent
     /// </summary>
     /// <param name="name"></param>
     /// <param name="model_name"></param>
     /// <returns></returns>
-    private IEnumerator PanelLoad(string name, string model_name)
+    private IEnumerator UnRealLoad(string name, string model_name)
     {
-        AsyncOperation async = SceneManager.LoadSceneAsync(name);
-        async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
+        if (model_name == "训练")
+        {
+            // 模型场景异步加载
+            GameObject obj;
+            AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
+            while (!model_async.IsDone)
+            {
+                //Debug.Log("proess: " + model_async.PercentComplete.ToString("f6"));
+                yield return null;
+            }
+            obj = Instantiate(model_async.Result);
+            obj.name = GlobalData.ModelTarget.modelName;
+        }
+
+        // Unity场景加载
+        AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
+        scene_async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
         float real_percent;
         float percent = 0.0f;
         while (percent < 1.0f)
         {
-            real_percent = async.progress;
+            real_percent = scene_async.progress;
             if (real_percent >= 0.9f) //真實的加載百分比
             {
                 real_percent = 1.0f;
@@ -95,7 +114,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
             yield return new WaitForEndOfFrame();
         }
 
-        async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
+        scene_async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
         OnLoaded();
     }
 

@@ -43,12 +43,9 @@ public class AssessEvent : ModuleEvent
                         Debug.Log(dataExam);
                         ExamJsonData ex_js_data = JsonMapper.ToObject<ExamJsonData>(dataExam);
                         GlobalData.examData = ex_js_data;
-
                         GlobalData.TaskListPanel.gameObject.SetActive(false);
-                        foreach (var t in GlobalData.moduleContent)
-                        {
-                            SwitchSceneAccName(m_Name, t[1]);
-                        }
+
+                        SwitchSceneAccName(m_Name, GlobalData.ModelTarget.modelCode.ToString());
                     }));
                 });
             }

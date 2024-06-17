@@ -1,3 +1,4 @@
+using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,6 +12,7 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI m_StepText; // 步骤面板Text
     public GameObject m_Introduce; // 施工要点面板
 
+    public string m_animCameraName;
 
     private TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
 
@@ -26,6 +28,14 @@ public class InfoPanel : MonoBehaviour
         {
             ActiveConstructionPanel();
         });
+
+        Init();
+    }
+
+    private void Init()
+    {
+        m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
+        m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
     }
 
     private void ActiveConstructionPanel()

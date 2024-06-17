@@ -50,8 +50,10 @@ namespace sugar
         public static ExamJsonData examData;
 
         // 裏面存儲的是不同項目模式的名字和號碼
-        public static List<string[]> moduleContent = new List<string[]> { new string[] {"", "10022"} }; 
+        //public static List<string[]> moduleContent = new List<string[]> { new string[] {"", "10022"} }; 
 
         public static List<string> FinishExamModule = new List<string>(); //記錄已經完成的考核内容
+
+        public static int StepIdx = 0; // 步骤索引
     }
 }
