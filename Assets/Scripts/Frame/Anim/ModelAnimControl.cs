@@ -24,6 +24,7 @@ public class ModelAnimControl : MonoBehaviour
 
     public GameObject m_animCamera; // 动画相机的名字
     public GameObject m_player; // 人物相机
+    private GameObject m_Canvas; 
 
     private Animator m_Animtor; // Animtor组件
 
@@ -32,6 +33,7 @@ public class ModelAnimControl : MonoBehaviour
     public List<ConstrPtStep> m_ConPtStep = new List<ConstrPtStep>();
 
     private string ModelName; //模型的 adressables Group Default Name
+
 
     private void Awake()
     {
@@ -68,13 +70,15 @@ public class ModelAnimControl : MonoBehaviour
 
     public void Play(float f_start, float f_end)
     {
-        // 设置相机
-
         StartCoroutine(PlayAnim(f_start, f_end));
     }
 
     private IEnumerator PlayAnim(float f_start, float f_end)
     {
+        // 切换到动画相机
+        GameObject canvas =  GameObject.Find("Canvas").gameObject;
+        CameraControl.SetAnimation();
+        canvas.SetActive(false); // 播放动画的时候 关闭UI。
         m_Animtor.SetBool("play", true);
         yield return new WaitForSeconds(0.1f);
 
@@ -88,6 +92,8 @@ public class ModelAnimControl : MonoBehaviour
 
         // 播放完毕关闭动画
         m_Animtor.SetBool("play", false);
+        CameraControl.SetNormal(); // 切换回 Player相机。
+        canvas.SetActive(true);
         yield return null;
     }
 }
