@@ -5,23 +5,23 @@ using UnityEngine;
 // Camera 初始化启动器
 public class CameraLauncher : MonoBehaviour
 {
-
-
-    void Start()
+    private void Awake()
     {
         CameraControl.main = GameObject.Find("Main Camera");
-        CameraControl.player = transform.Find("PlayerCapsule")?.gameObject;
-        CameraControl.animation = transform.Find(ModelAnimControl._Instance.m_animCameraName)?.gameObject;
 
         if (CameraControl.player != null)
         {
             CameraControl.player.transform.Find("Capsule").gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
+
+        // 先关闭所有镜头
+        CameraControl.CloseAll();
     }
 
-    private void Init()
+    void Start()
     {
-        CameraControl.main.SetActive(false);
+        // 在重置玩家镜头
+        CameraControl.SetNormal();
     }
 
 }

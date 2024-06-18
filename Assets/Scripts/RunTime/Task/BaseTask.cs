@@ -11,7 +11,7 @@ public abstract class BaseTask
     protected string currTaskName;
     protected Dictionary<string, BaseAction> m_StateDic = new Dictionary<string, BaseAction>();
 
-    protected List<SubMenu> m_SubMenuList = new List<SubMenu>();
+    protected List<StepStruct> m_SubMenuList = new List<StepStruct>();
     protected SubMenuGrid m_SubMenuGridObj; // 显示工具的Layout
     protected Transform m_SubMenuGridParent;
 
@@ -23,7 +23,7 @@ public abstract class BaseTask
 
     public virtual void Init(params object[] args)
     {
-        m_SubMenuList = (List<SubMenu>)args[0];
+        m_SubMenuList = (List<StepStruct>)args[0];
         m_SubMenuGridParent = (Transform)args[1];
         IsInit = true;
     }

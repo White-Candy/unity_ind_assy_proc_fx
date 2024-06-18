@@ -21,22 +21,13 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     private GameObject m_ItemModel = null;
 
-    private List<string> stepNameList = new List<string>(); // 模型步骤名称
+    //private List<string> stepNameList = new List<string>(); // 模型步骤名称
 
     public void Init(string name, int enumID = 0)
     {
-        transform.GetComponentInChildren<TextMeshProUGUI>().text = (name.Split('_').Length > 1 ? name.Split('_')[0] : name);
+        transform.GetComponentInChildren<TextMeshProUGUI>().text = name;
         m_Name = name;
         enumId = enumID;
-
-        if (name.Split('_').Length > 1)
-        {
-            string[] strs = name.Split('_');
-            for (int i = 1; i < strs.Length; i++)
-            {
-                stepNameList.Add(strs[i]);
-            }
-        }
     }
 
     /// <summary>
@@ -49,7 +40,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (m_ItemModel == null)
         {
             if (Camera.main == null) return;
-            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + (m_Name.Split('_').Length > 1 ? m_Name.Split('_')[0] : m_Name)));
+            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + m_Name));
             m_ItemModel.name = m_Name;
             Debug.Log("m_ItemModel: " + m_ItemModel.name);
         }
@@ -82,32 +73,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             //开启射线检测
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                //Debug.Log("播放动画 = " + m_ItemModel.name + "，步骤列表:" + string.Join(",", stepNameList));
-                if (hit.collider.name == m_ItemModel.name || stepNameList.Contains(hit.collider.name))
-                {
-                    // TODO..
-                    if (GlobalData.mode == Mode.Practice)
-                    {
-                        //RoamView._Instance.PlayAnimation(hit.collider.name);
-                    }
-                    else
-                    {
-                        //currScore = score;
-                        //ModelAnimControl._Instance.totalScore += currScore;
-                        //ModelAnimControl._Instance.PlayAnimation(hit.collider.name, () =>
-                        //{
-                        //    ModelAnimControl._Instance.SetCurrentCamera();
-                        //});
-                    }
-                    //ModelAnimControl._Instance.SetNextStep();
-                }
-                else
-                {
-                    if (GlobalData.mode == Mode.Examination)
-                    {
-                        currScore = 0;
-                    }
-                }
+                
             }         
             Destroy(m_ItemModel);
         }           

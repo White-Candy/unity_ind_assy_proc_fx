@@ -5,6 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
+public struct StepStruct
+{
+    public string method; // 方法[拖拽 or 点击]
+    public List<string> tools; // 工具
+    public string stepName; // 步骤名称
+    public List<string> animLimite; // 该步骤的动画帧数范围
+}
+
+
 // 菜單面板
 public class MenuPanel : BasePanel
 {
@@ -46,8 +55,8 @@ public class MenuPanel : BasePanel
                 else
                 {
                     Debug.Log("menuName: " + menuName[0]);
-                    // 借用 SubMenu 结构存储属于subMenuName的流程步骤
-                    List<SubMenu> list = new List<SubMenu>();
+
+                    List<StepStruct> list = new List<StepStruct>();
                     foreach (var item in menu.subMenuList)
                     {
                         //Debug.Log("当前code为 = " + GlobalData.currModuleCode + " | 列表ID为 = " + item.enumID.ToString());
@@ -56,15 +65,30 @@ public class MenuPanel : BasePanel
                             Debug.Log("curr Name: " + item.subMenuName);
                             NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + item.subMenuName + "Step.txt"), (dataStr) => 
                             {
-                                Debug.Log(dataStr);
+                                //Debug.Log(dataStr);
                                 JsonData js_data = JsonMapper.ToObject(dataStr);
                                 JsonData step = js_data["child"];
-                                for(int i = 0; i < step.Count; i++)
+                                for (int i = 0; i < step.Count; i++)
                                 {
-                                    SubMenu subMenu = new SubMenu();
-                                    subMenu.subMenuName = step[i].ToString();
-                                    subMenu.enumID = item.enumID;
-                                    list.Add(subMenu);
+                                    StepStruct step_st = new StepStruct();
+                                    string[] field = step[i].ToString().Split("_");
+                                    if (field.Length == 4)
+                                    {
+                                        step_st.method = field[0];
+                                        step_st.tools = new List<string>(field[1].Split("|"));
+                                        step_st.stepName = field[2];
+                                        step_st.animLimite = new List<string>(field[3].Split("~"));
+                                    }
+                                    else
+                                    {
+                                        step_st.tools = new List<string>(field[0].Split("|"));
+                                        step_st.stepName = field[1];
+                                        step_st.animLimite = new List<string>(field[2].Split("~"));
+                                    }
+                                    list.Add(step_st);
+                                    //subMenu.subMenuName = step[i].ToString();
+                                    //subMenu.enumID = item.enumID;
+                                    //list.Add(subMenu);
                                 }
                                 SpawnTask(menuName[0], list); // 不同的模式分发不同的事件
                             });
@@ -75,7 +99,7 @@ public class MenuPanel : BasePanel
         }
     }
 
-    private void SpawnTask(string menuName, List<SubMenu> list)
+    private void SpawnTask(string menuName, List<StepStruct> list)
     {
         if (currTaskName == menuName)
         {
@@ -124,6 +148,9 @@ public class MenuPanel : BasePanel
         {
             currTask.Init(list, transform.Find("Content/BG"));
         }
+        // 动画信息载入
+        GlobalData.stepStructs.Clear();
+        GlobalData.stepStructs = list;
         currTask.Show();
     }
 }
