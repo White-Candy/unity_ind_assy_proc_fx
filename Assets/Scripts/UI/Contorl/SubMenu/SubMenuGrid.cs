@@ -8,10 +8,11 @@ public class SubMenuGrid : MonoBehaviour
 {
     private SubMenuItem m_Item;
     private SubMenuDragItem m_DragItem;
+    private List<string> m_Tools = new List<string>(); // 保存已经生成过的工具名字
 
     public Action<string, int> OnSubBtnClicked = (a, b) => { };
 
-    public void Init(List<SubMenu> subMenus, bool drag = false)
+    public void Init(List<StepStruct> subMenus, bool drag = false)
     {
         if (!drag)
         {
@@ -28,14 +29,18 @@ public class SubMenuGrid : MonoBehaviour
             foreach(var subMenu in subMenus)
             {
                 //Debug.Log("subMenuGrid: " + subMenu.subMenuName);
-                if (!subMenu.subMenuName.Contains("示意图"))
+                foreach (var tool in subMenu.tools)
                 {
+                    if (m_Tools.Contains(tool))
+                    {
+                        continue; // 如果工具栏已经生成过了这个道具 那么不在生成了
+                    }
                     SubMenuDragItem drag_item = Instantiate(m_DragItem, this.transform);
-                    drag_item.gameObject.GetComponent<Image>().sprite = 
-                        Resources.Load<Sprite>("Textures/Tools/" + 
-                        (subMenu.subMenuName.Split('_').Length > 1 ? subMenu.subMenuName.Split('_')[0] : subMenu.subMenuName));
+                    drag_item.gameObject.GetComponent<Image>().sprite =
+                        Resources.Load<Sprite>("Textures/Tools/" + tool);
                     drag_item.gameObject.SetActive(true);
-                    drag_item.Init(subMenu.subMenuName, subMenu.enumID);
+                    drag_item.Init(tool);
+                    m_Tools.Add(tool);
                 }
             }
         }

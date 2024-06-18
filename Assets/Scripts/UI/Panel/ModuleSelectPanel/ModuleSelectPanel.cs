@@ -64,10 +64,10 @@ public class ModuleSelectPanel : BasePanel
             // 利用UI中已经有的Item来clone多个不同名字的Item
             GameObject item_clone = Instantiate(m_Item, m_Item.transform.parent);
             item_clone.gameObject.SetActive(true);
-            item_clone.transform.Find("Title").GetComponent<Image>().sprite = Resources.Load<Sprite>($"UI/Title/{item.moduleName}");
+            item_clone.transform.Find("Title").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/UI/Title/{item.moduleName}");
 
             Button button = item_clone.GetComponentInChildren<Button>();
-            button.GetComponent<Image>().sprite = Resources.Load<Sprite>($"UI/{item.moduleName}");
+            button.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/UI/{item.moduleName}");
 
             button.onClick.AddListener(() =>
             {

@@ -13034,6 +13034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5107212343517668698}
+  - component: {fileID: 8477237902264404908}
   m_Layer: 0
   m_Name: juanlianmen
   m_TagString: Untagged
@@ -13084,6 +13085,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8477237902264404908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596749745770741728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61006e682a337dd4b99fb5f8936e3767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animCamera: {fileID: 6305133071510683130}
+  m_player: {fileID: 6908575068247664651}
 --- !u!1 &5619820093790130834
 GameObject:
   m_ObjectHideFlags: 0
@@ -14705,7 +14720,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6305133071510683130}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 5.3264055, y: 259.36792, z: 1005.46564}
+  m_LocalPosition: {x: 5.3264055, y: 259.36792, z: 1026}
   m_LocalScale: {x: 28.61026, y: 28.61026, z: 28.61026}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21305,6 +21320,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8997996947095583982, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
   m_PrefabInstance: {fileID: 2915146498311949919}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6908575068247664651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8616685848737228372, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+  m_PrefabInstance: {fileID: 2915146498311949919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3036974959020215476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21372,7 +21392,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8040610323779429083, guid: 5ef3ac1bc050b0d498184f4505daa6f6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5ef3ac1bc050b0d498184f4505daa6f6, type: 3}
 --- !u!4 &5272617349530242343 stripped
 Transform:

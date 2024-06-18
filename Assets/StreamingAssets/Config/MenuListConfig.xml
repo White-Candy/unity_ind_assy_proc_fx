@@ -18,27 +18,7 @@
 		<SubMenuItems SubMenuName="作业条件" Enum="3"/>
 	</Item>
 	<Item MenuName="拆装仿真_训练">
-		<SubMenuItems SubMenuName="yangou" Enum="10002"/>
-		<SubMenuItems SubMenuName="jishui" Enum="10001"/>
-		<SubMenuItems SubMenuName="yushui" Enum="10003"/>
-		<SubMenuItems SubMenuName="dieheyangtaiyi" Enum="10005"/>
-		<SubMenuItems SubMenuName="dieheyangtaier" Enum="10008"/>
-		<SubMenuItems SubMenuName="dieheyangtaisan" Enum="10010"/>
-		<SubMenuItems SubMenuName="dieheyangtaisi" Enum="10011"/>
-		<SubMenuItems SubMenuName="diehebanyi" Enum="10013"/>
-		<SubMenuItems SubMenuName="diehebaner" Enum="10014"/>
-		<SubMenuItems SubMenuName="diehebansan" Enum="10015"/>
-		<SubMenuItems SubMenuName="diehebansi" Enum="10016"/>
-		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqiangyi" Enum="10020"/>
-		<SubMenuItems SubMenuName="yuzhijianliqiangwaiqianger" Enum="10022"/>
-		<SubMenuItems SubMenuName="yuzhijianliqiangneiqiangyi" Enum="10023"/>
-		<SubMenuItems SubMenuName="yuzhijianliqiangneiqianger" Enum="10024"/>
-		<SubMenuItems SubMenuName="yuzhiyangtaiyi" Enum="10026"/>
-		<SubMenuItems SubMenuName="yuzhiyangtaier" Enum="10027"/>
-		<SubMenuItems SubMenuName="yuzhiyangtaisan" Enum="10028"/>
-		<SubMenuItems SubMenuName="yuzhiyangtaisi" Enum="10029"/>
-		<SubMenuItems SubMenuName="yuzhizhu" Enum="10030"/>
-		<SubMenuItems SubMenuName="dieheliang" Enum="10031"/>
+		<SubMenuItems SubMenuName="juanlianmen" Enum="1"/>
 	</Item>
 	<Item MenuName="考核_考核">
 		<SubMenuItems SubMenuName="理论考核" Enum="0"/>

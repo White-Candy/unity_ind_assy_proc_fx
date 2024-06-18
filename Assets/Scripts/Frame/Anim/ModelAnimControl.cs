@@ -13,7 +13,9 @@ public struct ConstrPtStep
 public class ModelAnimControl : MonoBehaviour
 {
     public static ModelAnimControl _Instance;
-    public string m_animCameraName; // 动画相机的名字
+
+    public GameObject m_animCamera; // 动画相机的名字
+    public GameObject m_player; // 人物相机
 
     private float totalScore = 0;
 
@@ -48,6 +50,7 @@ public class ModelAnimControl : MonoBehaviour
 
     private void Start()
     {
-
+        CameraControl.player = m_player;
+        CameraControl.animation = m_animCamera;
     }
 }
