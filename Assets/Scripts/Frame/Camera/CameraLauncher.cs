@@ -15,15 +15,13 @@ public class CameraLauncher : MonoBehaviour
         }
 
         // 先关闭所有镜头
-        CameraControl.main?.SetActive(false);
-        CameraControl.animation?.SetActive(false);
-        CameraControl.player?.SetActive(false);
+        CameraControl.CloseAll();
     }
 
     void Start()
     {
         // 在重置玩家镜头
-        CameraControl.player?.SetActive(true);
+        CameraControl.SetNormal();
     }
 
 }

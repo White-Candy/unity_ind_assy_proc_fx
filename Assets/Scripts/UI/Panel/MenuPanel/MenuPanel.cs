@@ -148,6 +148,9 @@ public class MenuPanel : BasePanel
         {
             currTask.Init(list, transform.Find("Content/BG"));
         }
+        // 动画信息载入
+        GlobalData.stepStructs.Clear();
+        GlobalData.stepStructs = list;
         currTask.Show();
     }
 }

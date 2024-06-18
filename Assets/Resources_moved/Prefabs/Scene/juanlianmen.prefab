@@ -13035,6 +13035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5107212343517668698}
   - component: {fileID: 8477237902264404908}
+  - component: {fileID: 8207345283057519413}
   m_Layer: 0
   m_Name: juanlianmen
   m_TagString: Untagged
@@ -13099,6 +13100,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animCamera: {fileID: 6305133071510683130}
   m_player: {fileID: 6908575068247664651}
+--- !u!95 &8207345283057519413
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596749745770741728}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a8425e906b4f20d4f9f2dc25e3bddc31, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5619820093790130834
 GameObject:
   m_ObjectHideFlags: 0

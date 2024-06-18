@@ -55,5 +55,6 @@ namespace sugar
         public static List<string> FinishExamModule = new List<string>(); //記錄已經完成的考核内容
 
         public static int StepIdx = 0; // 步骤索引
+        public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
     }
 }

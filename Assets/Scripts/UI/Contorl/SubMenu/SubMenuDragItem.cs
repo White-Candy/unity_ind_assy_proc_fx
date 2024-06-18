@@ -75,7 +75,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             {
                 
             }         
-            //Destroy(m_ItemModel);
+            Destroy(m_ItemModel);
         }           
     }
 }
