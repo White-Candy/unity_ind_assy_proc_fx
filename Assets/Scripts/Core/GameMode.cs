@@ -101,7 +101,7 @@ public class GameMode : Singleton<GameMode>
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
                 //Debug.Log("======= Anim start: " + start + " || " + " end: " + end);
-                ModelAnimControl._Instance.PlayAnim(start, end);
+                StartCoroutine(ModelAnimControl._Instance.PlayAnim(start, end));
             }
         }
     }
@@ -149,7 +149,14 @@ public class GameMode : Singleton<GameMode>
         {
             GlobalData.StepIdx = i;
             m_Prepare = false;
+            m_ToolIdx = 0;
             Prepare();
         }
+    }
+
+    // 目前还需要几个工具才能激活动画
+    public string NumberOfToolsRemaining()
+    {
+        return (m_Tools.Count - m_ToolIdx).ToString();
     }
 }

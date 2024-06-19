@@ -6,6 +6,14 @@ using System.Security.Cryptography.X509Certificates;
 using Unity.XR.Oculus.Input;
 using UnityEngine;
 
+public enum AnimState
+{
+    None,
+    Playing,
+    Puase,
+    Stop
+}
+
 public struct ConstrPtStep
 {
     public string step; //当前步骤
@@ -27,6 +35,7 @@ public class ModelAnimControl : MonoBehaviour
 
     private string ModelName; //模型的 adressables Group Default Name
 
+    private AnimState m_AnimState = AnimState.None; // 记录动画的播放状态
 
     private void Awake()
     {
@@ -68,7 +77,7 @@ public class ModelAnimControl : MonoBehaviour
     }
 
 
-    public void PlayAnim(float f_start, float f_end)
+    public IEnumerator PlayAnim(float f_start, float f_end)
     {
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
@@ -78,6 +87,10 @@ public class ModelAnimControl : MonoBehaviour
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
 
         StartCoroutine(Slice(f_start, f_end));
+        yield return new WaitUntil( () => 
+        {
+            return m_AnimState != AnimState.Playing;
+        });
 
         CameraControl.SetNormal(); // 切换回 Player相机。
         canvas.SetActive(true);
@@ -87,26 +100,31 @@ public class ModelAnimControl : MonoBehaviour
     public void Play()
     {
         m_Animtor.SetBool("play", true);
+        m_AnimState = AnimState.Playing;
     }
 
     public void Stop()
     {
         m_Animtor.SetBool("play", false);
+        m_AnimState = AnimState.Stop;
     }
 
     public void GoOn()
     {
         m_Animtor.speed = 1.0f;
+        m_AnimState = AnimState.Playing;
     }
 
     public void Puase()
     {
         m_Animtor.speed = 0.0f;
+        m_AnimState = AnimState.Puase;
     }
 
     // 播放动画某一段帧的动画
     public IEnumerator Slice(float f_start, float f_end)
     {
+        Debug.Log("In Slice!");
         float start = f_start * (1 / 24.0f);
         float end = f_end * (1 / 24.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔

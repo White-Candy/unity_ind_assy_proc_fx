@@ -33,10 +33,16 @@ public class InfoPanel : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_Count.text = GameMode.Instance.m_Tools?.Count.ToString();
+        m_Count.text = GameMode.Instance.NumberOfToolsRemaining();
+        UpdateInfo();
     }
 
     private void Init()
+    {
+        
+    }
+
+    private void UpdateInfo()
     {
         m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
         m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
