@@ -28,7 +28,7 @@ public class CameraLauncher : MonoBehaviour
 
     void Start()
     {
-        // 在重置玩家镜头
+        // 再重置玩家镜头
         CameraControl.SetNormal();
         ModelAnimControl._Instance.Play(0, 0); // 这并不是为了 播放什么动画，只是为了重置场景模型
     }

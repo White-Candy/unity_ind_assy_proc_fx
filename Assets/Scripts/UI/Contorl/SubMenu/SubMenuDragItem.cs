@@ -40,7 +40,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (m_ItemModel == null)
         {
             if (Camera.main == null) return;
-            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + m_Name));
+            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + GlobalData.currModuleName + "/" + m_Name));
             m_ItemModel.name = m_Name;
             Debug.Log("m_ItemModel: " + m_ItemModel.name);
         }

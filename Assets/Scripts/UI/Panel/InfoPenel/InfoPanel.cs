@@ -10,6 +10,7 @@ public class InfoPanel : MonoBehaviour
     public Button m_View; // 点击按钮显示施工提示面板
     public Button m_Audio; // 声音按钮
     public TextMeshProUGUI m_StepText; // 步骤面板Text
+    public TextMeshProUGUI m_Count; // 需要拖入工具数量
     public GameObject m_Introduce; // 施工要点面板
 
     public string m_animCameraName;
@@ -30,6 +31,11 @@ public class InfoPanel : MonoBehaviour
         });
 
         Init();
+    }
+
+    private void FixedUpdate()
+    {
+        m_Count.text = GlobalData.NeedTools.Count.ToString();
     }
 
     private void Init()

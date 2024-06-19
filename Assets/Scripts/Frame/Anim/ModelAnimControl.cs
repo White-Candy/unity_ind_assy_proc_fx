@@ -11,20 +11,13 @@ public struct ConstrPtStep
     public string constrPt; // 施工要点
 }
 
-public enum AnimState
-{
-    None,
-    Stop,
-    Play
-}
-
 public class ModelAnimControl : MonoBehaviour
 {
     public static ModelAnimControl _Instance;
 
     public GameObject m_animCamera; // 动画相机的名字
     public GameObject m_player; // 人物相机
-    private GameObject m_Canvas; 
+    public GameObject m_Arrow; // 箭头[用来识别工具是否正确的]
 
     private Animator m_Animtor; // Animtor组件
 
@@ -79,7 +72,9 @@ public class ModelAnimControl : MonoBehaviour
         GameObject canvas =  GameObject.Find("Canvas").gameObject;
         CameraControl.SetAnimation();
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
+        m_Arrow.SetActive(false); // 隐藏箭头
         m_Animtor.SetBool("play", true);
+
         yield return new WaitForSeconds(0.1f);
 
         float start = f_start * (1 / 24.0f);
@@ -94,6 +89,8 @@ public class ModelAnimControl : MonoBehaviour
         m_Animtor.SetBool("play", false);
         CameraControl.SetNormal(); // 切换回 Player相机。
         canvas.SetActive(true);
+        m_Arrow.SetActive(true);
+
         yield return null;
     }
 }
