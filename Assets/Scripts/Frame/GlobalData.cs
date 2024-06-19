@@ -56,6 +56,5 @@ namespace sugar
 
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
-        public static List<string> NeedTools = new List<string>(); // 当前需要拖入的道具
     }
 }

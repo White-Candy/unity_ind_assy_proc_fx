@@ -12578,7 +12578,7 @@ GameObject:
   - component: {fileID: 8063031017865682784}
   - component: {fileID: 619758260139553119}
   m_Layer: 0
-  m_Name: polySurface8728
+  m_Name: "\u5377\u5E18\u95E8"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13036,6 +13036,7 @@ GameObject:
   - component: {fileID: 5107212343517668698}
   - component: {fileID: 8477237902264404908}
   - component: {fileID: 8207345283057519413}
+  - component: {fileID: 6924442143191937667}
   m_Layer: 0
   m_Name: juanlianmen
   m_TagString: Untagged
@@ -13101,7 +13102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animCamera: {fileID: 6305133071510683130}
   m_player: {fileID: 6908575068247664651}
-  m_Arrow: {fileID: 7460277101801151731}
+  m_Animtor: {fileID: 8207345283057519413}
 --- !u!95 &8207345283057519413
 Animator:
   serializedVersion: 5
@@ -13123,6 +13124,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6924442143191937667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5596749745770741728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52801b61fa901724f892c238151d43b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Arrow: {fileID: 7460277101801151731}
 --- !u!1 &5619820093790130834
 GameObject:
   m_ObjectHideFlags: 0

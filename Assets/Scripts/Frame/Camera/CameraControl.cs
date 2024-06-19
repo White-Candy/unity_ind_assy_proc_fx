@@ -9,11 +9,14 @@ public static class CameraControl
     static public GameObject animation; // 动画相机
     static public GameObject player; // 人物相机
 
+    static public GameObject target; // 目前在使用的相机
+
     static public void CloseAll()
     {
         main?.SetActive(false);
         animation?.SetActive(false);
         player?.SetActive(false);
+        target = null;
     }
 
     /// <summary>
@@ -23,6 +26,7 @@ public static class CameraControl
     {
         CloseAll();
         player?.SetActive(true); 
+        target = player;
     }
 
     /// <summary>
@@ -32,6 +36,7 @@ public static class CameraControl
     {
         CloseAll();
         animation?.SetActive(true);
+        target = animation;
     }
 
     /// <summary>
@@ -41,6 +46,7 @@ public static class CameraControl
     {
         CloseAll();
         main?.SetActive(true);
+        target = main;
     }
 
     // 我知道这样写拓展性很差，结构写的很奇怪，是的，我觉得以后不会再这个里面添加新的Camera obj了...

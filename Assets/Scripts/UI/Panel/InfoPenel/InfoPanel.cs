@@ -35,7 +35,7 @@ public class InfoPanel : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_Count.text = GlobalData.NeedTools.Count.ToString();
+        m_Count.text = GameMode.Instance.m_Tools?.Count.ToString();
     }
 
     private void Init()

@@ -3,6 +3,7 @@ using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using Unity.XR.Oculus.Input;
 using UnityEngine;
 
 public struct ConstrPtStep
@@ -17,7 +18,6 @@ public class ModelAnimControl : MonoBehaviour
 
     public GameObject m_animCamera; // 动画相机的名字
     public GameObject m_player; // 人物相机
-    public GameObject m_Arrow; // 箭头[用来识别工具是否正确的]
 
     private Animator m_Animtor; // Animtor组件
 
@@ -33,9 +33,9 @@ public class ModelAnimControl : MonoBehaviour
         _Instance = this;
         DontDestroyOnLoad(this);
 
-         ModelName = GlobalData.ModelTarget.modelName;
+        ModelName = GlobalData.ModelTarget.modelName;
         // 获取 xxx.json 中的 当前步骤_施工要点
-        NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + ModelName + ".json", (str) => 
+        NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + ModelName + ".json", (str) =>
         {
             Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);
@@ -59,38 +59,68 @@ public class ModelAnimControl : MonoBehaviour
     {
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
+        StartCoroutine(Slice(0f, 0f));
     }
 
-    public void Play(float f_start, float f_end)
+    void Update()
     {
-        StartCoroutine(PlayAnim(f_start, f_end));
+        //Animator animtor = GetComponent<Animator>();
+        //Debug.Log(animtor.GetBool("play"));
     }
 
-    private IEnumerator PlayAnim(float f_start, float f_end)
+
+    public void PlayAnim(float f_start, float f_end)
     {
         // 切换到动画相机
-        GameObject canvas =  GameObject.Find("Canvas").gameObject;
+        GameObject canvas = GameObject.Find("Canvas").gameObject;
         CameraControl.SetAnimation();
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
-        m_Arrow.SetActive(false); // 隐藏箭头
+        GameMode.Instance.ArrowActive(false); // 隐藏箭头
+
+        StartCoroutine(Slice(f_start, f_end));
+
+        CameraControl.SetNormal(); // 切换回 Player相机。
+        canvas.SetActive(true);
+        GameMode.Instance.NextStep();
+    }
+
+    public void Play()
+    {
         m_Animtor.SetBool("play", true);
+    }
 
-        yield return new WaitForSeconds(0.1f);
+    public void Stop()
+    {
+        m_Animtor.SetBool("play", false);
+    }
 
+    public void GoOn()
+    {
+        m_Animtor.speed = 1.0f;
+    }
+
+    public void Puase()
+    {
+        m_Animtor.speed = 0.0f;
+    }
+
+    // 播放动画某一段帧的动画
+    public IEnumerator Slice(float f_start, float f_end)
+    {
         float start = f_start * (1 / 24.0f);
         float end = f_end * (1 / 24.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
 
+        Play();
+        yield return new WaitForSeconds(0.1f);
+
         m_Animtor.PlayInFixedTime("Play", 0, start); // 从 start时间开始播放动画
-        m_Animtor.speed = 1.0f;
+        GoOn();
         yield return new WaitForSeconds(animTime);
 
-        // 播放完毕关闭动画
-        m_Animtor.SetBool("play", false);
-        CameraControl.SetNormal(); // 切换回 Player相机。
-        canvas.SetActive(true);
-        m_Arrow.SetActive(true);
-
+        Debug.Log("Close ANim");
+        // 播放完毕暂停动画
+        Puase();
         yield return null;
     }
 }
