@@ -40,9 +40,11 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         if (m_ItemModel == null)
         {
             if (Camera.main == null) return;
-            m_ItemModel = Instantiate(Resources.Load<GameObject>("Prefabs/Model/" + m_Name));
+            string path = "Prefabs/Model/" + GlobalData.ModelTarget.modelName + "/" + m_Name;
+            //Debug.Log(path);
+            m_ItemModel = Instantiate(Resources.Load<GameObject>(path));
             m_ItemModel.name = m_Name;
-            Debug.Log("m_ItemModel: " + m_ItemModel.name);
+            //Debug.Log("m_ItemModel: " + m_ItemModel.name);
         }
     }
 
@@ -73,7 +75,8 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             //ø™∆Ù…‰œﬂºÏ≤‚
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                
+                //Debug.Log("m_itemMode name: " + m_ItemModel.name + " || " + "hit name: " + hit.collider.name);
+                GameMode.Instance.SetToolName(m_ItemModel.name);
             }         
             Destroy(m_ItemModel);
         }           
