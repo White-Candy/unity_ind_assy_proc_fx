@@ -151,6 +151,8 @@ public class MenuPanel : BasePanel
         // 动画信息载入
         GlobalData.stepStructs.Clear();
         GlobalData.stepStructs = list;
+
         currTask.Show();
+        GameMode.Instance.Prepare(); // Step录入完成后，游戏准备
     }
 }

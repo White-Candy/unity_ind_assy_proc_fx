@@ -13,8 +13,6 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI m_Count; // 需要拖入工具数量
     public GameObject m_Introduce; // 施工要点面板
 
-    public string m_animCameraName;
-
     private TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
 
     private void Awake()

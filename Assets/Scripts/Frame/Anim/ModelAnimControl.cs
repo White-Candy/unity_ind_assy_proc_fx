@@ -31,7 +31,7 @@ public class ModelAnimControl : MonoBehaviour
     private void Awake()
     {
         _Instance = this;
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(_Instance);
 
         ModelName = GlobalData.ModelTarget.modelName;
         // 获取 xxx.json 中的 当前步骤_施工要点
@@ -64,8 +64,7 @@ public class ModelAnimControl : MonoBehaviour
 
     void Update()
     {
-        //Animator animtor = GetComponent<Animator>();
-        //Debug.Log(animtor.GetBool("play"));
+        
     }
 
 
@@ -73,8 +72,9 @@ public class ModelAnimControl : MonoBehaviour
     {
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
-        CameraControl.SetAnimation();
+        Debug.Log(canvas.name);
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
+        CameraControl.SetAnimation();
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
 
         StartCoroutine(Slice(f_start, f_end));
@@ -118,7 +118,7 @@ public class ModelAnimControl : MonoBehaviour
         GoOn();
         yield return new WaitForSeconds(animTime);
 
-        Debug.Log("Close ANim");
+        //Debug.Log("Close ANim");
         // 播放完毕暂停动画
         Puase();
         yield return null;

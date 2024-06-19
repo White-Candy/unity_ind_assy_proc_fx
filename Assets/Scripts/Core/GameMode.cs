@@ -26,8 +26,10 @@ public class GameMode : Singleton<GameMode>
     private GameMethod m_Method; // 该步骤的游戏方法
     private GameState m_State;
 
-    public Queue<string> m_Tools = new Queue<string>(); // 目前步骤需要处理的工具
+    public List<string> m_Tools = new List<string>(); // 目前步骤需要处理的工具
+    private int m_ToolIdx = 0; // 目前步骤工具的索引
 
+    private string currToolName = ""; // 玩家操作的的这个工具的名字
 
     private void FixedUpdate()
     {
@@ -36,18 +38,22 @@ public class GameMode : Singleton<GameMode>
 
     private void StateMachine()
     {
-        //if (m_State == GameState.Prepare && m_Tools.Count > 0)
-        //{
-        //    if (m_Method == GameMethod.Clicked)
-        //    {
-        //        PrepareClickStep(); // 点击模式下，根据不同string，实现不同工具的闪烁
-        //    }
-        //}
-    }
-
-    public void Start()
-    {
-        Prepare();
+        if (m_State == GameState.Prepare && m_Tools.Count > 0)
+        {
+            // 点击模式下，根据不同string，实现不同工具的闪烁
+            if (m_Method == GameMethod.Clicked)
+            {
+                PrepareClickStep();
+            }
+            else
+            {
+                PrepareDragStep();
+            }
+        }
+        else if (m_State == GameState.Playing && currToolName.Length > 0)
+        {
+            PerformThisStep();
+        }
     }
 
     /// <summary>
@@ -58,12 +64,10 @@ public class GameMode : Singleton<GameMode>
     {
         if (!m_Prepare)
         {
-            string method = GlobalData.stepStructs[GlobalData.StepIdx].method;
-            foreach (var tool in GlobalData.stepStructs[GlobalData.StepIdx].tools)
-            {
-                m_Tools.Enqueue(tool); // 新的步骤更新新的工具库
-            }
-
+            string method = GlobalData.stepStructs?[GlobalData.StepIdx].method;
+            m_Tools.Clear();
+            m_Tools = GlobalData.stepStructs[GlobalData.StepIdx].tools;
+            //Debug.Log("Prepare: " + m_Tools.Count);
             if (method == "点击")
             {
                 m_Method = GameMethod.Clicked;
@@ -82,24 +86,34 @@ public class GameMode : Singleton<GameMode>
         }
     }
 
-    public static void PerformThisStep()
+    /// <summary>
+    /// 处理这一次 拖拽/点击的物体信息
+    /// </summary>
+    /// <param name="name"></param>
+    public void PerformThisStep()
     {
-        
-    }
-
-    public void ArrowActive(bool b)
-    { 
-        m_Arrow.SetActive(b); 
+        if (m_ToolIdx < m_Tools.Count && currToolName == m_Tools[m_ToolIdx])
+        {
+            m_ToolIdx++;
+            currToolName = "";
+            if (m_ToolIdx >= m_Tools.Count)
+            {
+                float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
+                float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
+                //Debug.Log("======= Anim start: " + start + " || " + " end: " + end);
+                ModelAnimControl._Instance.PlayAnim(start, end);
+            }
+        }
     }
 
     private void PrepareDragStep()
     {
-        
+        m_State = GameState.Playing; // 准备阶段结束，进入游戏阶段
     }
 
     private void PrepareClickStep()
     {
-        string tool = m_Tools.Dequeue();
+        string tool = m_Tools[m_ToolIdx];
         GameObject go = GameObject.Find(tool);
         if (go != null)
         {
@@ -109,12 +123,22 @@ public class GameMode : Singleton<GameMode>
         m_State = GameState.Playing; // 准备阶段结束，进入游戏阶段
     }
 
+    public void ArrowActive(bool b)
+    {
+        m_Arrow.SetActive(b);
+    }
+
+    public void SetToolName(string name)
+    {
+        currToolName = name;
+    }
+
     public void NextStep()
     {
         if (GlobalData.StepIdx < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx++;
-            Prepare();
+            SetStep(GlobalData.StepIdx);
         }
     }
 
@@ -124,6 +148,7 @@ public class GameMode : Singleton<GameMode>
         if (i > 0 && i < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx = i;
+            m_Prepare = false;
             Prepare();
         }
     }
