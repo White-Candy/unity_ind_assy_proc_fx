@@ -62,7 +62,7 @@ public class MenuPanel : BasePanel
                         //Debug.Log("当前code为 = " + GlobalData.currModuleCode + " | 列表ID为 = " + item.enumID.ToString());
                         if (int.Parse(GlobalData.currModuleCode) == item.enumID)
                         {
-                            Debug.Log("curr Name: " + item.subMenuName);
+                            //Debug.Log("curr Name: " + item.subMenuName);
                             NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + item.subMenuName + "Step.txt"), (dataStr) => 
                             {
                                 //Debug.Log(dataStr);

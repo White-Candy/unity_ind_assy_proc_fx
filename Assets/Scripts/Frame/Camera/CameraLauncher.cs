@@ -11,7 +11,7 @@ public class CameraLauncher : MonoBehaviour
 
         if (CameraControl.player != null)
         {
-            CameraControl.player.transform.Find("Capsule").gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //CameraControl.player.transform.Find("Capsule").gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
 
         // 先关闭所有镜头

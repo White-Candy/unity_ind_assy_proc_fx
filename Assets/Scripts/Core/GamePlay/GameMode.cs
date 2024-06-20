@@ -1,6 +1,7 @@
 using sugar;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum GameMethod
@@ -26,6 +27,7 @@ public class GameMode : Singleton<GameMode>
     private GameMethod m_Method; // 该步骤的游戏方法
     private GameState m_State;
 
+    [HideInInspector]
     public List<string> m_Tools = new List<string>(); // 目前步骤需要处理的工具
     private int m_ToolIdx = 0; // 目前步骤工具的索引
 
@@ -72,6 +74,7 @@ public class GameMode : Singleton<GameMode>
             {
                 m_Method = GameMethod.Clicked;
                 CameraControl.target.AddComponent<HighlightingEffect>();
+                transform.AddComponent<ClickMethod>();
                 ArrowActive(false);
             }
             else
@@ -100,7 +103,6 @@ public class GameMode : Singleton<GameMode>
             {
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
-                //Debug.Log("======= Anim start: " + start + " || " + " end: " + end);
                 StartCoroutine(ModelAnimControl._Instance.PlayAnim(start, end));
             }
         }
