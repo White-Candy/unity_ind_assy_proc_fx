@@ -39,7 +39,7 @@ public class ModuleSelectPanel : BasePanel
 
         foreach (var item in m_configModuleList.m_ModuleList)
         {
-            Debug.Log(item.moduleName);
+            //Debug.Log(item.moduleName);
         }
 
         // 用Module_List来创建模式按钮

@@ -52,7 +52,7 @@ public class ModuleEvent
 
     public virtual void SwitchSceneAccName(string module_name, string module_code)
     {
-        Debug.Log("SwitchSceneAccName: " + module_name);
+        //Debug.Log("SwitchSceneAccName: " + module_name);
         GlobalData.currModuleName = module_name;
         GlobalData.currModuleCode = module_code;
         if (GlobalData.mode == Mode.Examination)
