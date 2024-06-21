@@ -9,9 +9,11 @@ public class InfoPanel : MonoBehaviour
 {
     public Button m_View; // 点击按钮显示施工提示面板
     public Button m_Audio; // 声音按钮
+    public Button m_Step; // 步骤展示按钮
     public TextMeshProUGUI m_StepText; // 步骤面板Text
     public TextMeshProUGUI m_Count; // 需要拖入工具数量
     public GameObject m_Introduce; // 施工要点面板
+    public GameObject m_StepPanel; // 步骤选择面板
 
     private TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
 
@@ -28,6 +30,11 @@ public class InfoPanel : MonoBehaviour
             ActiveConstructionPanel();
         });
 
+        m_Step.onClick.AddListener(() =>
+        {
+            ActiveStepPanel();
+        });
+
         Init();
     }
 
@@ -39,7 +46,7 @@ public class InfoPanel : MonoBehaviour
 
     private void Init()
     {
-        
+        m_Introduce?.gameObject.SetActive(false);
     }
 
     private void UpdateInfo()
@@ -52,5 +59,12 @@ public class InfoPanel : MonoBehaviour
     {
         bool b = m_Introduce.gameObject.activeSelf;
         m_Introduce.gameObject.SetActive(!b);
+    }
+
+    // 别说了，我知道这里可以优化，但我不想[完全没有必要]
+    private void ActiveStepPanel()
+    {
+        bool b = m_StepPanel.gameObject.activeSelf;
+        m_StepPanel.gameObject.SetActive(!b);
     }
 }

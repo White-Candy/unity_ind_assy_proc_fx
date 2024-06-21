@@ -110,7 +110,7 @@ public class MenuPanel : BasePanel
         if (currTask != null)
             currTask.Exit();
 
-        BaseTask task = null;
+        BaseTask task;
         m_TaskDic.TryGetValue(menuName, out task);
         if (task == null)  // 生成
         {
@@ -148,9 +148,11 @@ public class MenuPanel : BasePanel
         {
             currTask.Init(list, transform.Find("Content/BG"));
         }
+
         // 动画信息载入
         GlobalData.stepStructs.Clear();
         GlobalData.stepStructs = list;
+        GlobalData.canClone = true;
 
         currTask.Show();
         GameMode.Instance.Prepare(); // Step录入完成后，游戏准备

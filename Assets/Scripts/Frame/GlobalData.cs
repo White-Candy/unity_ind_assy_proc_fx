@@ -56,5 +56,6 @@ namespace sugar
 
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
+        public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
     }
 }
