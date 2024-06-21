@@ -67,7 +67,7 @@ public class GameMode : Singleton<GameMode>
         if (!m_Prepare)
         {
             string method = GlobalData.stepStructs?[GlobalData.StepIdx].method;
-            m_Tools.Clear();
+            //m_Tools.Clear();
             m_Tools = GlobalData.stepStructs[GlobalData.StepIdx].tools;
             //Debug.Log("Prepare: " + m_Tools.Count);
             if (method == "点击")
@@ -147,11 +147,16 @@ public class GameMode : Singleton<GameMode>
     // 用户可以选择不同的步骤进行游戏
     public void SetStep(int i)
     {
-        if (i > 0 && i < GlobalData.stepStructs.Count)
+        //Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
+        if (i >= 0 && i < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx = i;
             m_Prepare = false;
             m_ToolIdx = 0;
+            currToolName = "";
+
+            float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
+            StartCoroutine(ModelAnimControl._Instance.Slice(frame, frame));
             Prepare();
         }
     }
