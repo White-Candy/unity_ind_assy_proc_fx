@@ -13,16 +13,16 @@ public static class CameraControl
 
     static public void CloseAll()
     {
-        main?.SetActive(false);
-        animation?.SetActive(false);
-        player?.SetActive(false);
+        if (main) main?.SetActive(false);
+        if (animation) animation?.SetActive(false);
+        if (player) player?.SetActive(false);
         target = null;
     }
 
     /// <summary>
     /// 普通模式显示player相机，可以用于浏览场景
     /// </summary>
-    static public void SetNormal()
+    static public void SetPlayer()
     {
         CloseAll();
         player?.SetActive(true); 

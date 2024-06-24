@@ -68,6 +68,7 @@ public class ModelAnimControl : MonoBehaviour
     {
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
+        CameraControl.SetPlayer();
         StartCoroutine(Slice(0f, 0f));
     }
 
@@ -92,7 +93,7 @@ public class ModelAnimControl : MonoBehaviour
             return m_AnimState != AnimState.Playing;
         });
 
-        CameraControl.SetNormal(); // 切换回 Player相机。
+        CameraControl.SetPlayer(); // 切换回 Player相机。
         canvas.SetActive(true);
         GameMode.Instance.NextStep();
     }
@@ -140,5 +141,27 @@ public class ModelAnimControl : MonoBehaviour
         // 播放完毕暂停动画
         Puase();
         yield return null;
+    }
+
+    private void OnEnable()
+    {
+        UnityEventCenter.AddListener(EnumDefine.EventKey.DataRecycling, DataRecycling);
+    }
+
+    private void OnDisable()
+    {
+        UnityEventCenter.RemoveLister(EnumDefine.EventKey.DataRecycling, DataRecycling);
+    }
+
+    /// <summary>
+    /// 数据回收
+    /// </summary>
+    /// <param name="msg"></param>
+    private void DataRecycling(IMessage msg)
+    {
+        CameraControl.SetMain();
+        CameraControl.animation = null;
+        CameraControl.player = null;
+        Destroy(gameObject);
     }
 }

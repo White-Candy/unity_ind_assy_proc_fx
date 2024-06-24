@@ -9,11 +9,6 @@ public class CameraLauncher : MonoBehaviour
     {
         CameraControl.main = GameObject.Find("Main Camera");
 
-        if (CameraControl.player != null)
-        {
-            //CameraControl.player.transform.Find("Capsule").gameObject.GetComponent<MeshRenderer>().enabled = false;
-        }
-
         // 先关闭所有镜头
         CameraControl.CloseAll();
     }
@@ -28,7 +23,7 @@ public class CameraLauncher : MonoBehaviour
 
     void Start()
     {
-        // 再重置玩家镜头
-        CameraControl.SetNormal();
+        // 再重置主镜头
+        CameraControl.SetMain();
     }
 }

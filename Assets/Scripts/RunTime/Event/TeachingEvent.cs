@@ -11,6 +11,6 @@ public class TeachingEvent : ModuleEvent
         base.OnEvent(args);
         //Debug.Log("Teaching Event!");
 
-        SwitchSceneAccName(m_Name, GlobalData.ModelTarget.modelCode.ToString());
+        SwitchSceneAccName(m_Name);
     }
 }

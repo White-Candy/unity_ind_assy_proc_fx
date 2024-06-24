@@ -42,7 +42,7 @@ public class UnityEventCenter
     }
 
     /// <summary>
-    /// 该方法负责事件的分发
+    /// 该方法负责 事件的分发调用
     /// </summary>
     /// <param name="eventKey"></param>
     /// <param name="msg"></param>
@@ -50,7 +50,7 @@ public class UnityEventCenter
     {
         if (!eventListeners.ContainsKey(eventKey))
         {
-            //   Debug.Log("key值错误，请检查代码！！！= " + eventKey);
+            Debug.Log("key值错误，请检查代码！！！= " + eventKey);
             return;
         }
 

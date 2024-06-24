@@ -12,14 +12,16 @@ public class InfoPanel : MonoBehaviour
     public Button m_Step; // 步骤展示按钮
     public TextMeshProUGUI m_StepText; // 步骤面板Text
     public TextMeshProUGUI m_Count; // 需要拖入工具数量
+    public TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
     public GameObject m_Introduce; // 施工要点面板
     public GameObject m_StepPanel; // 步骤选择面板
 
-    private TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
+    public static InfoPanel _instance;
 
     private void Awake()
     {
-        m_IntroduceText = GameObject.Find("InstroduceTx").GetComponent<TextMeshProUGUI>();
+        _instance = this;
+        gameObject.SetActive(false);
     }
 
     private void Start()
@@ -51,8 +53,11 @@ public class InfoPanel : MonoBehaviour
 
     private void UpdateInfo()
     {
-        m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
-        m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
+        if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < GlobalData.stepStructs.Count)
+        {
+            m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
+            m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
+        }
     }
 
     private void ActiveConstructionPanel()

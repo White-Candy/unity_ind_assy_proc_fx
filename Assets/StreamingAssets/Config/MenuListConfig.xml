@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
 <Root>
-	<Item MenuName="教学资源_教学">
+	<Item MenuName="教学">
 		<SubMenuItems SubMenuName="教案" Enum="0"/>
 		<SubMenuItems SubMenuName="图片" Enum="1"/>
 		<SubMenuItems SubMenuName="视频" Enum="2"/>
@@ -11,16 +11,10 @@
 		<SubMenuItems SubMenuName="规范" Enum="6"/>
 		<SubMenuItems SubMenuName="构造" Enum="7"/>
 	</Item>
-	<Item MenuName="施工准备_教学">
-		<SubMenuItems SubMenuName="工种" Enum="0"/>
-		<SubMenuItems SubMenuName="材料" Enum="1"/>
-		<SubMenuItems SubMenuName="机具" Enum="2"/>
-		<SubMenuItems SubMenuName="作业条件" Enum="3"/>
+	<Item MenuName="训练">
+		<SubMenuItems SubMenuName="juanlianmen" Enum="10001"/>
 	</Item>
-	<Item MenuName="拆装仿真_训练">
-		<SubMenuItems SubMenuName="juanlianmen" Enum="1"/>
-	</Item>
-	<Item MenuName="考核_考核">
+	<Item MenuName="考核">
 		<SubMenuItems SubMenuName="理论考核" Enum="0"/>
 		<SubMenuItems SubMenuName="实训考核" Enum="1"/>
 	</Item>

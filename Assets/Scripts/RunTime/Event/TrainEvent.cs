@@ -10,6 +10,6 @@ public class TrainEvent : ModuleEvent
     {
         base.OnEvent(args);
         //Debug.Log("Train Event!");
-        SwitchSceneAccName(base.m_Name, GlobalData.ModelTarget.modelCode.ToString());
+        SwitchSceneAccName(base.m_Name);
     }
 }

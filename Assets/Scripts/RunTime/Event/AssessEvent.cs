@@ -45,7 +45,7 @@ public class AssessEvent : ModuleEvent
                         GlobalData.examData = ex_js_data;
                         GlobalData.TaskListPanel.gameObject.SetActive(false);
 
-                        SwitchSceneAccName(m_Name, GlobalData.ModelTarget.modelCode.ToString());
+                        SwitchSceneAccName(m_Name);
                     }));
                 });
             }
