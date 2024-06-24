@@ -20,35 +20,61 @@ public struct StepStruct
 // 菜單面板
 public class MenuPanel : BasePanel
 {
-    public GameObject m_MenuItem;
+    public GameObject m_MenuItem; 
+    public GameObject m_Item; // 菜单列表中的Item
+
     public Transform menuItemParent;
 
-    private List<Menu> m_MenuList = new List<Menu>(); // 裏面有需要配置工具的信息
+    //private List<Menu> m_MenuList = new List<Menu>(); // 裏面有需要配置工具的信息
     private string currTaskName; // 目前的Task名字
     private BaseTask currTask; // 目前的任务实例
 
     private Dictionary<string, BaseTask> m_TaskDic = new Dictionary<string, BaseTask>(); // 任务字典
 
-    private List<Button> m_Menus = new List<Button>(); // 保存菜单按钮列表
+    private List<GameObject> m_Menus = new List<GameObject>(); // 保存菜单按钮列表
+    private List<GameObject> m_Menulist = new List<GameObject>(); // 保存菜单列表
+
+    private GameObject currMeunList; //目前打开的菜单列表
 
     private void Start()
     {
-        ConfigMenuList menulist = ConfigConsole.Instance.FindConfig<ConfigMenuList>();
-        m_MenuList = menulist.m_MenuList;
         BuildMenuList();
         //Init();
     }
 
     private void BuildMenuList()
     {
-        foreach (var item in GlobalData.Targets)
+        foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
+            GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
+
+            BuildMenuItem(proj.targets, list);
+            list.gameObject.SetActive(false);
             menuItem.gameObject.SetActive(true);
+
             Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
-            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = item.menuName;
-            menuBtn.onClick.AddListener((() => { ChooseThisItem(item); }));
-            m_Menus.Add(menuBtn);
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.ProjName;
+            menuBtn.onClick.AddListener(() => 
+            {
+                bool b = list.activeSelf;
+                SetActiveMenuItem(list, !b);
+            });
+
+            m_Menus.Add(menuItem);
+            m_Menulist.Add(list);
+        }
+    }
+
+    private void BuildMenuItem(List<Target> targets, GameObject list)
+    {
+        foreach (var target in targets)
+        {
+            GameObject item = Instantiate(m_Item, list.transform);
+            item.gameObject.SetActive(true);
+            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
+            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = target.menuName;
+            itemBtn.onClick.AddListener(() => { ChooseThisItem(target); });
         }
     }
 
@@ -66,6 +92,16 @@ public class MenuPanel : BasePanel
         {
             
         }
+    }
+
+    private void SetActiveMenuItem(GameObject menu, bool b)
+    {
+        if (currMeunList != null)
+        {
+            currMeunList.SetActive(false);
+        }
+        currMeunList = menu;
+        currMeunList.SetActive(b);
     }
 
     private void Init(string name)

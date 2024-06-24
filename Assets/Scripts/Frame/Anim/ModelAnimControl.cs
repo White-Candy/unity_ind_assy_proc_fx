@@ -74,7 +74,11 @@ public class ModelAnimControl : MonoBehaviour
 
     void Update()
     {
-        
+        if (GlobalData.DestroyModel)
+        {
+            DataRecycling();
+            GlobalData.DestroyModel = false;
+        }
     }
 
 
@@ -143,22 +147,13 @@ public class ModelAnimControl : MonoBehaviour
         yield return null;
     }
 
-    private void OnEnable()
-    {
-        UnityEventCenter.AddListener(EnumDefine.EventKey.DataRecycling, DataRecycling);
-    }
-
-    private void OnDisable()
-    {
-        UnityEventCenter.RemoveLister(EnumDefine.EventKey.DataRecycling, DataRecycling);
-    }
-
     /// <summary>
     /// 数据回收
     /// </summary>
     /// <param name="msg"></param>
-    private void DataRecycling(IMessage msg)
+    public void DataRecycling()
     {
+        Debug.Log("DataRecycling");
         CameraControl.SetMain();
         CameraControl.animation = null;
         CameraControl.player = null;

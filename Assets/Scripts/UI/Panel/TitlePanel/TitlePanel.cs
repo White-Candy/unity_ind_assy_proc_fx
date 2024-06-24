@@ -20,6 +20,13 @@ public class TitlePanel : BasePanel
 
     private void OnExitBtnClicked()
     {
+        if (GlobalData.currModuleName == "训练")
+        {
+            Debug.Log("Exit: " + GlobalData.currModuleName);
+            GlobalData.DestroyModel = true;
+            GlobalData.StepIdx = 0;
+        }
+
         if (GlobalData.mode == Mode.Examination)
         {
             // TODO..考核模式下退出提交成績
@@ -29,8 +36,6 @@ public class TitlePanel : BasePanel
         else
         {
             UITools.Loading("Menu");
-            //删除已经实例化的模型数据
-            UnityEventCenter.DistributeEvent(EnumDefine.EventKey.DataRecycling, null);
         }
     }
 }

@@ -4,6 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
+
+public struct Proj
+{
+    public string ProjName; //项目名字
+    public List<Target> targets; // 子项目列表
+}
+
 public struct Target
 {
     public string modelName; // 用于对应 Addreass中的Default名字，从而异步加载资源
@@ -14,23 +21,32 @@ public struct Target
 
 public class TargetModel : ConfigTemplate
 {
-    public List<Target> m_Targets = new List<Target>();
+    public List<Proj> m_Projs = new List<Proj>();
 
     public override void ReadXML(XDocument doc)
     {
         base.ReadXML(doc);
-        var targets = doc.Root.Elements("Target");
-        foreach (var target in targets )
+        var Projs = doc.Root.Elements("Item");
+        foreach (var item in Projs)
         {
-            Target t = new Target();
-            t.modelName = target.Attribute("ModelName").Value;
-            t.modelCode = Convert.ToInt32(target.Attribute("ModelCode").Value);
-            t.menuName = target.Attribute("MenuName").Value;
-            m_Targets.Add(t);
+            Proj proj = new Proj();
+            proj.ProjName = item.Attribute("ProjName").Value;
+
+            List<Target> TargetList = new List<Target>();
+            foreach (var target in item.Elements("Target"))
+            {
+                Target t = new Target();
+                t.modelName = target.Attribute("ModelName").Value;
+                t.modelCode = Convert.ToInt32(target.Attribute("ModelCode").Value);
+                t.menuName = target.Attribute("MenuName").Value;
+                TargetList.Add(t);
+            }
+            proj.targets = TargetList;
+            m_Projs.Add(proj);
         }
 
-        GlobalData.Targets.Clear();
-        GlobalData.Targets = m_Targets;
+        GlobalData.Projs.Clear();
+        GlobalData.Projs = m_Projs;
         // 如果我这么写，那么 m_Targets 几乎就没有什么意义了...
         // ...但是我想保留m_Targets 可能以后用的到
     }

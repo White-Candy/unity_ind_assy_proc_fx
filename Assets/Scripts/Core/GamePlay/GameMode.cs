@@ -139,7 +139,7 @@ public class GameMode : Singleton<GameMode>
     {
         if (GlobalData.StepIdx < GlobalData.stepStructs.Count)
         {
-            GlobalData.StepIdx++;
+            GlobalData.StepIdx = (GlobalData.StepIdx + 1) % GlobalData.stepStructs.Count;
             SetStep(GlobalData.StepIdx);
         }
     }
