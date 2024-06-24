@@ -1,3 +1,4 @@
+using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ public static class UITools
     /// <param name="scene">需要顯示的場景</param>
     /// <param name="real"> 如果real為True異步加載模型場景，否在異步加載UI場景 </param>
     /// <param name="model_name"></param>
-    public static void Loading(string scene, bool real = true, string model_name = "")
+    public static void Loading(string scene, string model_name = "")
     {
         LoadingPanel load_panel = FindAssetPanel<LoadingPanel>();
-        load_panel.LoadScene(scene, model_name, real);
+        load_panel.LoadScene(scene, model_name);
     }
 
     public static void OpenDialog(string title, string info, Action callback)

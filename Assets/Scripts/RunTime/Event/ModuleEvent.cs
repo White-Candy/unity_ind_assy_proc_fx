@@ -50,11 +50,11 @@ public class ModuleEvent
     /// <param name="args"></param>
     public virtual void OnEvent(params object[] args) { }
 
-    public virtual void SwitchSceneAccName(string module_name, string module_code)
+    public virtual void SwitchSceneAccName(string module_name)
     {
         //Debug.Log("SwitchSceneAccName: " + module_name);
         GlobalData.currModuleName = module_name;
-        GlobalData.currModuleCode = module_code;
+        //GlobalData.currModuleCode = module_code;
         if (GlobalData.mode == Mode.Examination)
         {
             if (GlobalData.FinishExamModule.Contains(module_name))
@@ -66,13 +66,13 @@ public class ModuleEvent
             else
             {
                 GlobalData.FinishExamModule.Add(module_name);
-                UITools.Loading("Main", false, module_name);
+                UITools.Loading("Main", module_name);
                 return;
             }
         }
         else
         {
-            UITools.Loading("Main", false, module_name);
+            UITools.Loading("Main", module_name);
             return;
         }
     }

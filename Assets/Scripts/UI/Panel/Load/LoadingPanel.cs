@@ -28,16 +28,9 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     }
 
     // 場景加載
-    public void LoadScene(string scene, string model_name, bool real)
+    public void LoadScene(string scene, string model_name)
     {
-        if (real)
-        {
-            StartCoroutine(RealLoad(scene));
-        }
-        else
-        {
-            StartCoroutine(UnRealLoad(scene, model_name));
-        }
+        StartCoroutine(UnRealLoad(scene, model_name));
     }
 
     private IEnumerator RealLoad(string name)
@@ -71,20 +64,6 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     /// <returns></returns>
     private IEnumerator UnRealLoad(string name, string model_name)
     {
-        if (model_name == "训练")
-        {
-            // 模型场景异步加载
-            GameObject obj;
-            AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
-            while (!model_async.IsDone)
-            {
-                //Debug.Log("proess: " + model_async.PercentComplete.ToString("f6"));
-                yield return null;
-            }
-            obj = Instantiate(model_async.Result);
-            obj.name = GlobalData.ModelTarget.modelName;
-        }
-
         // Unity场景加载
         AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
         scene_async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載

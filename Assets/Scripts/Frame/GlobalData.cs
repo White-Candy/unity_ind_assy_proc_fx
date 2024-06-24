@@ -33,6 +33,7 @@ namespace sugar
         public static Mode mode = Mode.None;
         public static string currModuleCode = "";
         public static string currModuleName = "";
+        public static List<Proj> Projs = new List<Proj>(); // 训练/实训考核的模型场景 Addressables Groups Default Name 的列表.
         public static Target ModelTarget; // 训练/实训考核的模型场景 Addressables Groups Default Name.
 
         // 已经完成本次考核，重新登录后才可再次考试
@@ -54,6 +55,7 @@ namespace sugar
 
         public static List<string> FinishExamModule = new List<string>(); //記錄已經完成的考核内容
 
+        public static bool DestroyModel = false; // 训练模式退出销毁模型，重置相机
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone

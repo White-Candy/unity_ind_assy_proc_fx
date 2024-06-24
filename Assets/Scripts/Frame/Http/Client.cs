@@ -44,7 +44,7 @@ public class Client : Singleton<Client>
             PlayerPrefs.SetString("username", username);
             PlayerPrefs.SetString("password", password);
 
-            UITools.Loading("Menu", false);
+            UITools.Loading("Menu");
         }));
     }
 }

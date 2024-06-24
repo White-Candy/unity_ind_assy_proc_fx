@@ -16,7 +16,6 @@ public struct SubMenu
     public int enumID;
 }
 
-
 public class ConfigMenuList : ConfigTemplate
 {
     public List<Menu> m_MenuList = new List<Menu>();
