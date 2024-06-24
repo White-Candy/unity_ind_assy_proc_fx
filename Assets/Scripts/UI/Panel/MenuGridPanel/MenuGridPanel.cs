@@ -28,7 +28,7 @@ public class MenuGridPanel : BasePanel
 
     private void OnDestroy()
     {
-        Debug.Log("Menu Destroy!");
+        CleaerMenuListItem();
     }
 
     void BuildItem()

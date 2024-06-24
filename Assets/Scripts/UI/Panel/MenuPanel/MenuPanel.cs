@@ -211,6 +211,7 @@ public class MenuPanel : BasePanel
 
     public void LoadSceneModel()
     {
+        GlobalData.DestroyModel = false;
         StartCoroutine(LoadModel());
     }
 
