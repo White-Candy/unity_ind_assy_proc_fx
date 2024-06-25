@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 public struct StepStruct
 {
@@ -74,11 +75,17 @@ public class MenuPanel : BasePanel
             item.gameObject.SetActive(true);
             Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
             itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = target.menuName;
-            itemBtn.onClick.AddListener(() => { ChooseThisItem(target); });
+            itemBtn.onClick.AddListener(() => { ChooseThisItem(target, list); });
         }
     }
 
-    private void ChooseThisItem(Target target)
+    /// <summary>
+    /// 训练模式：异步加载模型场景切换
+    /// 其他模式：显示菜单
+    /// </summary>
+    /// <param name="target"> 子项目的info </param>
+    /// <param name="obj"> 菜单窗口的实例 </param>
+    private async void ChooseThisItem(Target target, GameObject obj)
     {
         GlobalData.ModelTarget = target;
         GlobalData.currModuleCode = target.modelCode.ToString();
@@ -86,12 +93,13 @@ public class MenuPanel : BasePanel
 
         if (GlobalData.currModuleName == "训练")
         {
-            LoadSceneModel();
+            await LoadSceneModel();
         }
         else
         {
-            
+            MenuGridPanel.Instance.gameObject.SetActive(true);
         }
+        SetActiveMenuItem(obj, false);
     }
 
     private void SetActiveMenuItem(GameObject menu, bool b)
@@ -152,6 +160,7 @@ public class MenuPanel : BasePanel
         }
     }
 
+    // TODO.. 修改这个函数
     private void SpawnTask(string menuName, List<StepStruct> list)
     {
         if (currTaskName == menuName)
@@ -159,9 +168,6 @@ public class MenuPanel : BasePanel
             Debug.Log($"重复进入 ： {menuName}");
             return;
         }
-
-        if (currTask != null)
-            currTask.Exit();
 
         BaseTask task;
         m_TaskDic.TryGetValue(menuName, out task);
@@ -175,6 +181,12 @@ public class MenuPanel : BasePanel
                 case "训练":
                     task = new ChaiZhuangFangZhen();
                     task.m_Drag = true;
+
+                    // 动画信息载入
+                    GlobalData.stepStructs.Clear();
+                    GlobalData.stepStructs = list;
+                    GlobalData.canClone = true;
+                    GameMode.Instance.Prepare(); // Step录入完成后，游戏准备
                     break;
                 case "考核":
                     task = new ShiXunKaoHe();
@@ -193,37 +205,31 @@ public class MenuPanel : BasePanel
                 InfoPanel._instance.gameObject.SetActive(false);
             }
         }
+
         currTaskName = menuName;
         currTask = task;
         if (!currTask.IsInit)
         {
             currTask.Init(list, transform.Find("Content/BG"));
         }
-
-        // 动画信息载入
-        GlobalData.stepStructs.Clear();
-        GlobalData.stepStructs = list;
-        GlobalData.canClone = true;
-
         currTask.Show();
-        GameMode.Instance.Prepare(); // Step录入完成后，游戏准备
     }
 
-    public void LoadSceneModel()
+ 
+    public async UniTask LoadSceneModel()
     {
-        StartCoroutine(LoadModel());
+        GlobalData.DestroyModel = false;
+        await LoadModel();
     }
 
-    private IEnumerator LoadModel()
+    float times = 0;
+    private async UniTask LoadModel()
     {
         // 模型场景异步加载
-        GameObject obj;
+        GameObject obj;        
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
-        while (!model_async.IsDone)
-        {
-            //Debug.Log("proess: " + model_async.PercentComplete.ToString("f6"));
-            yield return null;
-        }
+        await UniTask.WaitUntil(() => model_async.IsDone == true);
+
         obj = Instantiate(model_async.Result);
         obj.name = GlobalData.ModelTarget.modelName;
         Init(GlobalData.currModuleName);

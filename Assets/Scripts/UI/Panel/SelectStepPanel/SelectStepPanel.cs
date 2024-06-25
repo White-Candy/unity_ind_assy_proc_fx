@@ -42,6 +42,7 @@ public class SelectStepPanel : BasePanel
             int id = i;
             clone.onClick.AddListener(() =>
             {
+                //Debug.Log("id : " + id);
                 GameMode.Instance.SetStep(id);
             });
             m_items.Add(clone);

@@ -59,7 +59,7 @@ public static class UITools
         if (t == null)
         {
             string path = "Prefabs/UI/Panel/" + typeof(T).ToString();
-            GameObject go = GameObject.Instantiate(Resources.Load<GameObject>(path));
+            GameObject go = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(path));
             if (go != null)
             {
                 t = go.GetComponent<T>();

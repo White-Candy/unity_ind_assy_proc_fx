@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -28,5 +30,27 @@ public class NetworkManager : MonoBehaviour
     public void DownLoadTextFromServer(string url, Action<string> callback)
     {
         StartCoroutine(Utilly.DownLoadTextFromServer(url, callback));
+    }
+
+    /// <summary>
+    /// ÏÂÔØConfigÎÄµµ
+    /// </summary>
+    /// <param name="callback"></param>
+    /// <returns></returns>
+    public async UniTask DownLoadConfig(Action<List<string>> callback)
+    {
+        //Debug.Log(FPath.JiaoAnPath);
+        UnityWebRequest req = UnityWebRequest.Get(FPath.JiaoAnPath + "/Config.txt");
+        await req.SendWebRequest();
+
+        string content = req.downloadHandler.text;
+        string[] strs = content.Split('_');
+
+        List<string> paths = new List<string>();
+        foreach (string str in strs)
+        {
+            paths.Add(FPath.JiaoAnPath + "/" + str + ".pdf");
+        }
+        callback(paths);
     }
 }

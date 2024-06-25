@@ -6,8 +6,9 @@ using UnityEngine;
 
 public static class Tools
 {
+    // 中转英字典
     public static Dictionary<string, string> EscDic = new Dictionary<string, string>{ { @"教学", "TeachingEvent"}, {@"训练", "TrainEvent"},
-                                                                                {@"考核", "AssessEvent"} };
+                                                                                {@"考核", "AssessEvent"}, {@"教案", "PDFAction"} };
 
     public static bool CheckMessageSuccess(int code)
     {

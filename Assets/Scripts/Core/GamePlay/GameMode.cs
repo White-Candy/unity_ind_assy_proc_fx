@@ -73,7 +73,7 @@ public class GameMode : Singleton<GameMode>
             if (method == "点击")
             {
                 m_Method = GameMethod.Clicked;
-                CameraControl.target.AddComponent<HighlightingEffect>();
+                //CameraControl.target.AddComponent<HighlightingEffect>();
                 transform.AddComponent<ClickMethod>();
                 ArrowActive(false);
             }
@@ -119,8 +119,8 @@ public class GameMode : Singleton<GameMode>
         GameObject go = GameObject.Find(tool);
         if (go != null)
         {
-            HighlightableObject ho = go.AddComponent<HighlightableObject>();
-            ho.FlashingOn(Color.green, Color.red, 2f);
+            //HighlightableObject ho = go.AddComponent<HighlightableObject>();
+            //ho.FlashingOn(Color.green, Color.red, 2f);
         }
         m_State = GameState.Playing; // 准备阶段结束，进入游戏阶段
     }
@@ -137,9 +137,9 @@ public class GameMode : Singleton<GameMode>
 
     public void NextStep()
     {
-        if (GlobalData.StepIdx < GlobalData.stepStructs.Count)
+        if (GlobalData.StepIdx + 1 < GlobalData.stepStructs.Count)
         {
-            GlobalData.StepIdx = (GlobalData.StepIdx + 1) % GlobalData.stepStructs.Count;
+            GlobalData.StepIdx++;
             SetStep(GlobalData.StepIdx);
         }
     }
