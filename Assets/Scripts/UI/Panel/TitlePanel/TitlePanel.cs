@@ -22,7 +22,7 @@ public class TitlePanel : BasePanel
     {
         if (GlobalData.currModuleName == "ÑµÁ·")
         {
-            Debug.Log("Exit: " + GlobalData.currModuleName);
+            //Debug.Log("Exit: " + GlobalData.currModuleName);
             GlobalData.DestroyModel = true;
             GlobalData.StepIdx = 0;
         }

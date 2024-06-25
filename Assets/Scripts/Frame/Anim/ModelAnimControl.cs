@@ -84,9 +84,15 @@ public class ModelAnimControl : MonoBehaviour
 
     public IEnumerator PlayAnim(float f_start, float f_end)
     {
+        if (f_start == f_end)
+        {
+            StartCoroutine(Slice(f_start, f_end));
+            yield break;
+        }
+
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
-        Debug.Log(canvas.name);
+        //Debug.Log(canvas.name);
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
         CameraControl.SetAnimation();
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
@@ -153,7 +159,7 @@ public class ModelAnimControl : MonoBehaviour
     /// <param name="msg"></param>
     public void DataRecycling()
     {
-        Debug.Log("DataRecycling");
+        //Debug.Log("DataRecycling");
         CameraControl.SetMain();
         CameraControl.animation = null;
         CameraControl.player = null;

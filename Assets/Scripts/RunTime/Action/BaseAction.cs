@@ -1,12 +1,13 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseAction
+public class BaseAction
 {
-    public abstract void Show();
+    public virtual async UniTask AsyncShow() { await UniTask.Yield(PlayerLoopTiming.Update); }
 
-    public abstract void UpdataData();
+    public virtual void UpdateData() { }
 
-    public abstract void Exit();
+    public virtual void Exit() { }
 }

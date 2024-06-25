@@ -3,5 +3,5 @@
 <Root>
 	<Item name="ConfigModuleList" path="Config/ModuleList.xml"/>
 	<Item name="ConfigMenuList" path="Config/MenuListConfig.xml"/>
-  <Item name="TargetModel" path ="Config/TargetModel.xml"/>
+  	<Item name="TargetModel" path ="Config/TargetModel.xml"/>
 </Root>
