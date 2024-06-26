@@ -38,10 +38,13 @@ public class NetworkManager : MonoBehaviour
     /// </summary>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public async UniTask DownLoadConfig(Action<List<string>> callback)
+    public async UniTask DownLoadConfigAsync(string name, Action<List<string>> callback)
     {
         //Debug.Log(FPath.JiaoAnPath);
-        UnityWebRequest req = UnityWebRequest.Get(FPath.JiaoAnPath + "/Config.txt");
+        string suffix = Tools.GetModulePath(name);
+        string path = FPath.AssetRootPath + GlobalData.currModuleCode + suffix;
+
+        UnityWebRequest req = UnityWebRequest.Get(path + "/Config.txt");
         await req.SendWebRequest();
 
         string content = req.downloadHandler.text;
@@ -50,8 +53,27 @@ public class NetworkManager : MonoBehaviour
         List<string> paths = new List<string>();
         foreach (string str in strs)
         {
-            paths.Add(FPath.JiaoAnPath + "/" + str + ".pdf");
+            paths.Add(path + "/" + str + ".pdf");
         }
         callback(paths);
     }
+
+    public async UniTask<List<string>> DownLoadPicturesAsync(string name)
+    {
+        string suffix = Tools.GetModulePath(name);
+        string path = FPath.AssetRootPath + GlobalData.currModuleCode + suffix;
+
+        UnityWebRequest req = UnityWebRequest.Get(path + "/Config.txt");
+        await req.SendWebRequest();
+
+        string content = req.downloadHandler.text;
+        string[] strs = content.Split('_');
+
+        List<string> paths = new List<string>();
+        foreach (string str in strs)
+        {
+            paths.Add(path + "/" + str);
+        }
+        return paths;
+    }    
 }

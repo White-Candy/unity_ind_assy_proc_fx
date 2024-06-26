@@ -12,6 +12,7 @@ using UnityEngine.UI;
 public class PDFPanel : BasePanel
 {
     private List<string> m_PDFPaths;
+    private List<GameObject> m_Items = new List<GameObject>(); // PDF文件item实例列表
 
     public GameObject m_PDFItem;
     public GameObject m_PDFItemParent;
@@ -26,6 +27,13 @@ public class PDFPanel : BasePanel
 
     private void SpawnPDFItem()
     {
+        foreach (var item in m_Items)
+        {
+            item.gameObject.SetActive(false);
+            Destroy(item.gameObject);
+        }
+        m_Items.Clear();
+
         foreach (var path in m_PDFPaths)
         {
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
@@ -39,6 +47,7 @@ public class PDFPanel : BasePanel
 
             itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = pdfName;
             itemBtn.onClick.AddListener(() => { OnPDFBtnClicked(path); });
+            m_Items.Add(itemObj);
         }
     }
 

@@ -81,6 +81,6 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
         BaseAction action = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
         m_currActName = name;
         m_currAction = action;
-        await action.AsyncShow();
+        await action.AsyncShow(name);
     }
 }

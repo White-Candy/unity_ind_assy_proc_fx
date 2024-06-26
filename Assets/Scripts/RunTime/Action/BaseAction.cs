@@ -8,7 +8,7 @@ public class BaseAction
 {
     public CancellationTokenSource m_Token;
 
-    public virtual async UniTask AsyncShow() { await UniTask.Yield(PlayerLoopTiming.Update); }
+    public virtual async UniTask AsyncShow(string name) { await UniTask.Yield(PlayerLoopTiming.Update); }
 
     public virtual void UpdateData() { }
 

@@ -17,11 +17,11 @@ public class PDFAction : BaseAction
         m_Token = new CancellationTokenSource();
     }
 
-    public override async UniTask AsyncShow()
+    public override async UniTask AsyncShow(string name)
     {
         if (!m_Init)
         {
-            await NetworkManager._Instance.DownLoadConfig((paths) => 
+            await NetworkManager._Instance.DownLoadConfigAsync(name, (paths) => 
             {
                 if (paths.Count == 0)
                     UITools.ShowMessage("当前模块没有PDF资源");
@@ -42,9 +42,9 @@ public class PDFAction : BaseAction
 
     public override void Exit()
     {
-        //m_Token.Cancel();
-        //m_Token.Dispose();
-        //m_Token = new CancellationTokenSource();
+        m_Token.Cancel();
+        m_Token.Dispose();
+        m_Token = new CancellationTokenSource();
         m_Panel.Active(false);
     }
 }
