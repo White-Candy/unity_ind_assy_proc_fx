@@ -209,8 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e414e4e2054d94cbb7194288983c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NameP: 
-  m_Content: {fileID: 1791811970647410423}
   m_Item: {fileID: 1791811969842149589}
   m_Parent: {fileID: 1791811970647410420}
 --- !u!1 &5182431028222831452

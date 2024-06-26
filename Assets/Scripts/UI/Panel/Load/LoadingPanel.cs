@@ -98,7 +98,6 @@ public class LoadingPanel : BasePanel, IGlobalPanel
 
     private async void LoadAsync(string name, string model_name)
     {
-        float time = Time.realtimeSinceStartup;
         // Unity场景加载
         AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
         scene_async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
@@ -120,7 +119,6 @@ public class LoadingPanel : BasePanel, IGlobalPanel
             m_ProgressSlider.value = percent;
             await UniTask.WaitForEndOfFrame(this);
         }
-        Debug.Log($"Async Load Time: {(Time.realtimeSinceStartup - time)*1000:F6}毫秒");
         scene_async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
         OnLoaded();
     }
