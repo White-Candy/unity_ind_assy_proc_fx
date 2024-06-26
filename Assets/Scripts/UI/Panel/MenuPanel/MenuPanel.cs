@@ -222,7 +222,6 @@ public class MenuPanel : BasePanel
         await LoadModel();
     }
 
-    float times = 0;
     private async UniTask LoadModel()
     {
         // 模型场景异步加载

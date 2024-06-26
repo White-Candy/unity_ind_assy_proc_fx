@@ -7,6 +7,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 /// <summary>
 /// 加載窗口UI脚本
@@ -30,7 +31,8 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     // 場景加載
     public void LoadScene(string scene, string model_name)
     {
-        StartCoroutine(UnRealLoad(scene, model_name));
+        //StartCoroutine(UnRealLoad(scene, model_name));
+        LoadAsync(scene, model_name);
     }
 
     private IEnumerator RealLoad(string name)
@@ -64,6 +66,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     /// <returns></returns>
     private IEnumerator UnRealLoad(string name, string model_name)
     {
+        float time = Time.realtimeSinceStartup;
         // Unity场景加载
         AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
         scene_async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
@@ -79,20 +82,43 @@ public class LoadingPanel : BasePanel, IGlobalPanel
 
             if (real_percent > percent) // 顯示Loading窗口，比較平緩的滑動進度條。
             {
-                if (percent <= 0.9f) 
-                {
-                    percent += Time.deltaTime;
-                }
-                else
-                {
-                    percent += Time.deltaTime * 0.2f;
-                }
+
+                percent += Time.deltaTime;
+
                 percent = Mathf.Clamp01(percent);
             }
             m_ProgressSlider.value = percent;
             yield return new WaitForEndOfFrame();
         }
+        Debug.Log($"IEnumerator Load Time: {(Time.realtimeSinceStartup - time) * 1000:F6}毫秒");
+        scene_async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
+        OnLoaded();
+    }
 
+
+    private async void LoadAsync(string name, string model_name)
+    {
+        // Unity场景加载
+        AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
+        scene_async.allowSceneActivation = false; // 場景不顯示在前台，現在後臺加載
+        float real_percent;
+        float percent = 0.0f;
+        while (percent < 1.0f)
+        {
+            real_percent = scene_async.progress;
+            if (real_percent >= 0.9f) //真實的加載百分比
+            {
+                real_percent = 1.0f;
+            }
+
+            if (real_percent > percent) // 顯示Loading窗口，比較平緩的滑動進度條。
+            {
+                percent += Time.deltaTime;
+                percent = Mathf.Clamp01(percent);
+            }
+            m_ProgressSlider.value = percent;
+            await UniTask.WaitForEndOfFrame(this);
+        }
         scene_async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
         OnLoaded();
     }
