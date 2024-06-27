@@ -27,13 +27,14 @@ public class PictureAction : BaseAction
             m_Init = true;
         }
 
-        await UniTask.WaitUntil(() => m_Init == true);
+        await UniTask.WaitUntil(() => m_Init == true, PlayerLoopTiming.Update, m_Token.Token);
+        //m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
     }
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
     {
-        var paths = await NetworkManager._Instance.DownLoadPicturesAsync(name);
+        var paths = await NetworkManager._Instance.DownLoadAasetAsync(name);
 
         List<Sprite> sprites = new List<Sprite>();
         //foreach (var path in paths)

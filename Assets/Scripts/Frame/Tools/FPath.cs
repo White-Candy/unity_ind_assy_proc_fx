@@ -27,4 +27,6 @@ public class FPath
     public static string FangAnSuffix { get { return $"/FangAn"; } }
     public static string TuZhiSuffix { get { return $"/TuZhi"; } }
     public static string PictureSuffix { get { return $"/Picture"; } }
+    public static string AnimSuffix { get { return $"/Animation"; } }
+    public static string VideoSuffix { get { return $"/Video"; } }
 }

@@ -11,15 +11,16 @@ public class PicturePanel : BasePanel
     public GameObject m_MaxItemMask;
     public Image m_MaxImage;
 
-    private List<GameObject> m_Items = new List<GameObject>();
+    //private List<GameObject> m_Items = new List<GameObject>();
+
     public void Init(List<Sprite> list)
     {
-        foreach (var item in m_Items)
-        {
-            item.gameObject.SetActive(false);
-            Destroy(item.gameObject);
-        }
-        m_Items.Clear();
+        //foreach (var item in m_Items)
+        //{
+        //    item.gameObject.SetActive(false);
+        //    Destroy(item.gameObject);
+        //}
+        //m_Items.Clear();
 
         foreach (var sprite in list)
         {
@@ -29,7 +30,7 @@ public class PicturePanel : BasePanel
             Button btn = obj.GetComponentInChildren<Button>();
             btn.GetComponent<Image>().sprite = sprite;
             btn.onClick.AddListener(() => { OnItemBtnClicked(sprite); });
-            m_Items.Add(obj);
+            //m_Items.Add(obj);
         }
     }
 
