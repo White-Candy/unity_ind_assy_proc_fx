@@ -169,12 +169,12 @@ public class VideoControl
         m_RePlay?.onClick.AddListener(() =>
         {
             m_Player.RePlay();
-            SwitchPlayBtn(true);
+            SwitchPlayBtn(false);
         });
 
         m_Slider?.onValueChanged.AddListener((a) =>
         {
-            m_Player.frame = (long)(a * m_Player.frame);
+            m_Player.frame = (long)(a * m_Player.frameCount);
         });
 
         // 获取进度条数值改变调用进度条的方法
@@ -198,7 +198,8 @@ public class VideoControl
     /// </summary>
     private void SetSliderNoEvent(float f)
     {
-        m_SliderValue.Invoke(m_Slider, new object[] { f, false });
+        m_Slider.SetValueWithoutNotify(f);
+        //m_SliderValue.Invoke(m_Slider, new object[] { f, false });
     }
 
     //开始播放
@@ -271,7 +272,7 @@ public class VideoPlayerControl
     public ulong frameCount { get { return m_Player.frameCount; } }
 
     //播放速度
-    public float speed { get { return m_Player.playbackSpeed; } set { m_Player.playbackSpeed = value; } }
+    //public float speed { get { return m_Player.playbackSpeed; } set { m_Player.playbackSpeed = value; } }
 
     // 视频资源路径
     [HideInInspector]
