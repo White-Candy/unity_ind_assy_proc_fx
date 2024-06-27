@@ -3,6 +3,7 @@ using Paroxe.PdfRenderer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime;
@@ -12,11 +13,13 @@ using UnityEngine.UI;
 public class PDFPanel : BasePanel
 {
     private List<string> m_PDFPaths;
-    private List<GameObject> m_Items = new List<GameObject>(); // PDF文件item实例列表
 
     public GameObject m_PDFItem;
     public GameObject m_PDFItemParent;
     public PDFViewer m_PDFViewer;
+
+    // PDF文件item实例列表
+    private List<GameObject> m_Items = new List<GameObject>();
 
     public void Init(List<string> paths)
     {
@@ -27,24 +30,13 @@ public class PDFPanel : BasePanel
 
     private void SpawnPDFItem()
     {
-        foreach (var item in m_Items)
-        {
-            item.gameObject.SetActive(false);
-            Destroy(item.gameObject);
-        }
-        m_Items.Clear();
-
         foreach (var path in m_PDFPaths)
         {
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
             Button itemBtn = itemObj.GetComponentInChildren<Button>();
 
-            int SlashIdx = path.LastIndexOf('/');
-            int suffixIdx = path.LastIndexOf('.');
-            int length = (suffixIdx - SlashIdx - 1) > 0 ? suffixIdx - SlashIdx - 1 : 0;
-            string pdfName = path.Substring(SlashIdx + 1, length);
-
+            string pdfName = Path.GetFileNameWithoutExtension(path);
             itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = pdfName;
             itemBtn.onClick.AddListener(() => { OnPDFBtnClicked(path); });
             m_Items.Add(itemObj);
@@ -81,5 +73,15 @@ public class PDFPanel : BasePanel
         {
 
         }
+    }
+
+    public void Exit()
+    {
+        foreach (var item in m_Items)
+        {
+            item.gameObject.SetActive(false);
+            Destroy(item.gameObject);
+        }
+        m_Items.Clear();
     }
 }

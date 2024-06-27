@@ -18,6 +18,9 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
     private BaseAction m_currAction;
     private string m_currActName = "";
 
+    // 为了避免重复申请一个子模块的baseaction实例
+    private Dictionary<string, BaseAction> m_Actions = new Dictionary<string, BaseAction>(); 
+
     void Start()
     {
         BuildItem();
@@ -78,9 +81,18 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
             m_currAction.Exit();
         }
 
-        BaseAction action = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
         m_currActName = name;
-        m_currAction = action;
-        await action.AsyncShow(name);
+        //BaseAction action;// = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
+        if (m_Actions.ContainsKey(name))
+        {
+            m_currAction = m_Actions[name];
+        }
+        else
+        {
+            m_currAction = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
+            m_Actions.Add(name, m_currAction);
+        }
+
+        await m_currAction.AsyncShow(name);
     }
 }

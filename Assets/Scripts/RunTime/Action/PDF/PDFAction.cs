@@ -5,10 +5,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using System.Threading;
+using UnityEngine.UIElements;
+using Unity.VisualScripting;
 public class PDFAction : BaseAction
 {
     private PDFPanel m_Panel;
-    private bool m_Init = false;
+
+    // 用来存储已经初始化过的子模块名字，下一次进入不在初始化
+    private Dictionary<string, List<string>> m_initList = new Dictionary<string, List<string>>();
+
+    private bool m_init = false; // 是否准备好了
 
     public PDFAction()
     {
@@ -19,17 +25,23 @@ public class PDFAction : BaseAction
 
     public override async UniTask AsyncShow(string name)
     {
-        if (!m_Init)
+        if (!m_initList.ContainsKey(name))
         {
-            await NetworkManager._Instance.DownLoadConfigAsync(name, (paths) => 
+            await NetworkManager._Instance.DownLoadConfigAsync(name, (paths) =>
             {
                 if (paths.Count == 0)
                     UITools.ShowMessage("当前模块没有PDF资源");
                 m_Panel.Init(paths);
-                m_Init = true;
+                m_initList.Add(name, paths);
+                m_init = true;
             });
         }
-        await UniTask.WaitUntil(() => m_Init == true, PlayerLoopTiming.Update, m_Token.Token);
+        else
+        {
+            m_Panel.Init(m_initList[name]);
+            m_init = true;
+        }
+        await UniTask.WaitUntil(() => m_init == true, PlayerLoopTiming.Update, m_Token.Token);
 
         m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
@@ -45,6 +57,10 @@ public class PDFAction : BaseAction
         m_Token.Cancel();
         m_Token.Dispose();
         m_Token = new CancellationTokenSource();
+
+        m_Panel.Exit();
         m_Panel.Active(false);
+
+        m_init = false;
     }
 }

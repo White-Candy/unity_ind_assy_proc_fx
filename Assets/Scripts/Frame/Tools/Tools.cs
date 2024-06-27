@@ -9,13 +9,14 @@ public static class Tools
 {
     // 中转英字典
     public static Dictionary<string, string> EscDic = new Dictionary<string, string>{ { @"教学", "TeachingEvent"}, {@"训练", "TrainEvent"},
-                                                       {@"考核", "AssessEvent"}, {@"教案", "PDFAction"}, {@"图纸", "PDFAction"},
-                                                        {@"方案", "PDFAction"}, {@"规范", "PDFAction"}, {@"图片", "PictureAction"}};
+     {@"考核", "AssessEvent"}, 
+     {@"教案", "PDFAction"}, {@"图纸", "PDFAction"},{@"方案", "PDFAction"},{@"规范", "PDFAction"}, {@"图片", "PictureAction"}, 
+     {@"动画", "VideoAction"},{@"视频", "VideoAction"}};
     // 不同子模式对应不同的文件路径
     private static Dictionary<string, string> FileDic = new Dictionary<string, string> 
     {
         {@"教案", FPath.JiaoAnSuffix}, {@"图纸", FPath.TuZhiSuffix}, {@"方案", FPath.FangAnSuffix}, {@"规范", FPath.GuiFanSuffix},
-        {@"图片", FPath.PictureSuffix}
+        {@"图片", FPath.PictureSuffix}, {@"动画", FPath.AnimSuffix}, {@"视频", FPath.VideoSuffix}
     };
     public static bool CheckMessageSuccess(int code)
     {

@@ -58,7 +58,12 @@ public class NetworkManager : MonoBehaviour
         callback(paths);
     }
 
-    public async UniTask<List<string>> DownLoadPicturesAsync(string name)
+    /// <summary>
+    /// 下载资源文件Config目录内容
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async UniTask<List<string>> DownLoadAasetAsync(string name)
     {
         string suffix = Tools.GetModulePath(name);
         string path = FPath.AssetRootPath + GlobalData.currModuleCode + suffix;
