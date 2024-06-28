@@ -212,13 +212,14 @@ public class VideoControl
     // 关闭
     public void Close()
     {
-
+        m_Player.Stop();
+        SwitchPlayBtn(true);
     }
 
     // 销毁
     public void Destroy()
     {
-
+        m_Player.Destroy();
     }
 
     private void SwitchPlayBtn(bool b)
@@ -358,6 +359,14 @@ public class VideoPlayerControl
     }
 
     /// <summary>
+    /// 停止播放
+    /// </summary>
+    public void Stop()
+    {
+        m_Player.Stop();
+    }
+
+    /// <summary>
     /// 重新播放
     /// </summary>
     public void RePlay()
@@ -385,6 +394,18 @@ public class VideoPlayerControl
         else
         {
             m_RawImg.texture = m_Texture;
+        }
+    }
+
+    /// <summary>
+    /// 销毁
+    /// </summary>
+    public void Destroy()
+    {
+        if (m_Texture != null)
+        {
+            RenderTexture.ReleaseTemporary(m_Texture);
+            m_Texture = null;
         }
     }
 }

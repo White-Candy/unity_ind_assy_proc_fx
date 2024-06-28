@@ -796,6 +796,9 @@ MonoBehaviour:
       m_Player: {fileID: 8403076207421926731}
       m_Audio: {fileID: 8156554037381931263}
       m_RawImg: {fileID: 8179833650726660355}
+      m_Path: 
+      m_VideoWidth: -1
+      m_VideoHeight: -1
   m_VideoPanel: {fileID: 8076926910054437749}
   m_VideoRect: {fileID: 8289303226254669651}
   m_Close: {fileID: 8179915407223421369}
@@ -1669,7 +1672,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
