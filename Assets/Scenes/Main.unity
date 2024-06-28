@@ -1384,6 +1384,7 @@ GameObject:
   - component: {fileID: 1320495925}
   - component: {fileID: 1320495924}
   - component: {fileID: 1320495927}
+  - component: {fileID: 1320495928}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1490,6 +1491,34 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1320495928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320495923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce019115187e5543b3b5f81ef6f105a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_target: {fileID: 0}
+  m_RotateSpeed: 500
+  m_RotLerpSpeed: 10
+  m_Distance: 5
+  m_MinYawAngle: -360
+  m_MaxYawAngle: 360
+  m_MinPitchAngle: -45
+  m_MaxPitchAngle: 90
+  isAutoRotate: 1
+  m_AutoRotateTime: 2
+  m_AutoRotateSpeed: 10
+  m_ZoomSpeed: 30
+  m_ZoomSmooth: 10
+  m_CameraFov: 50
+  m_MinFov: 10
+  m_MaxFov: 50
 --- !u!1001 &1787126375
 PrefabInstance:
   m_ObjectHideFlags: 0
