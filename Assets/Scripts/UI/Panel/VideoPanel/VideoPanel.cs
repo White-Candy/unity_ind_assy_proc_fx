@@ -290,7 +290,14 @@ public class VideoPlayerControl
     public void Prepare()
     {
         m_DefaultTexture = m_RawImg.texture;
+
+        m_Player.audioOutputMode = VideoAudioOutputMode.AudioSource;
+        m_Player.SetTargetAudioSource(0, m_Audio);
+        m_Player.playOnAwake = false;
+        m_Player.IsAudioTrackEnabled(0);
+
         m_Player.prepareCompleted += LoadVideoCompleted;
+        m_Player.Prepare();
     }
 
     /// <summary>
