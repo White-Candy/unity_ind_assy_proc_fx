@@ -72,11 +72,11 @@ public class VideoPanel : BasePanel
     private void OnItemClick(string path)
     {
         //Debug.Log(path);
-        m_Control.Prepare();
+        m_Control.Prepare(path);
         m_PlayerIsStart = true;
 
         m_VideoPanel.gameObject.SetActive(true);
-        m_Control.Play(path);
+        m_Control.Play();
     }
 
     public void Exit()
@@ -150,9 +150,9 @@ public class VideoControl
     public VideoPlayerControl m_Player;
 
     // 准备阶段
-    public void Prepare()
+    public void Prepare(string url)
     {
-        m_Player.Prepare();
+        m_Player.Prepare(url);
 
         m_Play?.onClick.AddListener(() =>
         {
@@ -203,9 +203,9 @@ public class VideoControl
     }
 
     //开始播放
-    public void Play(string path)
+    public void Play()
     {
-        m_Player.Play(path);
+        m_Player.Play();
         SwitchPlayBtn(false);
     }
 
@@ -287,15 +287,21 @@ public class VideoPlayerControl
     [HideInInspector]
     public int m_VideoHeight = -1;
 
-    public void Prepare()
+    public void Prepare(string url)
     {
         m_DefaultTexture = m_RawImg.texture;
 
+        m_Player.source = VideoSource.Url;
         m_Player.audioOutputMode = VideoAudioOutputMode.AudioSource;
+
+        m_Player.EnableAudioTrack(0, true);
         m_Player.SetTargetAudioSource(0, m_Audio);
+        m_Player.controlledAudioTrackCount = 1;
+        m_Audio.volume = 1.0f;
         m_Player.playOnAwake = false;
         m_Player.IsAudioTrackEnabled(0);
 
+        m_Player.url = url;
         m_Player.prepareCompleted += LoadVideoCompleted;
         m_Player.Prepare();
     }
@@ -328,6 +334,8 @@ public class VideoPlayerControl
         m_Texture = RenderTexture.GetTemporary(p.texture.width, p.texture.height);
         m_Player.targetTexture = m_Texture;
         m_RawImg.texture = m_Texture;
+
+        m_Player.Play();
     }
 
     /// <summary>
@@ -338,6 +346,7 @@ public class VideoPlayerControl
         if (m_Player.isPrepared)
         {
             m_Player.Play();
+            m_Audio.Play();
         }
     }
 
