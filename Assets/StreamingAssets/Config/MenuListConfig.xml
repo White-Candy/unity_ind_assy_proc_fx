@@ -15,7 +15,7 @@
 		<SubMenuItems SubMenuName="juanlianmen" Enum="10001"/>
 	</Item>
 	<Item MenuName="考核">
-		<SubMenuItems SubMenuName="理论考核" Enum="0"/>
-		<SubMenuItems SubMenuName="实训考核" Enum="1"/>
+		<SubMenuItems SubMenuName="理论" Enum="0"/>
+		<SubMenuItems SubMenuName="实操" Enum="1"/>
 	</Item>
 </Root>
