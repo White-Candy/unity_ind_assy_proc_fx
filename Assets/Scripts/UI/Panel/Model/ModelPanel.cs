@@ -56,7 +56,7 @@ public class ModelPanel : BasePanel
         TextAsset textAsset = Resources.Load<TextAsset>($"Word/Tools/{name}");
         if (null == textAsset)
         {
-            m_DescriptionText.text = "描述文件丢了，请联系后台管理员";
+            m_DescriptionText.text = "描述文件丢失，请联系后台管理员";
         }
         else
         {

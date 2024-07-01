@@ -59,5 +59,9 @@ namespace sugar
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
+
+        public static bool isFinishTheoreticalExam; // 是否完成考核
+        public static float theoreticalExamscore = 50f; // 理论考核满分是50分
+        public static float trainingExamscore = 50f; // 实训考核满分是50分
     }
 }
