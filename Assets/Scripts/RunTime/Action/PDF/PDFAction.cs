@@ -7,6 +7,7 @@ using UnityEngine.PlayerLoop;
 using System.Threading;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
+using System;
 public class PDFAction : BaseAction
 {
     private PDFPanel m_Panel;
@@ -21,6 +22,7 @@ public class PDFAction : BaseAction
         m_Panel = UITools.FindAssetPanel<PDFPanel>();
 
         m_Token = new CancellationTokenSource();
+        m_panelToken = new CancellationTokenSource();
     }
 
     public override async UniTask AsyncShow(string name)
@@ -45,6 +47,12 @@ public class PDFAction : BaseAction
 
         m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
+        try
+        { 
+            await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false);
+            Debug.Log("await finish");
+        }
+        catch { }
     }
 
     public override void UpdateData()
@@ -52,8 +60,10 @@ public class PDFAction : BaseAction
     }
 
 
-    public override void Exit()
+    public override void Exit(Action callback)
     {
+        base.Exit(callback);
+
         m_Token.Cancel();
         m_Token.Dispose();
         m_Token = new CancellationTokenSource();

@@ -29,7 +29,7 @@ public class TheoreticalExamOption : MonoBehaviour
 
 
 
-    public Action<OptionData> onToggle = (a) => { };
+    public Action onToggle = () => { };
 
     public void Init(QuestionType type, OptionData data)
     {
@@ -39,6 +39,8 @@ public class TheoreticalExamOption : MonoBehaviour
         // 更新 UI状态/内容
         UpdateToggle(type);
         UpdateText(data.order, data.text);
+
+        m_Toggle.onValueChanged.AddListener(OnToggleClick);
     }
 
     /// <summary>
@@ -64,5 +66,33 @@ public class TheoreticalExamOption : MonoBehaviour
     {
         text = Tools.checkLength(text, 26);
         m_Text.text = $"{order}.{text}";
+    }
+
+    /// <summary>
+    /// 设置Toggle是否可交互
+    /// </summary>
+    /// <param name="b"></param>
+    public void AllToggleActive(bool b)
+    {
+        m_Toggle.interactable = b;
+    }
+
+    /// <summary>
+    /// Toggle控件点击触发
+    /// </summary>
+    /// <param name="b"></param>
+    public void OnToggleClick(bool b)
+    {
+        onToggle();
+    }
+
+    /// <summary>
+    /// 退出清理
+    /// </summary>
+    public void Clear()
+    {
+        onToggle = () => { };
+        m_Group = null;
+        m_Toggle.isOn = false;
     }
 }

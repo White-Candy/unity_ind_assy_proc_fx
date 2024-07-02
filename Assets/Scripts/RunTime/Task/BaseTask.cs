@@ -62,7 +62,7 @@ public abstract class BaseTask
     {
         if (currAction != null)
         {
-            currAction.Exit();
+            currAction.Exit(() => { });
         }
         currTaskName = "";
         currAction = null;

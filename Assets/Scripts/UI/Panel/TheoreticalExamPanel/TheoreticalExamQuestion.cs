@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -54,6 +55,10 @@ public class TheoreticalExamQuestion : MonoBehaviour
         return op;
     }
 
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="data"></param>
     public void Init(QuestionData data)
     {
         m_Data = data;
@@ -73,11 +78,39 @@ public class TheoreticalExamQuestion : MonoBehaviour
     }
 
     /// <summary>
+    /// 获取理论考核的Body信息
+    /// </summary>
+    /// <returns></returns>
+    public (float, string, int) GetExamBody()
+    {
+        var c_user = m_Answer.ToUpper().ToCharArray(); // 玩家的答案
+        var c_sys = m_Data.answer.ToUpper().ToCharArray(); // 正确答案
+
+        // 为了避免多选题乱序，所以需要排列一下
+        Array.Sort(c_user);
+        Array.Sort(c_sys);
+
+        var s_user = new string(c_user);
+        var s_sys = new string(c_sys);
+        float score = 0;
+
+        if (s_user.Equals(s_sys))
+        {
+            score = m_Data.score;
+        }
+        else
+        {
+            score = 0;
+        }
+        return (score, s_user, m_Data.ID);
+    }
+
+    /// <summary>
     /// 点击选择toggle
     /// 更新玩家答案
     /// </summary>
     /// <param name="data"></param>
-    private void OnItemToggle(OptionData data)
+    private void OnItemToggle()
     {
         StringBuilder sb = new StringBuilder();
         foreach (var item in m_chooseList)
@@ -95,7 +128,7 @@ public class TheoreticalExamQuestion : MonoBehaviour
     /// <param name="text"></param>
     private void InitQuestion(int number, QuestionType type, string text)
     {
-        Debug.Log("Question: " + text);
+        //Debug.Log("Question: " + text);
         text = Tools.checkLength(text, 27);
         m_TextQuestion.text = string.Format($"{number}.{text}\n{GetQuestionType(type, m_FontSizeQuestionType)}");
         m_ItemQuestion.transform.SetAsLastSibling();
@@ -125,5 +158,28 @@ public class TheoreticalExamQuestion : MonoBehaviour
             return "（填空题）";
         else
             return "";
+    }
+
+    /// <summary>
+    /// 控件交互控制
+    /// </summary>
+    /// <param name="b"></param>
+    public void AllControlActive(bool b)
+    {
+        foreach (var item in m_chooseList)
+        {
+            item.AllToggleActive(b);
+        }
+    }
+
+    public void Clear()
+    {
+        m_Answer = null;
+        foreach (var item in m_chooseList)
+        {
+            item.Clear();
+            m_Pool.Destroy(item);
+        }
+        m_chooseList.Clear();
     }
 }

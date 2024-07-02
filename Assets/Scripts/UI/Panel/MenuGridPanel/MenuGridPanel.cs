@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,13 +75,18 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
     {
         if (m_currActName == name)
         {
+            //Debug.Log($"重复点击:{name}");
             return;
         }
 
         if (m_currAction != null)
         {
-            m_currAction.Exit();
+            //Debug.Log("m_currAction不是空");
+            m_currAction.Exit(() => { });
         }
+
+        await UniTask.WaitUntil(() => m_currActName == "" && m_currAction == null);
+        //Debug.Log("All Clear!");
 
         m_currActName = name;
         //BaseAction action;// = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
@@ -92,7 +99,16 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
             m_currAction = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
             m_Actions.Add(name, m_currAction);
         }
-
+        //Debug.Log("curraction init finish");
         await m_currAction.AsyncShow(name);
+
+        //Debug.Log("exitt");
+        // 因为AsyncShow的特点是，窗口退出才会await结束...
+        // 所以到这里了任务窗口已经退出了，那么我们应该让m_currActName清空
+        m_currAction.Exit(() => 
+        {
+            m_currActName = "";
+            m_currAction = null;
+        });
     }
 }

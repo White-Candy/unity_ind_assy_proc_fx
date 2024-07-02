@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -16,6 +18,7 @@ public class PictureAction : BaseAction
         m_Panel = UITools.FindAssetPanel<PicturePanel>();
 
         m_Token = new CancellationTokenSource();
+        m_panelToken = new CancellationTokenSource();
     }
 
     public override async UniTask AsyncShow(string name)
@@ -30,6 +33,15 @@ public class PictureAction : BaseAction
         await UniTask.WaitUntil(() => m_Init == true, PlayerLoopTiming.Update, m_Token.Token);
         //m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
+
+        try
+        { 
+            await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false);
+        }
+        catch 
+        {
+
+        }
     }
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
@@ -54,11 +66,21 @@ public class PictureAction : BaseAction
         return sprites;
     }
 
-    public override void Exit()
+    public override void Exit(Action callback)
     {
+        base.Exit(callback);
+        //Debug.Log("Exit");
+
         m_Token.Cancel();
         m_Token.Dispose();
         m_Token = new CancellationTokenSource();
+
+        //m_panelToken.Cancel();
+        //m_panelToken.Dispose();
+        //m_panelToken = new CancellationTokenSource();
+
         m_Panel.Active(false);
     }
+
+    
 }
