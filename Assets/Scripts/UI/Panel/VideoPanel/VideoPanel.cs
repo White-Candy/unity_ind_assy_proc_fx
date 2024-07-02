@@ -307,7 +307,7 @@ public class VideoPlayerControl
 
         m_Player.url = url;
         m_Player.prepareCompleted += LoadVideoCompleted;
-        m_Player.Prepare();
+        m_Player.Play();
     }
 
     /// <summary>
