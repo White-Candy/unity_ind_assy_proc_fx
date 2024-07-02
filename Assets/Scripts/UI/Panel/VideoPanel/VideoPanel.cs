@@ -75,18 +75,22 @@ public class VideoPanel : BasePanel
         m_Control.Prepare(path);
         m_PlayerIsStart = true;
 
-        m_VideoPanel.gameObject.SetActive(true);
+        m_VideoPanel.SetActive(true);
         m_Control.Play();
     }
 
     public void Exit()
     {
-        foreach (GameObject item in m_Items)
+        if (this != null)
         {
-            item.SetActive(false);
-            Destroy(item);
+            foreach (GameObject item in m_Items)
+            {
+                item.gameObject.SetActive(false);
+                Destroy(item);
+            }
+            m_VideoPanel.SetActive(false);
+            m_Items.Clear();
         }
-        m_Items.Clear();
     }
 
     /// <summary>
@@ -335,6 +339,7 @@ public class VideoPlayerControl
         m_Player.targetTexture = m_Texture;
         m_RawImg.texture = m_Texture;
 
+        Debug.Log("Video Play");
         m_Player.Play();
     }
 

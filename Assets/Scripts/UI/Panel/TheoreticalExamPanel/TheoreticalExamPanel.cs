@@ -1,10 +1,17 @@
+using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static QuestionData;
+using UnityEngine.UI;
 
 public class TheoreticalExamPanel : BasePanel
 {
+    // 提交按钮
+    public Button m_Commit;
+
+    // 关闭按钮
+    public Button m_Close;
+
     // 内存池
     private PoolList<TheoreticalExamQuestion> m_Pool = new PoolList<TheoreticalExamQuestion>();
 
@@ -24,6 +31,9 @@ public class TheoreticalExamPanel : BasePanel
         base.Awake();
 
         m_Pool.AddListener(Instance);
+
+        m_Commit.onClick.AddListener(CommitQue);
+        m_Close.onClick.AddListener(Close);
     }
 
     /// <summary>
@@ -51,6 +61,54 @@ public class TheoreticalExamPanel : BasePanel
 
         TheoreticalExamQuestion teq = go.GetComponent<TheoreticalExamQuestion>();
         return teq;
+    }
+
+    /// <summary>
+    /// 提交试题
+    /// </summary>
+    public void CommitQue()
+    {
+        if (GlobalData.mode == Mode.Examination)
+        {
+            GlobalData.isFinishTheoreticalExam = true;
+            AllControlActive(false);
+            foreach (var item in m_quList)
+            {
+                float score; string user; int id;
+                (score, user, id) = item.GetExamBody();
+                AnswerDetailVoListItem body = new AnswerDetailVoListItem();
+                body.userScore = score.ToString();
+                body.userAnswer = user;
+                body.resourceId = id;
+                GlobalData.m_TheorExamBody.Add(body);
+            }
+            return;
+        }
+    }
+
+    public void AllControlActive(bool b)
+    {
+        // 关闭控件的 interactable (交互)
+        m_Commit.interactable = b;
+        foreach (var item in m_quList)
+        {
+            item.AllControlActive(b);
+        }
+    }
+
+    /// <summary>
+    /// 窗口关闭
+    /// </summary>
+    public void Close()
+    {
+        AllControlActive(true);
+        foreach (var item in m_quList)
+        {
+            item.Clear();
+            m_Pool.Destroy(item);
+        }
+        m_quList.Clear();
+        Active(false);
     }
 }
 
@@ -103,6 +161,7 @@ public class QuestionData
     /// <returns></returns>
     public static List<OptionData> GetOptions(string str)
     {
+        //Debug.Log(str);
         List<OptionData> result = new List<OptionData>();
         string[] list = str.Split('_');
         if (list.Length <= 0) return result;

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,6 +19,7 @@ public class VideoAction : BaseAction
         m_Panel = UITools.FindAssetPanel<VideoPanel>();
 
         m_Token = new CancellationTokenSource();
+        m_panelToken = new CancellationTokenSource();
     }
 
     public override async UniTask AsyncShow(string name)
@@ -43,11 +45,21 @@ public class VideoAction : BaseAction
 
         //m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
+        try
+        { 
+            await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false);
+        }
+        catch 
+        {
+
+        }
     }
 
 
-    public override void Exit()
+    public override void Exit(Action callback)
     {
+        base.Exit(callback);
+
         m_Token.Cancel();
         m_Token.Dispose();
         m_Token = new CancellationTokenSource();

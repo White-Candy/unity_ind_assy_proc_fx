@@ -25,7 +25,7 @@ public class AssessEvent : ModuleEvent
         // «@È¡¿¼ºËîÐÍ
         m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
         {
-            Debug.Log(dataServer);
+            //Debug.Log(dataServer);
             GlobalData.TaskListPanel.gameObject.SetActive(true);
             JsonData js_data = JsonMapper.ToObject(dataServer);
 
@@ -40,7 +40,7 @@ public class AssessEvent : ModuleEvent
                     GlobalData.examId = examID;
                     m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.startExam, (dataExam) =>
                     {
-                        Debug.Log(dataExam);
+                        //Debug.Log(dataExam);
                         ExamJsonData ex_js_data = JsonMapper.ToObject<ExamJsonData>(dataExam);
                         GlobalData.examData = ex_js_data;
                         GlobalData.TaskListPanel.gameObject.SetActive(false);

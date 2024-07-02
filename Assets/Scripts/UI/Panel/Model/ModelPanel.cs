@@ -63,4 +63,9 @@ public class ModelPanel : BasePanel
             m_DescriptionText.text = textAsset.text;
         }
     }
+
+    public void Exit()
+    {
+
+    }
 }

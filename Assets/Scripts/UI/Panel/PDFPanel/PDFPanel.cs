@@ -77,11 +77,15 @@ public class PDFPanel : BasePanel
 
     public void Exit()
     {
-        foreach (var item in m_Items)
+        if (this != null)
         {
-            item.gameObject.SetActive(false);
-            Destroy(item.gameObject);
+            //Debug.Log(m_Items.Count);
+            foreach (var item in m_Items)
+            {
+                item.gameObject.SetActive(false);
+                Destroy(item.gameObject);
+            }
+            m_Items.Clear();
         }
-        m_Items.Clear();
     }
 }

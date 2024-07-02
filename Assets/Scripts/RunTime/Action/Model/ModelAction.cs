@@ -3,6 +3,7 @@ using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -15,19 +16,46 @@ public class ModelAction : BaseAction
 
     private ModelMgr m_Mgr;
 
-    public override async UniTask AsyncShow(string name)
+    private GameObject m_currModel;
+
+    public ModelAction()
     {
         m_Panel = UITools.FindAssetPanel<ModelPanel>();
+
+        m_Token = new CancellationTokenSource();
+        m_panelToken = new CancellationTokenSource();
+    }
+
+    public override async UniTask AsyncShow(string name)
+    {
+        //m_Panel = UITools.FindAssetPanel<ModelPanel>();
         LoadModel();
         await UniTask.Yield();
         m_Panel.gameObject.SetActive(true);
+
+        try
+        { 
+            await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false);
+        }
+        catch 
+        {
+
+        }
     }
 
-    public override void Exit()
+    public override void Exit(Action callback)
     {
-        GameObject.Destroy(m_Panel);
-        GameObject.Destroy(m_Mgr.gameObject);
+        base.Exit(callback);
+
+        if (m_currModel != null)
+        {
+            GameObject.Destroy(m_currModel);
+        }
+        //GameObject.Destroy(m_Panel);
+        //GameObject.Destroy(m_Mgr);
         CameraMovementController.Instance.Clear();
+       
+        m_Panel.Active(false);
     }
 
     private async void LoadModel()
@@ -42,8 +70,8 @@ public class ModelAction : BaseAction
             GameObject go = handle.Result;
             if (go != null)
             {
-                GameObject model = GameObject.Instantiate(go);
-                ModelMgr mgr = model.AddComponent<ModelMgr>();
+                m_currModel = GameObject.Instantiate(go);
+                ModelMgr mgr = m_currModel.AddComponent<ModelMgr>();
                 m_Mgr = mgr;
                 m_PartNames = mgr.GetPartNameList();
 
@@ -53,7 +81,7 @@ public class ModelAction : BaseAction
                 m_Panel.transform.SetAsFirstSibling();
                 m_Panel.Active(true);
 
-                CameraMovementController.Instance.UpdateData(model.transform);
+                CameraMovementController.Instance.UpdateData(m_currModel.transform);
             }
         };
     }

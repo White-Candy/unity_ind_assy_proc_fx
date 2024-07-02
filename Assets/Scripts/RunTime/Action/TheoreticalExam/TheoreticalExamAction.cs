@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using sugar;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -17,6 +18,7 @@ public class TheoreticalExamAction : BaseAction
         m_Panel = UITools.FindAssetPanel<TheoreticalExamPanel>();
 
         m_Token = new CancellationTokenSource();
+        m_panelToken = new CancellationTokenSource();
     }
 
     public override async UniTask AsyncShow(string name) 
@@ -36,15 +38,24 @@ public class TheoreticalExamAction : BaseAction
                 {
                     m_Panel.Init(ConvertExam(child.softwareQuestionVos));
                     m_Init = true;
-                    await UniTask.WaitUntil(() => m_Init == true);
-
+                    await UniTask.WaitUntil(() => m_Init == true, PlayerLoopTiming.Update, m_Token.Token);
                     m_Panel.Active(true);
                     break;
                 }
             }
+            try
+            {
+                await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false, PlayerLoopTiming.Update, m_panelToken.Token);
+            }
+            catch { }
         }
     }
 
+    /// <summary>
+    /// 处理服务器的body信息到内存中
+    /// </summary>
+    /// <param name="items"></param>
+    /// <returns></returns>
     public List<QuestionData> ConvertExam(List<SoftwareQuestionVosItem> items)
     {
         List<QuestionData> qds = new List<QuestionData>();
@@ -58,11 +69,20 @@ public class TheoreticalExamAction : BaseAction
             q_data.type = (QuestionType)item.type - 1;
             q_data.text = item.body;
             q_data.answer = item.answer;
-            string opt = $"{item.choiceA}_{item.choiceB}_{item.choiceC}_{item.choiceD}_{item.choiceE}_{item.choliceF}";
+            string opt = string.Format($"{item.choiceA}_{item.choiceB}_{item.choiceC}_{item.choiceD}_{item.choiceE}_{item.choliceF}");
             q_data.options = QuestionData.GetOptions(opt);
             q_data.score = score;
             qds.Add(q_data);
         }
         return qds;
+    }
+
+    /// <summary>
+    /// 退出
+    /// </summary>
+    public override void Exit(Action callback)
+    {
+        base.Exit(callback);
+        m_Panel.Close();
     }
 }
