@@ -21,9 +21,9 @@ public class ConfigTemplate
     /// ∂¡»°≈‰÷√
     /// </summary>
     /// <param name="path"></param>
-    public void ReadXML(string path)
+    public async void ReadXML(string path)
     {
-        NetworkManager._Instance.DownLoadTextFromServer(path, (text) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(path, (text) =>
         {
             XDocument doc = XDocument.Parse(text);
             this.path = path;

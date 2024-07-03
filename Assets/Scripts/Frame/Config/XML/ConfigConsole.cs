@@ -26,13 +26,13 @@ public class ConfigConsole : Singleton<ConfigConsole>
         }
     }
 
-    public void LoadConfig(string root_path)
+    public async void LoadConfig(string root_path)
     {
         if (m_Loaded)
             return;
 
         // Web¶Ë×xÈ¡
-        NetworkManager._Instance.DownLoadTextFromServer(Tools.LocalPathEncode(Path.Combine(root_path, @"Config/Config.xml")), (text) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Tools.LocalPathEncode(Path.Combine(root_path, @"Config/Config.xml")), (text) =>
         {
             //Debug.Log("Config text: " + text);
             XDocument doc = XDocument.Parse(text);
