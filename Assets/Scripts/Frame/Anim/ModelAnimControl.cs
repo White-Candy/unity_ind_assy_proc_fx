@@ -30,7 +30,7 @@ public class ModelAnimControl : MonoBehaviour
 
     private Animator m_Animtor; // Animtor×é¼þ
 
-    private float totalScore = 0;
+    //private float totalScore = 0;
 
     public List<ConstrPtStep> m_ConPtStep = new List<ConstrPtStep>();
 

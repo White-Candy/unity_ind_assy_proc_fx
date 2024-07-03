@@ -96,6 +96,7 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
             m_currAction = Tools.CreateObject<BaseAction>(Tools.Escaping(name));
             m_Actions.Add(name, m_currAction);
         }
+        GlobalData.currItemMode = name;
         //Debug.Log("curraction init finish");
         await m_currAction.AsyncShow(name);
 

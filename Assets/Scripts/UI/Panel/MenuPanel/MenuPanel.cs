@@ -37,6 +37,14 @@ public class MenuPanel : BasePanel
 
     private GameObject currMeunList; //目前打开的菜单列表
 
+    public static MenuPanel _instance;
+
+    public override void Awake()
+    {
+        base.Awake();
+        _instance = this;
+    }
+
     private void Start()
     {
         BuildMenuList();
@@ -91,10 +99,9 @@ public class MenuPanel : BasePanel
         GlobalData.currModuleCode = target.modelCode.ToString();
         //GlobalData.currModuleName = target.modelName;
 
-        if (GlobalData.currModuleName == "训练")
+        if (GlobalData.isLoadModel)
         {
             await Tools.LoadSceneModel();
-            //SpawnTask();
             SetActiveMenuList(false);
         }
         else
@@ -113,19 +120,6 @@ public class MenuPanel : BasePanel
         }
         currMeunList = menu;
         currMeunList.SetActive(b);
-    }
-
-    // 拖拽控件的创建
-    private void SpawnTask()
-    {
-        DragTask task;
-        task = new DragTask();
-        if (!task.IsInit)
-        {
-            task.Init(GlobalData.stepStructs, transform.Find("Content/BG"));
-        }
-        task.Show();
-        SetActiveMenuList(false);
     }
 
     private void SetActiveMenuList(bool b)

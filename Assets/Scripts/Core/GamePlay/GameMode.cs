@@ -33,6 +33,9 @@ public class GameMode : Singleton<GameMode>
 
     private string currToolName = ""; // 玩家操作的的这个工具的名字
 
+    [HideInInspector]
+    public float m_Score; // 考核模式一个步骤的分数
+
     private void FixedUpdate()
     {
         StateMachine();

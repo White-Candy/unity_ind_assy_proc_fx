@@ -13,8 +13,11 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI m_StepText; // 步骤面板Text
     public TextMeshProUGUI m_Count; // 需要拖入工具数量
     public TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
+
     public GameObject m_Introduce; // 施工要点面板
     public GameObject m_StepPanel; // 步骤选择面板
+    public GameObject m_Hint; // 提示面板
+    public GameObject m_StepHint; // 步骤提示面板
 
     public static InfoPanel _instance;
 
@@ -71,5 +74,13 @@ public class InfoPanel : MonoBehaviour
     {
         bool b = m_StepPanel.gameObject.activeSelf;
         m_StepPanel.gameObject.SetActive(!b);
+    }
+
+    // 实训模式隐藏一些窗口
+    public void TrainingModeUIClose()
+    {
+        m_Audio.gameObject.SetActive(false);
+        m_StepHint.gameObject.SetActive(false);
+        m_Hint.gameObject.SetActive(false);
     }
 }
