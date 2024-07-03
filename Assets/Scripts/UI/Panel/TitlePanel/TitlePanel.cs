@@ -20,9 +20,11 @@ public class TitlePanel : BasePanel
 
     private void OnExitBtnClicked()
     {
-        if (GlobalData.currModuleName == "ÑµÁ·")
+        CameraControl.SetMain();
+        if (GlobalData.isLoadModel)
         {
             //Debug.Log("Exit: " + GlobalData.currModuleName);
+            CameraControl.SetMain();
             GlobalData.DestroyModel = true;
             GlobalData.StepIdx = 0;
         }

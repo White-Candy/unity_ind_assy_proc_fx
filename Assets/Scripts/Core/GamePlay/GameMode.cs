@@ -33,6 +33,9 @@ public class GameMode : Singleton<GameMode>
 
     private string currToolName = ""; // 玩家操作的的这个工具的名字
 
+    [HideInInspector]
+    public float m_Score; // 考核模式一个步骤的分数
+
     private void FixedUpdate()
     {
         StateMachine();
@@ -93,7 +96,7 @@ public class GameMode : Singleton<GameMode>
     /// 处理这一次 拖拽/点击的物体信息
     /// </summary>
     /// <param name="name"></param>
-    public void PerformThisStep()
+    public async void PerformThisStep()
     {
         if (m_ToolIdx < m_Tools.Count && currToolName == m_Tools[m_ToolIdx])
         {
@@ -103,7 +106,7 @@ public class GameMode : Singleton<GameMode>
             {
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
-                StartCoroutine(ModelAnimControl._Instance.PlayAnim(start, end));
+                await ModelAnimControl._Instance.PlayAnim(start, end);
             }
         }
     }
@@ -145,7 +148,7 @@ public class GameMode : Singleton<GameMode>
     }
 
     // 用户可以选择不同的步骤进行游戏
-    public void SetStep(int i)
+    public async void SetStep(int i)
     {
         //Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
         if (i >= 0 && i < GlobalData.stepStructs.Count)
@@ -156,7 +159,7 @@ public class GameMode : Singleton<GameMode>
             currToolName = "";
 
             float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
-            StartCoroutine(ModelAnimControl._Instance.Slice(frame, frame));
+            await ModelAnimControl._Instance.Slice(frame, frame);
             Prepare();
         }
     }

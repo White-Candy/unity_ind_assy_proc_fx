@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System.Collections;
@@ -29,7 +30,7 @@ public class ModelAnimControl : MonoBehaviour
 
     private Animator m_Animtor; // Animtor组件
 
-    private float totalScore = 0;
+    //private float totalScore = 0;
 
     public List<ConstrPtStep> m_ConPtStep = new List<ConstrPtStep>();
 
@@ -37,14 +38,16 @@ public class ModelAnimControl : MonoBehaviour
 
     private AnimState m_AnimState = AnimState.None; // 记录动画的播放状态
 
-    private void Awake()
+    private async void Awake()
     {
         _Instance = this;
         DontDestroyOnLoad(_Instance);
 
+        m_Animtor = GetComponent<Animator>();
+
         ModelName = GlobalData.ModelTarget.modelName;
         // 获取 xxx.json 中的 当前步骤_施工要点
-        NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + ModelName + ".json", (str) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + ModelName + ".json", (str) =>
         {
             //Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);
@@ -60,16 +63,14 @@ public class ModelAnimControl : MonoBehaviour
                 m_ConPtStep.Add(step);
             }
         });
-
-        m_Animtor = GetComponent<Animator>();
     }
 
-    private void Start()
+    private async void Start()
     {
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
         CameraControl.SetPlayer();
-        StartCoroutine(Slice(0f, 0f));
+        await Slice(0f, 0f);
     }
 
     void Update()
@@ -82,12 +83,12 @@ public class ModelAnimControl : MonoBehaviour
     }
 
 
-    public IEnumerator PlayAnim(float f_start, float f_end)
+    public async UniTask PlayAnim(float f_start, float f_end)
     {
         if (f_start == f_end)
         {
-            StartCoroutine(Slice(f_start, f_end));
-            yield break;
+            await Slice(f_start, f_end);
+            return;
         }
 
         // 切换到动画相机
@@ -97,8 +98,8 @@ public class ModelAnimControl : MonoBehaviour
         CameraControl.SetAnimation();
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
 
-        StartCoroutine(Slice(f_start, f_end));
-        yield return new WaitUntil( () => 
+        await Slice(f_start, f_end);
+        await UniTask.WaitUntil( () => 
         {
             return m_AnimState != AnimState.Playing;
         });
@@ -133,7 +134,7 @@ public class ModelAnimControl : MonoBehaviour
     }
 
     // 播放动画某一段帧的动画
-    public IEnumerator Slice(float f_start, float f_end)
+    public async UniTask Slice(float f_start, float f_end)
     {
         //Debug.Log("In Slice!");
         float start = f_start * (1 / 24.0f);
@@ -141,16 +142,16 @@ public class ModelAnimControl : MonoBehaviour
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
 
         Play();
-        yield return new WaitForSeconds(0.1f);
+        await UniTask.WaitForSeconds(0.1f);
 
         m_Animtor.PlayInFixedTime("Play", 0, start); // 从 start时间开始播放动画
         GoOn();
-        yield return new WaitForSeconds(animTime);
+        await UniTask.WaitForSeconds(animTime);
 
         //Debug.Log("Close ANim");
         // 播放完毕暂停动画
         Puase();
-        yield return null;
+        await UniTask.Yield();
     }
 
     /// <summary>

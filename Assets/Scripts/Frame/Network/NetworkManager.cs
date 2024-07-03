@@ -28,9 +28,9 @@ public class NetworkManager : MonoBehaviour
     /// </summary>
     /// <param name="url"></param>
     /// <param name="callback"></param>
-    public void DownLoadTextFromServer(string url, Action<string> callback)
+    public async UniTask DownLoadTextFromServer(string url, Action<string> callback)
     {
-        StartCoroutine(Utilly.DownLoadTextFromServer(url, callback));
+        await Utilly.DownLoadTextFromServer(url, callback);
     }
 
     /// <summary>

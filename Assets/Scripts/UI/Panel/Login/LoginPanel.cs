@@ -17,13 +17,13 @@ namespace sugar
         public Button m_Login;
         public Button m_Close;
 
-        private void Awake()
+        private async void Awake()
         {
-            StartCoroutine(Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
+            await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
             {
                 GlobalData.IP = content;
                 GlobalData.SetUrl(content, "8096");
-            }));
+            });
 
             if (m_Login != null)
             {

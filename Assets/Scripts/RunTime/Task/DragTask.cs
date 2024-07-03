@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public abstract class BaseTask
+public class DragTask
 {
     protected BaseAction currAction;
     protected string currTaskName;
@@ -15,11 +15,7 @@ public abstract class BaseTask
     protected SubMenuGrid m_SubMenuGridObj; // 显示工具的Layout
     protected Transform m_SubMenuGridParent;
 
-    public bool m_Drag = false;
-
     public bool IsInit { get; protected set; }
-
-    protected abstract void OnSubMenuBtnClicked(string name, int id);
 
     public virtual void Init(params object[] args)
     {
@@ -38,18 +34,10 @@ public abstract class BaseTask
     /// </summary>
     protected virtual void SpawnSubMenus()
     {
-        if (!m_Drag)
-        {
-            // TODO..
-        }
-        else
-        {
-            m_SubMenuGridObj = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/Control/SubMenuDragGrid"),
+        m_SubMenuGridObj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/UI/Control/SubMenuDragGrid"),
                 m_SubMenuGridParent).gameObject.transform.Find("Scroll View/Viewport/SubMenuDragGrid").GetComponent<SubMenuGrid>();
-            m_SubMenuGridObj.gameObject.transform.parent.SetSiblingIndex(1);
-            m_SubMenuGridObj.OnSubBtnClicked = OnSubMenuBtnClicked;
-            m_SubMenuGridObj.Init(m_SubMenuList, m_Drag);
-        }
+        m_SubMenuGridObj.gameObject.transform.parent.SetSiblingIndex(1);
+        m_SubMenuGridObj.Init(m_SubMenuList);
     }
 
     public virtual void Exit()

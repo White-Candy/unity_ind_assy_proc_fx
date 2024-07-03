@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,10 +15,10 @@ namespace sugar
         /// <param name="path_url"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public static IEnumerator DownLoadTextFromServer(string path_url, Action<string> callback = null)
+        public static async UniTask DownLoadTextFromServer(string path_url, Action<string> callback = null)
         {
             UnityWebRequest req = UnityWebRequest.Get(path_url);
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
 
             string content = req.downloadHandler.text;
 
