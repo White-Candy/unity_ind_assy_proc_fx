@@ -88,8 +88,10 @@ public class VideoPanel : BasePanel
                 item.gameObject.SetActive(false);
                 Destroy(item);
             }
-            m_VideoPanel.SetActive(false);
             m_Items.Clear();
+
+            Close();
+            m_VideoPanel.SetActive(false);
         }
     }
 
@@ -217,7 +219,7 @@ public class VideoControl
     public void Close()
     {
         m_Player.Stop();
-        SwitchPlayBtn(true);
+        SwitchPlayBtn(false);
     }
 
     // Ïú»Ù
@@ -307,7 +309,7 @@ public class VideoPlayerControl
 
         m_Player.url = url;
         m_Player.prepareCompleted += LoadVideoCompleted;
-        m_Player.Play();
+        m_Player.Prepare();
     }
 
     /// <summary>
@@ -384,6 +386,11 @@ public class VideoPlayerControl
     /// </summary>
     public void Stop()
     {
+        m_VideoWidth = 0;
+        m_VideoHeight = 0;
+        m_Player.prepareCompleted -= LoadVideoCompleted;
+
+        //Debug.Log("Video Stop");
         m_Player.Stop();
     }
 
@@ -423,10 +430,14 @@ public class VideoPlayerControl
     /// </summary>
     public void Destroy()
     {
+        Debug.Log("Video Destroy");
         if (m_Texture != null)
         {
             RenderTexture.ReleaseTemporary(m_Texture);
             m_Texture = null;
         }
+        m_Player.prepareCompleted -= LoadVideoCompleted;
+        m_VideoWidth = 0;
+        m_VideoHeight = 0;
     }
 }

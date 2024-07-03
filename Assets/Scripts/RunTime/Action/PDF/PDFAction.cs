@@ -50,7 +50,7 @@ public class PDFAction : BaseAction
         try
         { 
             await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false);
-            Debug.Log("await finish");
+            //Debug.Log("await finish");
         }
         catch { }
     }
