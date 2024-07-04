@@ -50,6 +50,8 @@ namespace sugar
         /// </summary>
         public static ExamJsonData examData;
 
+        public static Dictionary<string, int> codeVSidDic = new Dictionary<string, int>(); //模型Code值与资源ID的字典
+
         // 裏面存儲的是不同項目模式的名字和號碼
         //public static List<string[]> moduleContent = new List<string[]> { new string[] {"", "10022"} }; 
 
@@ -62,9 +64,11 @@ namespace sugar
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
 
+        public static float totalScore;
         public static bool isFinishTheoreticalExam; // 是否完成考核
         public static float theoreticalExamscore = 50f; // 理论考核满分是50分
         public static float trainingExamscore = 50f; // 实训考核满分是50分
         public static List<AnswerDetailVoListItem> m_TheorExamBody = new List<AnswerDetailVoListItem>(); // 理论考核结束时的内容
+        public static List<AnswerDetailVoListItem> m_RealExamBody = new List<AnswerDetailVoListItem>(); // 实训考核结束时的内容
     }
 }

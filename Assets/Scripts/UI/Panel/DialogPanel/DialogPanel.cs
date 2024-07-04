@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static EPOOutline.TargetStateListener;
 //using UnityEngine.UIElements;
 
 public class DialogPanel : BasePanel
@@ -163,14 +164,14 @@ public class DialogPanel : BasePanel
         DialogPanel panel = UITools.FindAssetPanel<DialogPanel>();
         if (panel != null)
         {
-            panel.UpdateData(title, info, new ButtonData("确定", callback), new ButtonData("取消", callback));
+            panel.UpdateData(title, info, new ButtonData("确定", callback), new ButtonData("取消", () => { panel.Active(false); }));
             panel.Active(true);
         }
         else
         {
             Debug.LogError("对话框面板不存在");
         }
-    } 
+    }
 }
 
 public class ButtonData

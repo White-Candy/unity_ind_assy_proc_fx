@@ -1,3 +1,4 @@
+using LitJson;
 using sugar;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,21 +24,57 @@ public class TitlePanel : BasePanel
         //CameraControl.SetMain();
         if (GlobalData.isLoadModel)
         {
-            //Debug.Log("Exit: " + GlobalData.currModuleName);
-            //CameraControl.SetMain();
-            GlobalData.DestroyModel = true;
-            GlobalData.StepIdx = 0;
-        }
+            if (GlobalData.mode == Mode.Examination)
+            {
+                UITools.OpenDialog("", "是否退出考核模式，退出时将提交成绩", async () =>
+                {
+                    SubmitExamInfoData submitExamInfo = new SubmitExamInfoData();
+                    submitExamInfo.examSerializeId = GlobalData.examData.data.examSerializeId;
 
-        if (GlobalData.mode == Mode.Examination)
-        {
-            // TODO..考核模式下退出提交成績
-            UITools.Loading("Menu");
-            GlobalData.currentExamIsFinish = true;
+                    List<UserExamDetailVoListItem> ExamDetailLists = new List<UserExamDetailVoListItem>();
+
+                    // 理论考核封装
+                    UserExamDetailVoListItem TheorExamDetailItem = new UserExamDetailVoListItem();
+                    TheorExamDetailItem.type = 1;
+                    TheorExamDetailItem.answerDetailVoList = GlobalData.m_TheorExamBody;
+                    ExamDetailLists.Add(TheorExamDetailItem);
+
+                    // 实训考核封装
+                    UserExamDetailVoListItem RealExamDetailItem = new UserExamDetailVoListItem();
+                    RealExamDetailItem.type = 2;
+                    RealExamDetailItem.answerDetailVoList = GlobalData.m_RealExamBody;
+                    ExamDetailLists.Add(RealExamDetailItem);
+
+                    submitExamInfo.userExamDetailVoList = ExamDetailLists;
+                    string json = JsonMapper.ToJson(submitExamInfo);
+
+                    // Debug.Log(json);
+                    // Debug.Log("------" + URL.submitExamInfo);//StaticData.token
+                    // Debug.Log("------" + GlobalData.token);
+
+                    await Client.Instance.m_Server.Post(URL.submitExamInfo, json, (data) =>
+                    {
+                        Debug.Log(data);
+                    });
+
+                    GlobalData.DestroyModel = true;
+                    GlobalData.StepIdx = 0;
+                    GlobalData.totalScore = 0f;
+                    GlobalData.currentExamIsFinish = true;
+
+                    UITools.Loading("Menu");
+                });
+            }
+            else
+            {
+                GlobalData.DestroyModel = true;
+                GlobalData.StepIdx = 0;
+            }           
         }
         else
         {
             UITools.Loading("Menu");
         }
+
     }
 }

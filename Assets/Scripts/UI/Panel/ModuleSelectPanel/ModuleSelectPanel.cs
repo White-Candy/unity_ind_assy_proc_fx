@@ -19,8 +19,6 @@ public class ModuleSelectPanel : BasePanel
 
     private ConfigModuleList m_configModuleList; // 選擇界面中有那些模式都在這個裏面保存
 
-    
-
     public override void Awake()
     {
         base.Awake();

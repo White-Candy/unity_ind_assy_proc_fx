@@ -28,14 +28,14 @@ public class Client : Singleton<Client>
     /// <param name="path"></param>
     /// <param name="username"></param>
     /// <param name="password"></param>
-    public void Login(string path, string username, string password)
+    public async void Login(string path, string username, string password)
     {
         LoginData login_data = new LoginData();
         login_data.username = username;
         login_data.password = password;
         string json = LitJson.JsonMapper.ToJson(login_data);
 
-        StartCoroutine(m_Server.Post(path, json, (body) =>
+        await m_Server.Post(path, json, (body) =>
         {
             // Debug.Log(body);
             JsonData data = JsonMapper.ToObject(body);
@@ -45,6 +45,6 @@ public class Client : Singleton<Client>
             PlayerPrefs.SetString("password", password);
 
             UITools.Loading("Menu");
-        }));
+        });
     }
 }

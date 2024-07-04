@@ -1811,6 +1811,8 @@ MonoBehaviour:
   m_IntroduceText: {fileID: 0}
   m_Introduce: {fileID: 7052060260634030432}
   m_StepPanel: {fileID: 3559985748541329626}
+  m_Hint: {fileID: 807109124819305003}
+  m_StepHint: {fileID: 7052060262201915079}
 --- !u!1 &7052060262201915079
 GameObject:
   m_ObjectHideFlags: 0

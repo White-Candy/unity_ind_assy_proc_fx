@@ -23,6 +23,13 @@ public class TrainingAction : BaseAction
         MenuPanel._instance.Active(false);
         GlobalData.mode = Mode.Examination;
 
+        GlobalData.codeVSidDic.Clear();
+        foreach (var child in GlobalData.examData.data.softwareInfoVo.child)
+        {
+            Debug.Log("当前的CODE = " + child.code + "       当前资源ID为 = " + child.softwareId + "       当前的资源名称为 = " + child.softwareName);
+            GlobalData.codeVSidDic.Add(child.code, child.softwareId);
+        }
+
         try
         {
             await UniTask.WaitUntil(() => isFinsh == true);
