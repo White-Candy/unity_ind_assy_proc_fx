@@ -47,8 +47,8 @@ public class PoolList<T> where T : Component
     /// </summary>
     /// <param name="t"></param>
     public void Destroy(T t)
-    {
-        if (m_List.Count < m_MaxSize)
+    {      
+        if (m_List.Count < m_MaxSize && t != null)
         {
             t.gameObject.SetActive(false);
             t.gameObject.name = "unactive";

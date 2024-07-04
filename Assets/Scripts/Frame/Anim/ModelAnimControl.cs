@@ -106,7 +106,7 @@ public class ModelAnimControl : MonoBehaviour
 
         CameraControl.SetPlayer(); // 切换回 Player相机。
         canvas.SetActive(true);
-        GameMode.Instance.NextStep();
+        GameMode.Instance.NextStep(); // 播放结束 开始下一步
     }
 
     public void Play()

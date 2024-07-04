@@ -31,4 +31,10 @@ public class URL
     {
         get { return ROOT_API + $"startExam?examId={GlobalData.examId}"; }
     }
+
+    // øº ‘Ã·Ωª
+    public static string submitExamInfo
+    {
+        get { return ROOT_API + "submitExamInfo"; }
+    }
 }

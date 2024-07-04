@@ -203,7 +203,7 @@ public static class Tools
             if (GlobalData.mode == Mode.Examination)
             {
                 GameMode.Instance.m_Score = GlobalData.trainingExamscore / GlobalData.stepStructs.Count;
-                Debug.Log("สตัตฃบ " + GameMode.Instance.m_Score);
+                //Debug.Log("สตัตฃบ " + GameMode.Instance.m_Score);
             }
 
             InfoPanel._instance.gameObject.SetActive(true);

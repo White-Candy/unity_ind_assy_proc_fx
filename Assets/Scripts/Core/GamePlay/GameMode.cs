@@ -41,6 +41,16 @@ public class GameMode : Singleton<GameMode>
         StateMachine();
     }
 
+    private void OnEnable()
+    {
+        UnityEventCenter.AddListener(EnumDefine.EventKey.NotificationCallback, UpdateRealBody);
+    }
+
+    private void OnDisable()
+    {
+        UnityEventCenter.RemoveEventLister(EnumDefine.EventKey.NotificationCallback);
+    }
+
     private void StateMachine()
     {
         if (m_State == GameState.Prepare && m_Tools.Count > 0)
@@ -104,9 +114,10 @@ public class GameMode : Singleton<GameMode>
             currToolName = "";
             if (m_ToolIdx >= m_Tools.Count)
             {
+                GlobalData.totalScore += m_Score;
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
-                await ModelAnimControl._Instance.PlayAnim(start, end);
+                await ModelAnimControl._Instance.PlayAnim(start, end); // 播放这次流程步骤的动画
             }
         }
     }
@@ -140,6 +151,7 @@ public class GameMode : Singleton<GameMode>
 
     public void NextStep()
     {
+        UnityEventCenter.DistributeEvent(EnumDefine.EventKey.NotificationCallback, null); // 更新一下实训考核成绩body内存内容
         if (GlobalData.StepIdx + 1 < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx++;
@@ -168,5 +180,17 @@ public class GameMode : Singleton<GameMode>
     public string NumberOfToolsRemaining()
     {
         return (m_Tools.Count - m_ToolIdx).ToString();
+    }
+
+    private void UpdateRealBody(IMessage msg)
+    {
+        List<AnswerDetailVoListItem> realList = new List<AnswerDetailVoListItem>();
+
+        AnswerDetailVoListItem avi = new AnswerDetailVoListItem();
+        avi.resourceId = GlobalData.codeVSidDic[GlobalData.currModuleCode];
+        avi.userScore = GlobalData.totalScore.ToString();
+        realList.Add(avi);
+
+        GlobalData.m_RealExamBody = realList;
     }
 }

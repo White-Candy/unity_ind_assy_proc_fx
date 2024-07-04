@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using LitJson;
+using Cysharp.Threading.Tasks;
 
 public class Server : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Server : MonoBehaviour
     /// <param name="body"></param>
     /// <param name="callback"></param>
     /// <returns></returns>
-    public IEnumerator Post(string url, string body, Action<string> callback)
+    public async UniTask Post(string url, string body, Action<string> callback)
     {
         //Debug.Log("Body: " + body);
         byte[] bytes = null;
@@ -37,12 +38,12 @@ public class Server : MonoBehaviour
             req.uploadHandler = new UploadHandlerRaw(bytes);
             req.SetRequestHeader("Content-Type", "application/json;charset=utf8");
 
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
             if (req.error == null) 
             { 
                 while(!req.isDone)
                 {
-                    yield return new WaitForEndOfFrame();
+                    await UniTask.Yield();
                 }
 
                 JsonData data = JsonMapper.ToObject(req.downloadHandler.text);
