@@ -9,7 +9,7 @@ using UnityEngine.UI;
 // 点击考核按钮的事件
 public class AssessEvent : ModuleEvent
 {
-    public override void OnEvent(params object[] args)
+    public override async void OnEvent(params object[] args)
     {
         base.OnEvent(args);
         //Debug.Log("Assess Event!");
@@ -23,7 +23,7 @@ public class AssessEvent : ModuleEvent
         }
 
         // 獲取考核類型
-        m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
+        await Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
         {
             //Debug.Log(dataServer);
             GlobalData.TaskListPanel.gameObject.SetActive(true);
@@ -35,10 +35,10 @@ public class AssessEvent : ModuleEvent
                 item.gameObject.SetActive(true);
                 int examID = int.Parse(js_data["data"][i]["examId"].ToString());
                 item.GetComponentInChildren<TextMeshProUGUI>().text = js_data["data"][i]["examName"].ToString();
-                item.onClick.AddListener(() =>
+                item.onClick.AddListener(async () =>
                 {
                     GlobalData.examId = examID;
-                    m_mono.StartCoroutine(Client.Instance.m_Server.Get_SetHeader(URL.startExam, (dataExam) =>
+                    await Client.Instance.m_Server.Get_SetHeader(URL.startExam, (dataExam) =>
                     {
                         //Debug.Log(dataExam);
                         ExamJsonData ex_js_data = JsonMapper.ToObject<ExamJsonData>(dataExam);
@@ -46,9 +46,9 @@ public class AssessEvent : ModuleEvent
                         GlobalData.TaskListPanel.gameObject.SetActive(false);
 
                         SwitchSceneAccName(m_Name);
-                    }));
+                    });
                 });
             }
-        }));
+        });
     }
 }

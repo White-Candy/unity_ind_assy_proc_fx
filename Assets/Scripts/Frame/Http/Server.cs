@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using LitJson;
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class Server : MonoBehaviour
 {
@@ -71,13 +72,13 @@ public class Server : MonoBehaviour
         }
     }
 
-    public IEnumerator Get_SetHeader(string url, Action<string> callback)
+    public async UniTask Get_SetHeader(string url, Action<string> callback)
     {
         using (UnityWebRequest req = UnityWebRequest.Get(url))
         {
             //Debug.Log($"AuthorizationBearer {GlobalData.token}");
             req.SetRequestHeader("Authorization", $"Bearer {GlobalData.token}");
-            yield return req.SendWebRequest();
+            await req.SendWebRequest();
 
             if (req.error != null)
             {
@@ -86,7 +87,7 @@ public class Server : MonoBehaviour
 
             while (!req.isDone)
             {
-                yield return null;
+                await UniTask.Yield();
             }
 
             if (callback != null)

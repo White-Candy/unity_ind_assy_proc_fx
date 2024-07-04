@@ -22,7 +22,7 @@ public class TitlePanel : BasePanel
     private void OnExitBtnClicked()
     {
         //CameraControl.SetMain();
-        if (GlobalData.isLoadModel)
+        if (GlobalData.isCommit)
         {
             if (GlobalData.mode == Mode.Examination)
             {
@@ -52,17 +52,27 @@ public class TitlePanel : BasePanel
                     // Debug.Log("------" + URL.submitExamInfo);//StaticData.token
                     // Debug.Log("------" + GlobalData.token);
 
+                    string commit_msg = "";
+                    // 请求提交成绩
                     await Client.Instance.m_Server.Post(URL.submitExamInfo, json, (data) =>
                     {
-                        Debug.Log(data);
+                        JsonData js_data = JsonMapper.ToObject<JsonData>(data);
+                        commit_msg = js_data["code"].ToString();
                     });
 
-                    GlobalData.DestroyModel = true;
-                    GlobalData.StepIdx = 0;
-                    GlobalData.totalScore = 0f;
-                    GlobalData.currentExamIsFinish = true;
+                    if (commit_msg == "200")
+                    {
+                        // Debug.Log(URL.endExam);
+                        await Client.Instance.m_Server.Post(URL.endExam, json, (data) => 
+                        {
+                            GlobalData.DestroyModel = true;
+                            GlobalData.StepIdx = 0;
+                            GlobalData.totalScore = 0f;
+                            GlobalData.currentExamIsFinish = true;
 
-                    UITools.Loading("Menu");
+                            UITools.Loading("Menu");
+                        });
+                    }
                 });
             }
             else
