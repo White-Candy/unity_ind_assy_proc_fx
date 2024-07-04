@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System;
 using System.Collections;
@@ -48,7 +49,7 @@ public class ModuleEvent
     /// </summary>
     /// <param name="module_name"></param>
     /// <param name="args"></param>
-    public virtual void OnEvent(params object[] args) { }
+    public virtual async void OnEvent(params object[] args) { await UniTask.Yield(); }
 
     public virtual void SwitchSceneAccName(string module_name)
     {

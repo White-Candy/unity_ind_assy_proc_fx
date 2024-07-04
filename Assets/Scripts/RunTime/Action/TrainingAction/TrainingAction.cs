@@ -26,7 +26,7 @@ public class TrainingAction : BaseAction
         GlobalData.codeVSidDic.Clear();
         foreach (var child in GlobalData.examData.data.softwareInfoVo.child)
         {
-            Debug.Log("当前的CODE = " + child.code + "       当前资源ID为 = " + child.softwareId + "       当前的资源名称为 = " + child.softwareName);
+            // Debug.Log("当前的CODE = " + child.code + "       当前资源ID为 = " + child.softwareId + "       当前的资源名称为 = " + child.softwareName);
             GlobalData.codeVSidDic.Add(child.code, child.softwareId);
         }
 

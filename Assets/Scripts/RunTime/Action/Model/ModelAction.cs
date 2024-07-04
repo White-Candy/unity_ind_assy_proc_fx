@@ -45,16 +45,16 @@ public class ModelAction : BaseAction
 
     public override void Exit(Action callback)
     {
+        Debug.Log("Model Exit");
         base.Exit(callback);
 
         if (m_currModel != null)
         {
             GameObject.Destroy(m_currModel);
         }
-        //GameObject.Destroy(m_Panel);
-        //GameObject.Destroy(m_Mgr);
-        CameraMovementController.Instance.Clear();
-       
+        // GameObject.Destroy(m_Panel);
+        // GameObject.Destroy(m_Mgr);
+        //CameraMovementController.Instance.Clear();
         m_Panel.Active(false);
     }
 

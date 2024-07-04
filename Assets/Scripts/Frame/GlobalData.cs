@@ -59,6 +59,7 @@ namespace sugar
 
         public static string currItemMode; // 子模式
         public static bool isLoadModel { get { return (currModuleName == "训练") || (currItemMode == "实操" && currModuleName == "考核"); } } // 模型加载的条件
+        public static bool isCommit { get { return (currModuleName == "考核"); } } // 点击右方按钮是否触发提交窗口
         public static bool DestroyModel = false; // 训练模式退出销毁模型，重置相机
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息

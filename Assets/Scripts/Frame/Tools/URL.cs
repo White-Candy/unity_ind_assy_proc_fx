@@ -37,4 +37,10 @@ public class URL
     {
         get { return ROOT_API + "submitExamInfo"; }
     }
+
+    // øº ‘Ω· ¯«Î«Û
+    public static string endExam
+    {
+        get { return ROOT_API + $"endExam?examSerializeId={GlobalData.examData.data.examSerializeId}"; }
+    }
 }
