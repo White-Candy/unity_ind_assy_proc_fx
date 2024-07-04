@@ -430,7 +430,7 @@ public class VideoPlayerControl
     /// </summary>
     public void Destroy()
     {
-        Debug.Log("Video Destroy");
+        // Debug.Log("Video Destroy");
         if (m_Texture != null)
         {
             RenderTexture.ReleaseTemporary(m_Texture);

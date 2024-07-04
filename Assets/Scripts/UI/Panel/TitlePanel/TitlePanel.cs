@@ -22,9 +22,9 @@ public class TitlePanel : BasePanel
     private void OnExitBtnClicked()
     {
         //CameraControl.SetMain();
-        if (GlobalData.isCommit)
+        if (GlobalData.isLoadModel)
         {
-            if (GlobalData.mode == Mode.Examination)
+            if (GlobalData.isCommit && GlobalData.mode == Mode.Examination)
             {
                 UITools.OpenDialog("", "是否退出考核模式，退出时将提交成绩", async () =>
                 {
@@ -79,6 +79,7 @@ public class TitlePanel : BasePanel
             {
                 GlobalData.DestroyModel = true;
                 GlobalData.StepIdx = 0;
+                UITools.Loading("Menu");
             }           
         }
         else
