@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -37,15 +39,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     public void OnBeginDrag(PointerEventData eventdata)
     {
         //Debug.Log("OnBeginDrag: " + m_Name);
-        if (m_ItemModel == null)
-        {
-            if (Camera.main == null) return;
-            string path = "Prefabs/Model/" + GlobalData.ModelTarget.modelName + "/" + m_Name;
-            //Debug.Log(path);
-            m_ItemModel = Instantiate(Resources.Load<GameObject>(path));
-            m_ItemModel.name = m_Name;
-            //Debug.Log("m_ItemModel: " + m_ItemModel.name);
-        }
+        LoadModelAsync();
     }
 
     /// <summary>
@@ -83,5 +77,20 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             }         
             Destroy(m_ItemModel);
         }           
+    }
+
+    /// <summary>
+    /// 将模型异步加载到场景中
+    /// </summary>
+    public async void LoadModelAsync()
+    {
+        if (m_ItemModel == null)
+        {
+            if (Camera.main == null) return;
+            var go = await Addressables.LoadAssetAsync<GameObject>(m_Name);
+            m_ItemModel = Instantiate(go);
+            m_ItemModel.name = m_Name;
+            //Debug.Log("m_ItemModel: " + m_ItemModel.name);
+        }
     }
 }
