@@ -65,6 +65,7 @@ public class CameraMovementController : Singleton<CameraMovementController>
             return;
         if (Input.GetMouseButton(1))
         {
+            CursorActive(false);
             m_Yaw += Input.GetAxis("Mouse X") * Time.deltaTime * m_RotateSpeed;
             m_Pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * m_RotateSpeed;
             
@@ -72,7 +73,8 @@ public class CameraMovementController : Singleton<CameraMovementController>
             m_Yaw = ClampAngle(m_Yaw, m_MinYawAngle, m_MaxYawAngle);
             m_IdleTime = 0f;
         }
-        
+        else if (Input.GetMouseButtonUp(1)) { CursorActive(true); }
+
         if (isAutoRotate)
         {
             m_IdleTime += Time.deltaTime;
@@ -90,6 +92,12 @@ public class CameraMovementController : Singleton<CameraMovementController>
         m_CameraFov -= Input.GetAxis("Mouse ScrollWheel") * m_ZoomSpeed;
         m_CameraFov =  Mathf.Clamp(m_CameraFov, m_MinFov, m_MaxFov);
         m_Camera.fieldOfView = Mathf.Lerp(m_Camera.fieldOfView, m_CameraFov, m_ZoomSmooth * Time.deltaTime);
+    }
+
+    private void CursorActive(bool b)
+    {
+        Cursor.visible = b;
+        Cursor.lockState = b ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     public void UpdateData(Transform target = null)
