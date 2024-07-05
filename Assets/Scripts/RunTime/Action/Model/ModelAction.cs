@@ -45,16 +45,17 @@ public class ModelAction : BaseAction
 
     public override void Exit(Action callback)
     {
-        Debug.Log("Model Exit");
+        // Debug.Log("Model Exit");
         base.Exit(callback);
 
-        if (m_currModel != null)
+        if (m_currModel)
         {
             GameObject.Destroy(m_currModel);
         }
         // GameObject.Destroy(m_Panel);
         // GameObject.Destroy(m_Mgr);
         //CameraMovementController.Instance.Clear();
+        m_Panel.Exit();
         m_Panel.Active(false);
     }
 
@@ -75,7 +76,7 @@ public class ModelAction : BaseAction
                 m_Mgr = mgr;
                 m_PartNames = mgr.GetPartNameList();
 
-                m_Panel.onClickPart = OnClickPart;
+                m_Panel.onClick = OnClickPart;
                 m_Panel.onClickRevert = onClickRevert;
                 m_Panel.Init(m_PartNames);
                 m_Panel.transform.SetAsFirstSibling();

@@ -29,4 +29,5 @@ public class FPath
     public static string PictureSuffix { get { return $"/Picture"; } }
     public static string AnimSuffix { get { return $"/Animation"; } }
     public static string VideoSuffix { get { return $"/Video"; } }
+    public static string ModelSuffix { get { return $"/Model/Config.txt"; } }
 }

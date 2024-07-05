@@ -13,17 +13,21 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public static class Tools
 {
     // 中转英字典
-    public static Dictionary<string, string> EscDic = new Dictionary<string, string>{ { @"教学", "TeachingEvent"}, {@"训练", "TrainEvent"},
+    public static Dictionary<string, string> EscDic = new Dictionary<string, string>
+    { 
+        { @"教学", "TeachingEvent"}, {@"训练", "TrainEvent"},
         {@"考核", "AssessEvent"}, 
-     {@"教案", "PDFAction"}, {@"图纸", "PDFAction"},{@"方案", "PDFAction"},{@"规范", "PDFAction"}, {@"图片", "PictureAction"}, 
-     {@"动画", "VideoAction"},{@"视频", "VideoAction"}, {@"构造", "ModelAction"}, {@"理论", "TheoreticalExamAction"}, {@"实操", "TrainingAction"} };
+        {@"教案", "PDFAction"}, {@"图纸", "PDFAction"}, {@"方案", "PDFAction"}, {@"规范", "PDFAction"}, {@"图片", "PictureAction"}, 
+        {@"动画", "VideoAction"}, {@"视频", "VideoAction"}, {@"构造", "ModelAction"}, {@"理论", "TheoreticalExamAction"}, {@"实操", "TrainingAction"},
+        {@"建材", "DisplayAction"}
+    };
 
     // 不同子模式对应不同的文件路径
     // (没有写在里面的子模式，要么是网络获取，要么是从Addressabels中获取)
     private static Dictionary<string, string> FileDic = new Dictionary<string, string> 
     {
         {@"教案", FPath.JiaoAnSuffix}, {@"图纸", FPath.TuZhiSuffix}, {@"方案", FPath.FangAnSuffix}, {@"规范", FPath.GuiFanSuffix},
-        {@"图片", FPath.PictureSuffix}, {@"动画", FPath.AnimSuffix}, {@"视频", FPath.VideoSuffix}
+        {@"图片", FPath.PictureSuffix}, {@"动画", FPath.AnimSuffix}, {@"视频", FPath.VideoSuffix}, {@"建材", FPath.ModelSuffix}
     };
 
     public static bool CheckMessageSuccess(int code)

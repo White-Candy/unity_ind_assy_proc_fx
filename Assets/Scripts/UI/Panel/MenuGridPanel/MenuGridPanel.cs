@@ -70,16 +70,14 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
 
     public async void MenuItemClick(string name)
     {
-        if (m_currActName == name)
-        {
-            //Debug.Log($"重复点击:{name}");
-            return;
-        }
-
         if (m_currAction != null)
         {
             //Debug.Log("m_currAction不是空");
-            m_currAction.Exit(() => { });
+            m_currAction.Exit(() => 
+            {
+                m_currActName = "";
+                m_currAction = null;
+            });
         }
 
         await UniTask.WaitUntil(() => m_currActName == "" && m_currAction == null);
@@ -99,16 +97,5 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
         GlobalData.currItemMode = name;
         //Debug.Log("curraction init finish");
         await m_currAction.AsyncShow(name);
-
-        // 因为AsyncShow的特点是，窗口退出才会await结束...
-        // 所以到这里了任务窗口已经退出了，那么我们应该让m_currActName清空
-        // 写这个主要是为了解决 考核模式理论考试窗口，点击关闭按钮关闭窗口，然后点击item可以再次打开理论考核窗口这个功能
-        // 因为按照上面所写，关闭理论窗口，因为currActName还是理论窗口的name，所以不能再次打开
-        // 后来的开发者，如果你有更好的办法解决这个问题，请便..
-        m_currAction.Exit(() => 
-        {
-            m_currActName = "";
-            m_currAction = null;
-        });
     }
 }

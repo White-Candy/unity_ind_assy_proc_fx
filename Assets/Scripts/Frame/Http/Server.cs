@@ -41,7 +41,8 @@ public class Server : MonoBehaviour
 
             await req.SendWebRequest();
             if (req.error == null) 
-            { 
+            {
+                // Debug.Log("服务器链接成功");
                 while(!req.isDone)
                 {
                     await UniTask.Yield();
@@ -68,6 +69,11 @@ public class Server : MonoBehaviour
                         Debug.Log(e);
                     }
                 }
+            }
+            else
+            {
+                // Debug.Log("无法与服务器建立连接");
+                UITools.ShowMessage("无法与服务器建立连接，请联系后台管理员");
             }
         }
     }

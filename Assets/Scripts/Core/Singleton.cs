@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// MonoBehaviour约束类
+/// 生成实例模板
 /// </summary>
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {

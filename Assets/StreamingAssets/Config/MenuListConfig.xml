@@ -10,6 +10,7 @@
 		<SubMenuItems SubMenuName="方案" Enum="5"/>
 		<SubMenuItems SubMenuName="规范" Enum="6"/>
 		<SubMenuItems SubMenuName="构造" Enum="7"/>
+		<SubMenuItems SubMenuName="建材" Enum="8"/>
 	</Item>
 	<Item MenuName="训练">
 		<SubMenuItems SubMenuName="juanlianmen" Enum="10001"/>
