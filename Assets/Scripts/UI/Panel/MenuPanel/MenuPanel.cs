@@ -15,6 +15,8 @@ public struct StepStruct
     public List<string> tools; // 工具
     public string stepName; // 步骤名称
     public List<string> animLimite; // 该步骤的动画帧数范围
+    public Transform arrowTrans; // 箭头预制体每个步骤的位置
+    public AudioClip clip; // 每个步骤的声音提示
 }
 
 

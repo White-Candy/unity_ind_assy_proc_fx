@@ -56,11 +56,12 @@ public class DisplayAction : BaseAction
         }
 
         m_Panel.onClick = OnClickToolItem;
+        OnClickToolItem(m_ModelHandles.First().Key); // 默认出现第一个模型
+
         m_Panel.Init(m_ModelName, DisPlayType.DISPLAY);
         m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
 
-        OnClickToolItem(m_ModelHandles.First().Key);
 
         try
         {
