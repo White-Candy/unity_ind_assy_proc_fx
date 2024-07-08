@@ -80,6 +80,13 @@ public class ModelAnimControl : MonoBehaviour
             DataRecycling();
             GlobalData.DestroyModel = false;
         }
+
+        // TODO..后面要改成异步
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Space!!");
+            m_Animtor.speed = m_Animtor.speed == 0f ? 1f : 0f;
+        }
     }
 
 

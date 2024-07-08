@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 972267941}
     m_Modifications:
+    - target: {fileID: 2944190929545412099, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3506120121107240897, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -226,6 +230,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7052060261358784489, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7052060261871998604, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -315,6 +323,10 @@ PrefabInstance:
       value: InfoPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7052060261871998605, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7052060262201915079, guid: f4ea04348d4c26b44a3d6d154ce10d31, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

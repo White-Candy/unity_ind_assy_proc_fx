@@ -180,18 +180,18 @@ public static class Tools
             {
                 StepStruct step_st = new StepStruct();
                 string[] field = step[i].ToString().Split("_");
-                if (field.Length == 4)
+                if (field.Length == 3)
                 {
-                    step_st.method = field[0];
-                    step_st.tools = new List<string>(field[1].Split("|"));
-                    step_st.stepName = field[2];
-                    step_st.animLimite = new List<string>(field[3].Split("~"));
+                    // step_st.method = field[0];
+                    step_st.tools = new List<string>(field[0].Split("|"));
+                    step_st.stepName = field[1];
+                    step_st.animLimite = new List<string>(field[2].Split("~"));
                 }
                 else
                 {
                     step_st.tools = new List<string>(field[0].Split("|"));
-                    step_st.stepName = field[1];
-                    step_st.animLimite = new List<string>(field[2].Split("~"));
+                    // step_st.stepName = field[1];
+                    step_st.animLimite = new List<string>(field[1].Split("~"));
                 }
                 list.Add(step_st);
             }

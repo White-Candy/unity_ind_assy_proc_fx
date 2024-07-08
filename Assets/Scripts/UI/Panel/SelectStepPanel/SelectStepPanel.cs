@@ -1,6 +1,7 @@
 using sugar;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ public class SelectStepPanel : BasePanel
 
     private void Start()
     {
-        this.gameObject.SetActive(false);
+        // this.gameObject.SetActive(false);
         //m_Parent = transform.Find("Content");
     }
 
@@ -37,6 +38,8 @@ public class SelectStepPanel : BasePanel
 
         for (int i = 0; i < GlobalData.stepStructs.Count; ++i)
         {
+            if (!check(GlobalData.stepStructs[i].stepName)) continue;
+
             Button clone = Instantiate(m_Item, m_Parent);
             clone.GetComponentInChildren<TextMeshProUGUI>().text = GlobalData.stepStructs[i].stepName;
             int id = i;
@@ -49,5 +52,10 @@ public class SelectStepPanel : BasePanel
 
             clone.gameObject.SetActive(true);
         }
+    }
+
+    private bool check(string txt)
+    {
+        return !string.IsNullOrEmpty(txt) && txt.Count() > 0;
     }
 }

@@ -10,7 +10,7 @@ public class EnumDefine
     public enum EventKey
     {
         NotificationCallback,
-        SetGZRZCameraTarget,//设置构造认知摄像机目标
-        DataRecycling,//数据回收
+        SetGZRZCameraTarget, //设置构造认知摄像机目标
+        DataRecycling, //数据回收
     }
 }

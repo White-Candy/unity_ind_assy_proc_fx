@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,7 +23,7 @@ public enum GameState // 目前这一步的状态
 public class GameMode : Singleton<GameMode>
 {
     public GameObject m_Arrow; // 箭头[用来识别工具是否正确的]
-
+    private List<GameObject> m_arrowTrans = new List<GameObject>(); // 箭头不同步骤的位置
     private bool m_Prepare;
 
     private GameMethod m_Method; // 该步骤的游戏方法
@@ -35,6 +37,25 @@ public class GameMode : Singleton<GameMode>
 
     [HideInInspector]
     public float m_Score; // 考核模式一个步骤的分数
+
+    private bool m_Init = false; // 初始化成功
+
+    public async void Start()
+    {
+        await UniTask.WaitUntil(() => GlobalData.stepStructs.Count != 0);
+
+
+        m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
+        // Debug.Log(m_arrowTrans.Count);
+        for (int i = 0; i < m_arrowTrans.Count && i < GlobalData.stepStructs.Count; i++)
+        {
+            // Debug.Log("Looper: " + m_arrowTrans[i].position);
+            var step_info = GlobalData.stepStructs[i];
+            step_info.arrowTrans = m_arrowTrans[i].transform;
+            GlobalData.stepStructs[i] = step_info;
+        }
+        m_Init = true;
+    }
 
     private void FixedUpdate()
     {
@@ -122,8 +143,23 @@ public class GameMode : Singleton<GameMode>
         }
     }
 
-    private void PrepareDragStep()
+    public async UniTask UpdateArrowTrans()
     {
+        if (GlobalData.stepStructs != null && GlobalData.stepStructs.Count > 0)
+        {
+            await UniTask.WaitUntil(() => m_Init == true);
+            // Debug.Log("PrepareDragStep: " + GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans.position);
+            var new_trans = GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans;
+
+            // Debug.Log("UpdateArrowTrans(): " + new_trans.localPosition);
+            m_Arrow.transform.localPosition = new_trans.localPosition;
+            m_Arrow.transform.localRotation = new_trans.localRotation;
+        }
+    }
+
+    private async void PrepareDragStep()
+    {
+        await UpdateArrowTrans();
         m_State = GameState.Playing; // 准备阶段结束，进入游戏阶段
     }
 
@@ -162,7 +198,7 @@ public class GameMode : Singleton<GameMode>
     // 用户可以选择不同的步骤进行游戏
     public async void SetStep(int i)
     {
-        //Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
+        // Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
         if (i >= 0 && i < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx = i;
@@ -184,6 +220,7 @@ public class GameMode : Singleton<GameMode>
 
     private void UpdateRealBody(IMessage msg)
     {
+        if (GlobalData.mode != Mode.Examination) { return; }
         List<AnswerDetailVoListItem> realList = new List<AnswerDetailVoListItem>();
 
         AnswerDetailVoListItem avi = new AnswerDetailVoListItem();
