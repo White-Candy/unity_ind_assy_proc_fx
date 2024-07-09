@@ -24,6 +24,8 @@ public class GameMode : Singleton<GameMode>
 {
     public GameObject m_Arrow; // 箭头[用来识别工具是否正确的]
     private List<GameObject> m_arrowTrans = new List<GameObject>(); // 箭头不同步骤的位置
+    public List<AudioClip> m_AudioClip = new List<AudioClip>(); // 每个步骤前的语音提示
+
     private bool m_Prepare;
 
     private GameMethod m_Method; // 该步骤的游戏方法
@@ -47,12 +49,28 @@ public class GameMode : Singleton<GameMode>
 
         m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
         // Debug.Log(m_arrowTrans.Count);
+        // 提示物体位置的调整
         for (int i = 0; i < m_arrowTrans.Count && i < GlobalData.stepStructs.Count; i++)
         {
             // Debug.Log("Looper: " + m_arrowTrans[i].position);
             var step_info = GlobalData.stepStructs[i];
             step_info.arrowTrans = m_arrowTrans[i].transform;
             GlobalData.stepStructs[i] = step_info;
+        }
+
+        // 音频装载
+        for (int i = 0; i < m_AudioClip.Count && i < GlobalData.stepStructs.Count; i++)
+        {
+            // Debug.Log("Looper: " + m_arrowTrans[i].position);
+            var step_info = GlobalData.stepStructs[i];
+            step_info.clip = m_AudioClip[i];
+            GlobalData.stepStructs[i] = step_info;
+        }
+
+        // 播放第一个提示音
+        if (GlobalData.mode != Mode.Examination)
+        {
+            AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip);
         }
         m_Init = true;
     }
@@ -191,12 +209,16 @@ public class GameMode : Singleton<GameMode>
         if (GlobalData.StepIdx + 1 < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx++;
+            if (GlobalData.mode != Mode.Examination)
+            {
+                AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip); // 播放新步骤的提示音
+            }
             SetStep(GlobalData.StepIdx);
         }
     }
 
     // 用户可以选择不同的步骤进行游戏
-    public async void SetStep(int i)
+    public async void SetStep(int i, bool isplay = true)
     {
         // Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
         if (i >= 0 && i < GlobalData.stepStructs.Count)
@@ -206,8 +228,12 @@ public class GameMode : Singleton<GameMode>
             m_ToolIdx = 0;
             currToolName = "";
 
-            float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
-            await ModelAnimControl._Instance.Slice(frame, frame);
+            if (isplay)
+            {
+                // TODO..这部分代码可能存在冗余，后续要修改
+                float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
+                await ModelAnimControl._Instance.Slice(frame, frame); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
+            }
             Prepare();
         }
     }

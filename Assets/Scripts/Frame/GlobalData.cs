@@ -63,6 +63,8 @@ namespace sugar
         public static bool DestroyModel = false; // 训练模式退出销毁模型，重置相机
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
+        public static List<string> Tools = new List<string>(); // 工具名称
+        public static List<string> Materials = new List<string>(); // 材料名称
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
 
         public static float totalScore;

@@ -4,6 +4,7 @@ using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -162,6 +163,7 @@ public static class Tools
 
         UnityEngine.Object.Instantiate(model_async.Result);
         await AnalysisStepFile();
+        await AnalysisEquFile();
     }
 
     /// <summary>
@@ -170,7 +172,7 @@ public static class Tools
     /// </summary>
     private static async UniTask AnalysisStepFile()
     {
-        await NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ModelTarget.modelName + "Step.txt"), (dataStr) =>
+        await NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Step.txt"), (dataStr) =>
         {
             //Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
@@ -211,6 +213,31 @@ public static class Tools
 
             InfoPanel._instance.gameObject.SetActive(true);
         });
+        // SpawnTask();
+    }
+
+    /// <summary>
+    /// ½âÎöÆ÷²ÄÎÄ¼þ
+    /// </summary>
+    /// <returns></returns>
+    private static async UniTask AnalysisEquFile()
+    {
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Equ.json", (str) => 
+        {
+            // Debug.Log(str);
+            JsonData json_data = JsonMapper.ToObject<JsonData>(str);
+            string tools = json_data["Tools"].ToString();
+            string materials = json_data["Materials"].ToString();
+
+            // Debug.Log($"Tools: {tools}.");
+            // Debug.Log($"Materials: {materials}.");
+
+            string[] arr_tools = tools.Split("_");
+            string[] arr_materials = materials.Split("_");
+
+            GlobalData.Tools = arr_tools.ToList();
+            GlobalData.Materials = arr_materials.ToList();
+        });
         SpawnTask();
     }
 
@@ -223,7 +250,7 @@ public static class Tools
         task = new DragTask();
         if (!task.IsInit)
         {
-            task.Init(GlobalData.stepStructs, GameObject.Find("Canvas").transform); //MenuPanel/Content/BG
+            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("Canvas").transform); //MenuPanel/Content/BG
         }
         task.Show();      
     }

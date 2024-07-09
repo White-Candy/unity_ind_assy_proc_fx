@@ -47,7 +47,7 @@ public class ModelAnimControl : MonoBehaviour
 
         ModelName = GlobalData.ModelTarget.modelName;
         // 获取 xxx.json 中的 当前步骤_施工要点
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + ModelName + ".json", (str) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + ModelName + ".json", (str) =>
         {
             //Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);
@@ -84,7 +84,7 @@ public class ModelAnimControl : MonoBehaviour
         // TODO..后面要改成异步
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Space!!");
+            // Debug.Log("Space!!");
             m_Animtor.speed = m_Animtor.speed == 0f ? 1f : 0f;
         }
     }
@@ -100,10 +100,16 @@ public class ModelAnimControl : MonoBehaviour
 
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
-        //Debug.Log(canvas.name);
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
+
         CameraControl.SetAnimation();
+
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
+
+        if (AudioManager.Instance.m_IsPlaying) // 如果还在播放声音关闭声音
+        {
+            AudioManager.Instance.Pause();
+        }
 
         await Slice(f_start, f_end);
         await UniTask.WaitUntil( () => 
