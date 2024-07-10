@@ -200,7 +200,7 @@ public class GameMode : Singleton<GameMode>
 
     public void SetToolName(string name)
     {
-        Debug.Log("SetToolName");
+        //Debug.Log("SetToolName");
         currToolName = name;
     }
 

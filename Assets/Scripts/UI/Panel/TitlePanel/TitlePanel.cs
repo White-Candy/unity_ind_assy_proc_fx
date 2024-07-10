@@ -15,7 +15,7 @@ public class TitlePanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.currModuleName}";
+        m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.ModelTarget.modelName}";
         m_Exit.onClick.AddListener(OnExitBtnClicked);
     }
 
@@ -69,6 +69,7 @@ public class TitlePanel : BasePanel
                             GlobalData.StepIdx = 0;
                             GlobalData.totalScore = 0f;
                             GlobalData.currentExamIsFinish = true;
+                            GlobalData.currModuleName = "";
 
                             UITools.Loading("Menu");
                         });
@@ -79,11 +80,13 @@ public class TitlePanel : BasePanel
             {
                 GlobalData.DestroyModel = true;
                 GlobalData.StepIdx = 0;
+                GlobalData.currModuleName = "";
                 UITools.Loading("Menu");
             }           
         }
         else
         {
+            GlobalData.currModuleName = "";
             UITools.Loading("Menu");
         }
 

@@ -98,7 +98,7 @@ public class ModelAnimControl : MonoBehaviour
             return;
         }
 
-        Debug.Log("PlayAnim..");
+        //Debug.Log("PlayAnim..");
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
@@ -153,7 +153,7 @@ public class ModelAnimControl : MonoBehaviour
     // 播放动画某一段帧的动画
     public async UniTask Slice(float f_start, float f_end)
     {
-        Debug.Log("In Slice!");
+        //Debug.Log("In Slice!");
         float start = f_start * (1 / 24.0f);
         float end = f_end * (1 / 24.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
