@@ -82,9 +82,9 @@ public class ModelAnimControl : MonoBehaviour
         }
 
         // TODO..后面要改成异步
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && m_AnimState == AnimState.Playing)
         {
-            // Debug.Log("Space!!");
+            Debug.Log("Space!!");
             m_Animtor.speed = m_Animtor.speed == 0f ? 1f : 0f;
         }
     }
@@ -98,6 +98,7 @@ public class ModelAnimControl : MonoBehaviour
             return;
         }
 
+        Debug.Log("PlayAnim..");
         // 切换到动画相机
         GameObject canvas = GameObject.Find("Canvas").gameObject;
         canvas.SetActive(false); // 播放动画的时候 关闭UI。
@@ -105,6 +106,8 @@ public class ModelAnimControl : MonoBehaviour
         CameraControl.SetAnimation();
 
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
+
+        InfoPanel._instance.gameObject.SetActive(false); // 动画播放隐藏UI
 
         if (AudioManager.Instance.m_IsPlaying) // 如果还在播放声音关闭声音
         {
@@ -118,6 +121,7 @@ public class ModelAnimControl : MonoBehaviour
         });
 
         CameraControl.SetPlayer(); // 切换回 Player相机。
+        InfoPanel._instance.gameObject.SetActive(true);
         canvas.SetActive(true);
         GameMode.Instance.NextStep(); // 播放结束 开始下一步
     }
@@ -149,7 +153,7 @@ public class ModelAnimControl : MonoBehaviour
     // 播放动画某一段帧的动画
     public async UniTask Slice(float f_start, float f_end)
     {
-        //Debug.Log("In Slice!");
+        Debug.Log("In Slice!");
         float start = f_start * (1 / 24.0f);
         float end = f_end * (1 / 24.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔

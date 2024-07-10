@@ -250,7 +250,7 @@ public static class Tools
         task = new DragTask();
         if (!task.IsInit)
         {
-            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("Canvas").transform); //MenuPanel/Content/BG
+            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("Canvas/InfoPanel").transform); //MenuPanel/Content/BG
         }
         task.Show();      
     }

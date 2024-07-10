@@ -153,7 +153,7 @@ public class GameMode : Singleton<GameMode>
             currToolName = "";
             if (m_ToolIdx >= m_Tools.Count)
             {
-                GlobalData.totalScore += m_Score;
+                if (GlobalData.mode == Mode.Examination) GlobalData.totalScore += m_Score;
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
                 await ModelAnimControl._Instance.PlayAnim(start, end); // 播放这次流程步骤的动画
@@ -200,6 +200,7 @@ public class GameMode : Singleton<GameMode>
 
     public void SetToolName(string name)
     {
+        Debug.Log("SetToolName");
         currToolName = name;
     }
 
