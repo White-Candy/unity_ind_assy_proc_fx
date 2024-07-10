@@ -45,7 +45,7 @@ public class InfoPanel : MonoBehaviour
 
     private void FixedUpdate()
     {
-        m_Count.text = GameMode.Instance.NumberOfToolsRemaining();
+        // m_Count.text = GameMode.Instance.NumberOfToolsRemaining();
         UpdateInfo();
     }
 
