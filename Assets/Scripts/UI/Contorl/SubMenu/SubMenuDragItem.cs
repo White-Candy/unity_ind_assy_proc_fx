@@ -69,7 +69,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
             //ø™∆Ù…‰œﬂºÏ≤‚
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                Debug.Log("m_itemMode name: " + m_ItemModel.name + " || " + "hit name: " + hit.collider.name);
+                //Debug.Log("m_itemMode name: " + m_ItemModel.name + " || " + "hit name: " + hit.collider.name);
                 if (hit.collider.name == "Arrow")
                 {
                     GameMode.Instance.SetToolName(m_ItemModel.name);

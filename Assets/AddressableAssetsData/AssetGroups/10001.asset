@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: 10001
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: 10001
   m_Data:
     m_SerializedData: []
   m_GUID: f950e6b67a64e134288b5dae56251bd1
@@ -144,6 +144,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1b5bf60997c69bd4d8cd76cbd6145cfa
     m_Address: "\u95E8\u6247"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d50beb8d12409943a8a450fc9c2481d
+    m_Address: map
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
