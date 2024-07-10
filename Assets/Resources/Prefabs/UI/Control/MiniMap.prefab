@@ -54,7 +54,6 @@ MonoBehaviour:
   miniSpot: {fileID: 26647553334544660}
   player: {fileID: 0}
   origin: {x: 0, y: 0, z: 0}
-  ratio: 1
 --- !u!1 &26647552347082578
 GameObject:
   m_ObjectHideFlags: 0

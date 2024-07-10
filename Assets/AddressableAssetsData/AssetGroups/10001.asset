@@ -148,7 +148,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8d50beb8d12409943a8a450fc9c2481d
-    m_Address: map
+    m_Address: Assets/Resources_moved/Textures/UI/Minmap/10001.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
