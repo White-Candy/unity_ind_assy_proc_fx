@@ -13,7 +13,6 @@ public class MinMap : MonoBehaviour
     [SerializeField] private RectTransform miniSpot;//地图上目标
     [SerializeField] private Transform player;//实际目标
     [SerializeField] private Vector3 origin;//偏移数据
-    [SerializeField] private float ratio;//旋转
 
     void Start()
     {
@@ -30,7 +29,8 @@ public class MinMap : MonoBehaviour
     {
         if (GlobalData.isLoadModel)
         {
-            miniSpot.anchoredPosition = new Vector2(origin.x - player.position.x, origin.z - player.position.z) * ratio;
+            miniSpot.anchoredPosition = new Vector2(origin.x - player.position.x, origin.z - player.position.z);
+
             Vector3 ro = player.rotation.eulerAngles;
             Vector3 ro1 = new Vector3(0, 0, (ro.y - 180) * -1);
             miniSpot.rotation = Quaternion.Euler(ro1);

@@ -4,6 +4,7 @@ using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using Unity.XR.Oculus.Input;
 using UnityEngine;
 
@@ -84,7 +85,7 @@ public class ModelAnimControl : MonoBehaviour
         // TODO..后面要改成异步
         if (Input.GetKeyDown(KeyCode.Space) && m_AnimState == AnimState.Playing)
         {
-            Debug.Log("Space!!");
+            // Debug.Log("Space!!");
             m_Animtor.speed = m_Animtor.speed == 0f ? 1f : 0f;
         }
     }
@@ -163,12 +164,34 @@ public class ModelAnimControl : MonoBehaviour
 
         m_Animtor.PlayInFixedTime("Play", 0, start); // 从 start时间开始播放动画
         GoOn();
-        await UniTask.WaitForSeconds(animTime);
+
+        await Delay(animTime);
 
         //Debug.Log("Close ANim");
         // 播放完毕暂停动画
         Puase();
         await UniTask.Yield();
+    }
+
+    /// <summary>
+    /// 可以控制动画的暂停和播放
+    /// 如果使用的不是Delay,而是UniTask.WaitSecond()
+    /// 那么虽然我的animtor.speed = 0，但是UniTask其实还是在倒数
+    /// 这样还是会在暂停动画没有播放结束的状态，暂停了动画！
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    private async UniTask Delay(float time)
+    {
+        while (time > 0)
+        {
+            if (m_Animtor.speed != 0)
+            {
+                time -= 0.11f;
+            }
+            // Debug.Log(time);
+            await UniTask.Delay(100);
+        }
     }
 
     /// <summary>
