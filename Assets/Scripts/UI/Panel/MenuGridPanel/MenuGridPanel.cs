@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // 左侧子模块菜单
-public class MenuGridPanel : Singleton<MenuGridPanel>
+public class MenuGridPanel : BasePanel
 {
     public GameObject m_Item;
     public Transform m_Parent;
@@ -18,12 +18,17 @@ public class MenuGridPanel : Singleton<MenuGridPanel>
     private string m_currActName = "";
 
     // 为了避免重复申请一个子模块的baseaction实例
-    private Dictionary<string, BaseAction> m_Actions = new Dictionary<string, BaseAction>(); 
+    private Dictionary<string, BaseAction> m_Actions = new Dictionary<string, BaseAction>();
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
 
     void Start()
     {
         BuildItem();
-        gameObject.SetActive(false);
+        Active(false);
     }
 
     private void OnDestroy()

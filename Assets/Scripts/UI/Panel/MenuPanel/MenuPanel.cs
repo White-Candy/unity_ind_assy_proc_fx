@@ -110,7 +110,8 @@ public class MenuPanel : BasePanel
         else
         {
             // ×ó²à×ÓÄ£¿é²Ëµ¥
-            MenuGridPanel.Instance.gameObject.SetActive(true);
+            UIConsole.Instance.FindPanel<MenuGridPanel>().Active(true);
+            // MenuGridPanel.Instance.gameObject.SetActive(true);
         }
         SetActiveMenuItem(obj, false);
     }
