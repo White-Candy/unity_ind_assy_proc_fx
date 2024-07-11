@@ -1953,7 +1953,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2939793005145632841}
   - component: {fileID: 5742176449499913846}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: "\u5377\u5E18\u95E8"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
