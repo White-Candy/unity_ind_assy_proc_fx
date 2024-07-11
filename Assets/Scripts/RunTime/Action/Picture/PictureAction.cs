@@ -15,7 +15,7 @@ public class PictureAction : BaseAction
 
     public PictureAction()
     {
-        m_Panel = UITools.FindAssetPanel<PicturePanel>();
+        m_Panel = UIConsole.Instance.FindAssetPanel<PicturePanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();

@@ -14,7 +14,7 @@ public static class UITools
     /// <param name="duration"></param>
     public static void ShowMessage(string mess, float duration = 3.0f)
     {
-        MessagePanel panel = FindAssetPanel<MessagePanel>();
+        MessagePanel panel = UIConsole.Instance.FindAssetPanel<MessagePanel>();
         panel.Show(mess, duration);
     }
 
@@ -26,7 +26,7 @@ public static class UITools
     /// <param name="model_name"></param>
     public static void Loading(string scene, string model_name = "")
     {
-        LoadingPanel load_panel = FindAssetPanel<LoadingPanel>();
+        LoadingPanel load_panel = UIConsole.Instance.FindAssetPanel<LoadingPanel>();
         load_panel.LoadScene(scene, model_name);
     }
 
@@ -45,42 +45,6 @@ public static class UITools
 #else
         Application.Quit();
 #endif
-    }
-
-
-    /// <summary>
-    /// UI資源的加載
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public static T FindAssetPanel<T>() where T : BasePanel
-    {
-        T t = UIConsole.Instance.FindPanel<T>();
-        if (t == null)
-        {
-            string path = "Prefabs/UI/Panel/" + typeof(T).ToString();
-            GameObject go = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(path));
-            if (go != null)
-            {
-                t = go.GetComponent<T>();
-                go.name = typeof(T).Name;
-                if (t is IGlobalPanel)
-                {
-                    // 全局UI加載
-                    go.transform.SetParent(GlobalCanvas.Instance.transform);
-                }
-                else
-                {
-                    // 場景UI加載
-                    go.transform.SetParent(GameObject.Find("Canvas/").transform);
-                }
-                go.transform.localScale = Vector3.one;
-                RectTransform rect = go.transform as RectTransform;
-                rect.offsetMax = Vector2.zero;
-                rect.offsetMin = Vector2.zero;
-            }
-        }
-        return t;
     }
 }
 

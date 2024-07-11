@@ -210,8 +210,10 @@ public static class Tools
                 GameMode.Instance.m_Score = GlobalData.trainingExamscore / GlobalData.stepStructs.Count;
                 //Debug.Log("สตัตฃบ " + GameMode.Instance.m_Score);
             }
-
-            InfoPanel._instance.gameObject.SetActive(true);
+            UIConsole.Instance.FindPanel<MinMap>().Active(true);
+            UIConsole.Instance.FindPanel<SelectStepPanel>().Active(true);
+            UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
+            //InfoPanel._instance.gameObject.SetActive(true);
         });
         // SpawnTask();
     }

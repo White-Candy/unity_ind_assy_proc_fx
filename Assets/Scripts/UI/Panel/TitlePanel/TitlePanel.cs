@@ -15,7 +15,7 @@ public class TitlePanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.ModelTarget.modelName}";
+        m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.currModuleName}";
         m_Exit.onClick.AddListener(OnExitBtnClicked);
     }
 
@@ -90,5 +90,10 @@ public class TitlePanel : BasePanel
             UITools.Loading("Menu");
         }
 
+    }
+
+    public void SetTitle(string title)
+    {
+        m_Title.text = $"Ä£ÄâÑÝÁ·-{title}";
     }
 }

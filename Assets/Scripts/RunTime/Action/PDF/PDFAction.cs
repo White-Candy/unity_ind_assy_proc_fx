@@ -19,7 +19,7 @@ public class PDFAction : BaseAction
 
     public PDFAction()
     {
-        m_Panel = UITools.FindAssetPanel<PDFPanel>();
+        m_Panel = UIConsole.Instance.FindAssetPanel<PDFPanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();

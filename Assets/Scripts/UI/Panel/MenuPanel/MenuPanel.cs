@@ -105,6 +105,7 @@ public class MenuPanel : BasePanel
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
+            UIConsole.Instance.FindPanel<TitlePanel>().SetTitle(target.menuName);
         }
         else
         {

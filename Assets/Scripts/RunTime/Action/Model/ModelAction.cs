@@ -20,7 +20,7 @@ public class ModelAction : BaseAction
 
     public ModelAction()
     {
-        m_Panel = UITools.FindAssetPanel<ModelPanel>();
+        m_Panel = UIConsole.Instance.FindAssetPanel<ModelPanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
