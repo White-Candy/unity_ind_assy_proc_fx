@@ -105,11 +105,13 @@ public class MenuPanel : BasePanel
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
+            UIConsole.Instance.FindPanel<TitlePanel>().SetTitle(target.menuName);
         }
         else
         {
             // ×ó²à×ÓÄ£¿é²Ëµ¥
-            MenuGridPanel.Instance.gameObject.SetActive(true);
+            UIConsole.Instance.FindPanel<MenuGridPanel>().Active(true);
+            // MenuGridPanel.Instance.gameObject.SetActive(true);
         }
         SetActiveMenuItem(obj, false);
     }

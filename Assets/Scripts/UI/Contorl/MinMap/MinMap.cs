@@ -6,17 +6,23 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
-public class MinMap : MonoBehaviour
+public class MinMap : BasePanel
 {
     [SerializeField] private RawImage m_Image; // 地图
 
     [SerializeField] private RectTransform miniSpot;//地图上目标
     [SerializeField] private Transform player;//实际目标
     [SerializeField] private Vector3 origin;//偏移数据
+    public bool canshow = false;
+
+    public override void Awake()
+    {
+        base.Awake();
+        Active(canshow);
+    }
 
     void Start()
     {
-        player = CameraControl.target.transform;
         Addressables.LoadAssetAsync<Texture2D>("map").Completed += (obj) => 
         {
             Texture2D tex = obj.Result;
@@ -27,8 +33,9 @@ public class MinMap : MonoBehaviour
 
     void Update()
     {
-        if (GlobalData.isLoadModel)
+        if (GlobalData.isLoadModel && m_Visible)
         {
+            player = CameraControl.target.transform;
             miniSpot.anchoredPosition = new Vector2(origin.x - player.position.x, origin.z - player.position.z);
 
             Vector3 ro = player.rotation.eulerAngles;

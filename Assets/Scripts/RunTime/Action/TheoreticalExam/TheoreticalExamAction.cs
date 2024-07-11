@@ -15,7 +15,7 @@ public class TheoreticalExamAction : BaseAction
 
     public TheoreticalExamAction()
     {
-        m_Panel = UITools.FindAssetPanel<TheoreticalExamPanel>();
+        m_Panel = UIConsole.Instance.FindAssetPanel<TheoreticalExamPanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();

@@ -13,6 +13,12 @@ public class SelectStepPanel : BasePanel
 
     private List<Button> m_items = new List<Button>();
 
+    public override void Awake()
+    {
+        base.Awake();
+        Active(false);
+    }
+
     private void Start()
     {
         // this.gameObject.SetActive(false);

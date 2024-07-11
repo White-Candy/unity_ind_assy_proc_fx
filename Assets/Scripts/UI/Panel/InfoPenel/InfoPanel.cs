@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InfoPanel : MonoBehaviour
+public class InfoPanel : BasePanel
 {
     public Button m_View; // 点击按钮显示施工提示面板
     public Button m_Audio; // 声音按钮
@@ -15,19 +15,21 @@ public class InfoPanel : MonoBehaviour
     public TextMeshProUGUI m_IntroduceText; // 施工要点面板Text
 
     public GameObject m_Introduce; // 施工要点面板
-    public GameObject m_StepPanel; // 步骤选择面板
+    // public GameObject m_StepPanel; // 步骤选择面板
     public GameObject m_Hint; // 提示面板
     public GameObject m_StepHint; // 步骤提示面板
-    public GameObject m_Minmap; // 小地图
+    // public GameObject m_Minmap; // 小地图
 
     public static InfoPanel _instance;
 
-    public bool m_showMap = true; // 是否展示小地图
+    // public bool m_showMap = true; // 是否展示小地图
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         _instance = this;
-        gameObject.SetActive(false);
+        Active(false);
     }
 
     private void Start()
@@ -40,7 +42,7 @@ public class InfoPanel : MonoBehaviour
 
         m_Step.onClick.AddListener(() =>
         {
-            ActiveStepPanel();
+            // ActiveStepPanel();
         });
 
         Init();
@@ -54,9 +56,7 @@ public class InfoPanel : MonoBehaviour
 
     private void Init()
     {
-        m_showMap = true;
         m_Introduce?.gameObject.SetActive(false);
-        m_Minmap?.gameObject.SetActive(m_showMap);
     }
 
     private void UpdateInfo()
@@ -72,13 +72,6 @@ public class InfoPanel : MonoBehaviour
     {
         bool b = m_Introduce.gameObject.activeSelf;
         m_Introduce.gameObject.SetActive(!b);
-    }
-
-    // 别说了，我知道这里可以优化，但我不想[完全没有必要]
-    private void ActiveStepPanel()
-    {
-        bool b = m_StepPanel.gameObject.activeSelf;
-        m_StepPanel.gameObject.SetActive(!b);
     }
 
     // 实训模式隐藏一些窗口

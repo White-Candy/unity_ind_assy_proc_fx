@@ -16,7 +16,7 @@ public class VideoAction : BaseAction
 
     public VideoAction()
     {
-        m_Panel = UITools.FindAssetPanel<VideoPanel>();
+        m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
