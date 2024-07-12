@@ -20,15 +20,25 @@ public class MenuGridPanel : BasePanel
     // 为了避免重复申请一个子模块的baseaction实例
     private Dictionary<string, BaseAction> m_Actions = new Dictionary<string, BaseAction>();
 
+    public static MenuGridPanel _instance;
+
     public override void Awake()
     {
         base.Awake();
+        _instance = this;
     }
 
-    void Start()
+    async void Start()
     {
         BuildItem();
+
+#if UNITY_EDITOR_WIN
         Active(false);
+#elif UNITY_WEBGL
+        Active(true);
+        await UniTask.WaitUntil(() => MenuPanel._instance.m_Menus.Count > 0);
+        MenuPanel._instance.SetActiveMenuList(false);
+#endif
     }
 
     private void OnDestroy()

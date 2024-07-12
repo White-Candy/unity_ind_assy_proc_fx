@@ -15,10 +15,8 @@ public class CameraLauncher : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.P))
-        //{
-        //    ModelAnimControl._Instance.Play(0, 100);
-        //}
+        float num = RenderSettings.skybox.GetFloat("_Rotation");
+        RenderSettings.skybox.SetFloat("_Rotation", num + 0.002f);
     }
 
     void Start()

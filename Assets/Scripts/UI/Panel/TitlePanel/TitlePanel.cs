@@ -12,9 +12,12 @@ public class TitlePanel : BasePanel
 
     public TextMeshProUGUI m_Title;
 
+    public static TitlePanel _instance;
+
     public override void Awake()
     {
         base.Awake();
+        _instance = this;
         m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.currModuleName}";
         m_Exit.onClick.AddListener(OnExitBtnClicked);
     }

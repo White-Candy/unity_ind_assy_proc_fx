@@ -27,7 +27,6 @@ public class InfoPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-
         _instance = this;
         Active(false);
     }
