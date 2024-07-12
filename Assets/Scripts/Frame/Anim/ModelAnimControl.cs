@@ -101,14 +101,15 @@ public class ModelAnimControl : MonoBehaviour
 
         //Debug.Log("PlayAnim..");
         // 切换到动画相机
-        GameObject canvas = GameObject.Find("Canvas").gameObject;
-        canvas.SetActive(false); // 播放动画的时候 关闭UI。
-
+        GameObject canvas = GameObject.Find("MainCanvas").gameObject;
+        canvas.gameObject.SetActive(false); // 播放动画的时候 关闭UI。
+        Debug.Log("Begin canvas active: " + canvas.gameObject.activeSelf);
         CameraControl.SetAnimation();
 
         GameMode.Instance.ArrowActive(false); // 隐藏箭头
 
-        InfoPanel._instance.gameObject.SetActive(false); // 动画播放隐藏UI
+        // 动画播放隐藏UI
+        // InfoPanel._instance.gameObject.SetActive(false); 
 
         if (AudioManager.Instance.m_IsPlaying) // 如果还在播放声音关闭声音
         {
@@ -122,8 +123,9 @@ public class ModelAnimControl : MonoBehaviour
         });
 
         CameraControl.SetPlayer(); // 切换回 Player相机。
-        InfoPanel._instance.gameObject.SetActive(true);
-        canvas.SetActive(true);
+        // InfoPanel._instance.gameObject.SetActive(true);
+        canvas.gameObject.SetActive(true);
+        Debug.Log("Over canvas active: " + canvas.gameObject.activeSelf);
         GameMode.Instance.NextStep(); // 播放结束 开始下一步
     }
 

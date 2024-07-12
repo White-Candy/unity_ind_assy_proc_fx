@@ -715,7 +715,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: EPO_DOTWEEN
+    Standalone: EPO_DOTWEEN;UNITY_WEBGL
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

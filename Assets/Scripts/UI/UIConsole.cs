@@ -57,7 +57,7 @@ public class UIConsole : Singleton<UIConsole>
                 else
                 {
                     // ˆö¾°UI¼ÓÝd
-                    go.transform.SetParent(GameObject.Find("Canvas/").transform);
+                    go.transform.SetParent(GameObject.Find("MainCanvas/").transform);
                 }
                 go.transform.localScale = Vector3.one;
                 RectTransform rect = go.transform as RectTransform;

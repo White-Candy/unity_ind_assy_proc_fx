@@ -13,9 +13,12 @@ public class SelectStepPanel : BasePanel
 
     private List<Button> m_items = new List<Button>();
 
+    public static SelectStepPanel _instance;
+
     public override void Awake()
     {
         base.Awake();
+        _instance = this;
         Active(false);
     }
 

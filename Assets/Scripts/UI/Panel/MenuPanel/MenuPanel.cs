@@ -34,7 +34,7 @@ public class MenuPanel : BasePanel
 
     //private Dictionary<string, BaseTask> m_TaskDic = new Dictionary<string, BaseTask>(); // 任务字典
 
-    private List<GameObject> m_Menus = new List<GameObject>(); // 保存 菜单按钮列表
+    [HideInInspector] public List<GameObject> m_Menus = new List<GameObject>(); // 保存 菜单按钮列表
     private List<GameObject> m_Menulist = new List<GameObject>(); // 保存 菜单列表
 
     private GameObject currMeunList; //目前打开的菜单列表
@@ -55,6 +55,7 @@ public class MenuPanel : BasePanel
 
     private void BuildMenuList()
     {
+#if UNITY_EDITOR_WIN
         foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
@@ -75,10 +76,16 @@ public class MenuPanel : BasePanel
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
         }
+#elif UNITY_WEBGL
+        var proj = GlobalData.Projs[0];
+        BuildMenuItem(proj.targets);
+#endif
     }
 
-    private void BuildMenuItem(List<Target> targets, GameObject list)
+    private async void BuildMenuItem(List<Target> targets, GameObject list = null)
     {
+#if UNITY_EDITOR_WIN
+        // 多模块模式
         foreach (var target in targets)
         {
             GameObject item = Instantiate(m_Item, list.transform);
@@ -87,6 +94,28 @@ public class MenuPanel : BasePanel
             itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = target.menuName;
             itemBtn.onClick.AddListener(() => { ChooseThisItem(target, list); });
         }
+#elif UNITY_WEBGL
+        // 单模块模式
+        if (targets.Count > 0)
+        {
+            var tar = targets[0];
+            GlobalData.ModelTarget = tar;
+            GlobalData.currModuleCode = tar.modelCode.ToString();
+            if (GlobalData.isLoadModel)
+            {
+                await Tools.LoadSceneModel();
+                SetActiveMenuList(false);
+                TitlePanel._instance.SetTitle(tar.menuName);
+                Active(false);
+            }
+            else
+            {
+                // 左侧子模块菜单
+                Active(true);                
+                Debug.Log("GlobalData.currModuleCode: " + GlobalData.currModuleCode);
+            }
+        }
+#endif
     }
 
     /// <summary>
@@ -105,13 +134,14 @@ public class MenuPanel : BasePanel
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
-            UIConsole.Instance.FindPanel<TitlePanel>().SetTitle(target.menuName);
+            TitlePanel._instance.SetTitle(target.menuName);
+            Active(false);
         }
         else
         {
             // 左侧子模块菜单
-            UIConsole.Instance.FindPanel<MenuGridPanel>().Active(true);
-            // MenuGridPanel.Instance.gameObject.SetActive(true);
+            Active(true);
+            MenuGridPanel._instance.Active(true);
         }
         SetActiveMenuItem(obj, false);
     }
@@ -126,10 +156,11 @@ public class MenuPanel : BasePanel
         currMeunList.SetActive(b);
     }
 
-    private void SetActiveMenuList(bool b)
+    public void SetActiveMenuList(bool b)
     {
         foreach (var menu in m_Menus)
         {
+            if (menu == null) continue;
             menu.gameObject.SetActive(b);
         }
     }

@@ -148,16 +148,16 @@ public static class Tools
     public static async UniTask LoadSceneModel()
     {
         GlobalData.DestroyModel = false;
-        await LoadModel();
+        await LoadModelAsync();
     }
 
     /// <summary>
     /// 模型加载
     /// </summary>
     /// <returns></returns>
-    private static async UniTask LoadModel()
+    private static async UniTask LoadModelAsync()
     {
-        // 模型场景异步加载       
+        // 模型场景异步加载
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
@@ -210,10 +210,17 @@ public static class Tools
                 GameMode.Instance.m_Score = GlobalData.trainingExamscore / GlobalData.stepStructs.Count;
                 //Debug.Log("实训： " + GameMode.Instance.m_Score);
             }
-            UIConsole.Instance.FindPanel<MinMap>().Active(true);
-            UIConsole.Instance.FindPanel<SelectStepPanel>().Active(true);
-            UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
-            //InfoPanel._instance.gameObject.SetActive(true);
+            if (UIConsole.Instance.FindPanel<MinMap>().canshow)
+            {
+                UIConsole.Instance.FindPanel<MinMap>().Active(true);
+            }
+
+            //UIConsole.Instance.FindPanel<SelectStepPanel>().Active(true);
+            //UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
+            //Debug.Log("InfoPanel is true for active.");
+
+            InfoPanel._instance.gameObject.SetActive(true);
+            SelectStepPanel._instance.gameObject.SetActive(true);
         });
         // SpawnTask();
     }
@@ -252,7 +259,7 @@ public static class Tools
         task = new DragTask();
         if (!task.IsInit)
         {
-            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("Canvas/InfoPanel").transform); //MenuPanel/Content/BG
+            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("MainCanvas/InfoPanel").transform); //MenuPanel/Content/BG
         }
         task.Show();      
     }
