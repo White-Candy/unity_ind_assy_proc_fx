@@ -26,7 +26,7 @@ public class ModelAnimControl : MonoBehaviour
 {
     public static ModelAnimControl _Instance;
 
-    public GameObject m_animCamera; // 动画相机的名字
+    public GameObject m_animCamera; // 动画相机
     public GameObject m_player; // 人物相机
 
     private Animator m_Animtor; // Animtor组件
@@ -103,7 +103,7 @@ public class ModelAnimControl : MonoBehaviour
         // 切换到动画相机
         GameObject canvas = GameObject.Find("MainCanvas").gameObject;
         canvas.gameObject.SetActive(false); // 播放动画的时候 关闭UI。
-        Debug.Log("Begin canvas active: " + canvas.gameObject.activeSelf);
+        // Debug.Log("Begin canvas active: " + canvas.gameObject.activeSelf);
         CameraControl.SetAnimation();
 
         GameMode.Instance.ArrowActive(false); // 隐藏箭头

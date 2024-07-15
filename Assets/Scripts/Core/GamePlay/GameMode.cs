@@ -33,7 +33,11 @@ public class GameMode : Singleton<GameMode>
 
     [HideInInspector]
     public List<string> m_Tools = new List<string>(); // 目前步骤需要处理的工具
-    private int m_ToolIdx = 0; // 目前步骤工具的索引
+
+    // 目前步骤工具的索引 (老板说不能只按照【顺序】读取工具，用户【乱序】进行本步骤的工具也要可以 QAQ...
+    // ...所以就不需要向队列这样用idx去对照了，直接去 find 就好
+    // [会去写一个 checkTool 类似的函数来判断用户拖拽的工具是否在这个步骤{m_Tools}中包含。])
+    // private int m_ToolIdx = 0; 
 
     private string currToolName = ""; // 玩家操作的的这个工具的名字
 
@@ -119,9 +123,14 @@ public class GameMode : Singleton<GameMode>
         if (!m_Prepare)
         {
             string method = GlobalData.stepStructs?[GlobalData.StepIdx].method;
-            //m_Tools.Clear();
-            m_Tools = GlobalData.stepStructs[GlobalData.StepIdx].tools;
-            //Debug.Log("Prepare: " + m_Tools.Count);
+
+            m_Tools.Clear();
+            foreach (var t in GlobalData.stepStructs[GlobalData.StepIdx].tools)
+            {
+                m_Tools.Add(t);
+            }
+
+            Debug.Log("Prepare: " + m_Tools.Count);
             if (method == "点击")
             {
                 m_Method = GameMethod.Clicked;
@@ -147,11 +156,13 @@ public class GameMode : Singleton<GameMode>
     /// <param name="name"></param>
     public async void PerformThisStep()
     {
-        if (m_ToolIdx < m_Tools.Count && currToolName == m_Tools[m_ToolIdx])
+        if (m_Tools.Count > 0 && checkToolInThisStep())
         {
-            m_ToolIdx++;
+            m_Tools.Remove(currToolName);
             currToolName = "";
-            if (m_ToolIdx >= m_Tools.Count)
+
+            // 如果本次需要用到的工具用户已经全部用到了，就可以播放动画了
+            if (m_Tools.Count == 0)
             {
                 if (GlobalData.mode == Mode.Examination) GlobalData.totalScore += m_Score;
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
@@ -159,6 +170,12 @@ public class GameMode : Singleton<GameMode>
                 await ModelAnimControl._Instance.PlayAnim(start, end); // 播放这次流程步骤的动画
             }
         }
+    }
+
+    public bool checkToolInThisStep()
+    {
+        // Debug.Log("checkToolInThisStep: " + m_Tools.Find(x => x == currToolName));
+        return m_Tools.Find(x => x == currToolName) == currToolName;
     }
 
     public async UniTask UpdateArrowTrans()
@@ -183,13 +200,13 @@ public class GameMode : Singleton<GameMode>
 
     private void PrepareClickStep()
     {
-        string tool = m_Tools[m_ToolIdx];
-        GameObject go = GameObject.Find(tool);
-        if (go != null)
-        {
-            //HighlightableObject ho = go.AddComponent<HighlightableObject>();
-            //ho.FlashingOn(Color.green, Color.red, 2f);
-        }
+        // string tool = m_Tools[m_ToolIdx];
+        // GameObject go = GameObject.Find(tool);
+        // if (go != null)
+        // {
+        //     //HighlightableObject ho = go.AddComponent<HighlightableObject>();
+        //     //ho.FlashingOn(Color.green, Color.red, 2f);
+        // }
         m_State = GameState.Playing; // 准备阶段结束，进入游戏阶段
     }
 
@@ -226,7 +243,7 @@ public class GameMode : Singleton<GameMode>
         {
             GlobalData.StepIdx = i;
             m_Prepare = false;
-            m_ToolIdx = 0;
+            // m_ToolIdx = 0;
             currToolName = "";
 
             if (isplay)
@@ -242,7 +259,7 @@ public class GameMode : Singleton<GameMode>
     // 目前还需要几个工具才能激活动画
     public string NumberOfToolsRemaining()
     {
-        return (m_Tools.Count - m_ToolIdx).ToString();
+        return (m_Tools.Count).ToString();
     }
 
     private void UpdateRealBody(IMessage msg)

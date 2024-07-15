@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: f950e6b67a64e134288b5dae56251bd1
   m_SerializeEntries:
-  - m_GUID: 359a5af1e20047649836e20450a0be24
-    m_Address: juanlianmen
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e97a35e05c9359e479585b5dc4825436
     m_Address: 10001
     m_ReadOnly: 0
@@ -149,6 +144,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8d50beb8d12409943a8a450fc9c2481d
     m_Address: map
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 359a5af1e20047649836e20450a0be24
+    m_Address: juanlianmen
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
