@@ -158,6 +158,7 @@ public static class Tools
     private static async UniTask LoadModelAsync()
     {
         // 模型场景异步加载
+        // Debug.Log(GlobalData.ModelTarget.modelName);
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
@@ -174,7 +175,7 @@ public static class Tools
     {
         await NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Step.txt"), (dataStr) =>
         {
-            //Debug.Log(dataStr);
+            // Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
             JsonData js_data = JsonMapper.ToObject(dataStr);
             JsonData step = js_data["child"];
