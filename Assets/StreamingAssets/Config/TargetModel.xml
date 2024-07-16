@@ -3,7 +3,7 @@
 <Root>
 	<Item ProjName="xxx">
 		<Target ModelName="juanlianmen" ModelCode="10001" MenuName="卷帘门"/>
-		<Target ModelName="c" ModelCode="10001" MenuName="cc"/>
+		<Target ModelName="mumenpingkai" ModelCode="10002" MenuName="木门平开"/>
 	</Item>
 	<Item ProjName="xxxs">
 		<Target ModelName="s" ModelCode="10001" MenuName="ss"/>

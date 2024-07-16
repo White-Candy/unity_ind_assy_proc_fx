@@ -263,4 +263,19 @@ public static class Tools
         }
         task.Show();      
     }
+
+    /// <summary>
+    /// 为个位时单位补齐为双位
+    /// 1 => 01
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static string FillingForTime(string t)
+    {
+        if (t.Count() == 1)
+        {
+            return "0" + t;
+        }
+        return t;
+    }
 }

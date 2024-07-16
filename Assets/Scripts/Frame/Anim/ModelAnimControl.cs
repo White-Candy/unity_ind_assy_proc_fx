@@ -50,7 +50,7 @@ public class ModelAnimControl : MonoBehaviour
         // 获取 xxx.json 中的 当前步骤_施工要点
         await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + ModelName + ".json", (str) =>
         {
-            //Debug.Log(str);
+            // Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);
             foreach (var item in js_data.Keys)
             {
@@ -71,7 +71,8 @@ public class ModelAnimControl : MonoBehaviour
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
         CameraControl.SetPlayer();
-        await Slice(0f, 0f);
+        Debug.Log("Start Slice");
+        await Slice(0f, 0.5f);
     }
 
     void Update()
@@ -157,7 +158,7 @@ public class ModelAnimControl : MonoBehaviour
     // 播放动画某一段帧的动画
     public async UniTask Slice(float f_start, float f_end)
     {
-        Debug.Log("In Slice!");
+        // Debug.Log("In Slice!");
         float start = f_start * (1 / 24.0f);
         float end = f_end * (1 / 24.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
