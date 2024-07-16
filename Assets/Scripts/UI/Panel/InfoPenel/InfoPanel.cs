@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using sugar;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,6 +21,10 @@ public class InfoPanel : BasePanel
     public GameObject m_Hint; // 提示面板
     public GameObject m_StepHint; // 步骤提示面板
     // public GameObject m_Minmap; // 小地图
+
+    public TextMeshProUGUI m_CountDown; // 考核模式倒计时
+
+    public Button m_Submit; // 提交按钮
 
     public static InfoPanel _instance;
 
@@ -44,6 +50,9 @@ public class InfoPanel : BasePanel
             // ActiveStepPanel();
         });
 
+        // 点击提交成绩按钮
+        m_Submit.onClick.AddListener(SubmitScore);
+
         Init();
     }
 
@@ -56,6 +65,11 @@ public class InfoPanel : BasePanel
     private void Init()
     {
         m_Introduce?.gameObject.SetActive(false);
+
+        if (GlobalData.mode == Mode.Examination)
+        {
+            StartCountDown();
+        }
     }
 
     private void UpdateInfo()
@@ -79,5 +93,35 @@ public class InfoPanel : BasePanel
         m_Audio.gameObject.SetActive(false);
         m_StepHint.gameObject.SetActive(false);
         m_Hint.gameObject.SetActive(false);
+    }
+
+    // 考核模式成绩提交
+    private void SubmitScore()
+    {
+
+    }
+
+
+    // 开始倒计时
+    private async void StartCountDown()
+    {
+        int time = GlobalData.ExamTime;
+        while (time > 0) 
+        { 
+            UpdateTimeOnUI(time);
+            await UniTask.Delay(1000);
+            time--;
+        }
+    }
+
+    // 修改UI的时间
+    private void UpdateTimeOnUI(int time)
+    {
+        int hour = time / 3600;
+        int min = (time - hour * 3600) / 60;
+        int second = time - hour * 3600 - min * 60;
+
+        string str_time = $"{Tools.FillingForTime(hour.ToString()) + ":" + Tools.FillingForTime(min.ToString()) + ":" + Tools.FillingForTime(second.ToString())}";
+        m_CountDown.SetText(str_time);
     }
 }

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SubMenuDragGrid : MonoBehaviour
 {
-    public SubMenuGrid m_Tool;
-    public SubMenuGrid m_Material;
+    public GameObject m_Tool;
+    public GameObject m_Material;
 
     public Button m_ToolBtn;
     public Button m_MaterialBtn;

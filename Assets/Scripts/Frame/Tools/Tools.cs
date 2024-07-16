@@ -158,6 +158,7 @@ public static class Tools
     private static async UniTask LoadModelAsync()
     {
         // 模型场景异步加载
+        // Debug.Log(GlobalData.ModelTarget.modelName);
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
@@ -174,7 +175,7 @@ public static class Tools
     {
         await NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Step.txt"), (dataStr) =>
         {
-            //Debug.Log(dataStr);
+            // Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
             JsonData js_data = JsonMapper.ToObject(dataStr);
             JsonData step = js_data["child"];
@@ -261,5 +262,20 @@ public static class Tools
             task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("MainCanvas/InfoPanel").transform); //MenuPanel/Content/BG
         }
         task.Show();      
+    }
+
+    /// <summary>
+    /// 为个位时单位补齐为双位
+    /// 1 => 01
+    /// </summary>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static string FillingForTime(string t)
+    {
+        if (t.Count() == 1)
+        {
+            return "0" + t;
+        }
+        return t;
     }
 }

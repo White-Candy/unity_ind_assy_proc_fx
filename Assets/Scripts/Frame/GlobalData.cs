@@ -67,6 +67,7 @@ namespace sugar
         public static List<string> Materials = new List<string>(); // 材料名称
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
 
+        public static int ExamTime = 5000; // 考核时间（秒）
         public static float totalScore;
         public static bool isFinishTheoreticalExam; // 是否完成考核
         public static float theoreticalExamscore = 50f; // 理论考核满分是50分

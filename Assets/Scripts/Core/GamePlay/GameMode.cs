@@ -3,8 +3,10 @@ using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameMethod
 {
@@ -130,7 +132,7 @@ public class GameMode : Singleton<GameMode>
                 m_Tools.Add(t);
             }
 
-            Debug.Log("Prepare: " + m_Tools.Count);
+            // Debug.Log("Prepare: " + m_Tools.Count);
             if (method == "点击")
             {
                 m_Method = GameMethod.Clicked;
@@ -235,7 +237,11 @@ public class GameMode : Singleton<GameMode>
         }
     }
 
-    // 用户可以选择不同的步骤进行游戏
+    /// <summary>
+    /// 用户可以选择不同的步骤进行游戏
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="isplay"></param>
     public async void SetStep(int i, bool isplay = true)
     {
         // Debug.Log("Step: " + i + " || " + GlobalData.stepStructs.Count);
@@ -250,7 +256,8 @@ public class GameMode : Singleton<GameMode>
             {
                 // TODO..这部分代码可能存在冗余，后续要修改
                 float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
-                await ModelAnimControl._Instance.Slice(frame, frame); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
+                 Debug.Log(frame);
+                await ModelAnimControl._Instance.Slice(frame, frame + 1); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
             }
             Prepare();
         }

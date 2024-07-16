@@ -12,10 +12,10 @@ public class ModuleSelectPanel : BasePanel
 
     public Button m_Exit; // 退出按鈕
 
-    public GameObject m_TaskListPanel; // 考核任務列表窗口
+    // public GameObject m_TaskListPanel; // 考核任務列表窗口
     public Button m_CloseTask; // 考核窗口關閉按鈕
     public Transform m_ParentTrans; // 考核列表中的按鈕依附的Parent
-    public Button m_Task; // 考核列表中的按鈕
+    // public Button m_Task; // 考核列表中的按鈕
 
     private ConfigModuleList m_configModuleList; // 選擇界面中有那些模式都在這個裏面保存
 
@@ -26,8 +26,8 @@ public class ModuleSelectPanel : BasePanel
         m_Exit.onClick.AddListener(UITools.Quit);
         m_CloseTask.onClick.AddListener(CloseTaskPanel);
 
-        GlobalData.TaskListPanel = m_TaskListPanel;
-        GlobalData.Task = m_Task;
+        // GlobalData.TaskListPanel = m_TaskListPanel;
+        // GlobalData.Task = m_Task;
         GlobalData.TaskParent = m_ParentTrans;
     }
 
@@ -50,7 +50,7 @@ public class ModuleSelectPanel : BasePanel
         {
             m_ParentTrans.GetChild(i).gameObject.SetActive(false);
         }
-        m_TaskListPanel.SetActive(false);
+        // m_TaskListPanel.SetActive(false);
     }
 
     private void CreateModuleList(List<ModuleData> modules)

@@ -23,12 +23,14 @@ public class AssessEvent : ModuleEvent
         }
 
         // 獲取考核類型
-        await Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
+        // 因为以前的服务器不用了QAQ，所以这里的接口也不能用了qwq，
+        // 所以这一部分代码要屏蔽掉了！
+        /*await Client.Instance.m_Server.Get_SetHeader(URL.QUERY_MY_EXAM, (dataServer) =>
         {
             //Debug.Log(dataServer);
             GlobalData.TaskListPanel.gameObject.SetActive(true);
             JsonData js_data = JsonMapper.ToObject(dataServer);
-
+        
             for (int i = 0; i < js_data["data"].Count; ++i)
             {
                 Button item = Object.Instantiate(GlobalData.Task, GlobalData.TaskParent);
@@ -44,11 +46,14 @@ public class AssessEvent : ModuleEvent
                         ExamJsonData ex_js_data = JsonMapper.ToObject<ExamJsonData>(dataExam);
                         GlobalData.examData = ex_js_data;
                         GlobalData.TaskListPanel.gameObject.SetActive(false);
-
+        
                         SwitchSceneAccName(m_Name);
                     });
                 });
             }
-        });
+        });*/
+
+        // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。
+        SwitchSceneAccName(m_Name);
     }
 }
