@@ -3,6 +3,7 @@ using sugar;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,9 +26,10 @@ public class TitlePanel : BasePanel
     private void OnExitBtnClicked()
     {
         //CameraControl.SetMain();
-        if (GlobalData.isLoadModel)
+        if (GlobalData.SceneModel != null)
         {
-            if (GlobalData.isCommit && GlobalData.mode == Mode.Examination)
+            // 考核模式有了自己的提交按钮，所以不需要在关闭的时候在提交了
+            /*if (GlobalData.isSubmit && GlobalData.mode == Mode.Examination)
             {
                 UITools.OpenDialog("", "是否退出考核模式，退出时将提交成绩", async () =>
                 {
@@ -78,14 +80,27 @@ public class TitlePanel : BasePanel
                         });
                     }
                 });
-            }
-            else
-            {
-                GlobalData.DestroyModel = true;
-                GlobalData.StepIdx = 0;
-                GlobalData.currModuleName = "";
-                UITools.Loading("Menu");
-            }           
+            }*/
+            //Debug.Log("SceneModel != null");
+
+            CameraControl.SetMain();
+
+            InfoPanel._instance.Active(false);
+            //InfoPanel._instance.m_token.Dispose();
+            InfoPanel._instance.m_token.Cancel();
+
+            MinMap._instance.Active(false);
+            SelectStepPanel._instance.Active(false);
+            MenuPanel._instance.Active(true);
+            MenuPanel._instance.SetActiveMenuList(true);
+            SetTitle(GlobalData.currModuleName);
+
+            Destroy(GlobalData.SceneModel.gameObject);
+            GlobalData.DestroyModel = true;
+            GlobalData.StepIdx = 0;
+            GlobalData.currItemMode = "";
+            //GlobalData.currModuleName = "";
+            //UITools.Loading("Menu");
         }
         else
         {

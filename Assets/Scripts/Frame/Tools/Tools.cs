@@ -162,7 +162,7 @@ public static class Tools
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
-        UnityEngine.Object.Instantiate(model_async.Result);
+        GlobalData.SceneModel = UnityEngine.Object.Instantiate(model_async.Result);
         await AnalysisStepFile();
         await AnalysisEquFile();
     }

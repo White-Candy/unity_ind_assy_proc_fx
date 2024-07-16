@@ -12,15 +12,15 @@ public class AssessEvent : ModuleEvent
     public override async void OnEvent(params object[] args)
     {
         base.OnEvent(args);
-        //Debug.Log("Assess Event!");
+        // Debug.Log("Assess Event!");
 
         GlobalData.mode = Mode.Examination;
-        if (GlobalData.currentExamIsFinish)
-        {
-            UITools.OpenDialog("", "您已完成本次考核!", () => { });
-            //Debug.Log("您已完成本次考核!");
-            return;
-        }
+        //if (GlobalData.currentExamIsFinish)
+        //{
+        //    UITools.OpenDialog("", "您已完成本次考核!", () => { });
+        //    //Debug.Log("您已完成本次考核!");
+        //    return;
+        //}
 
         // 獲取考核類型
         // 因为以前的服务器不用了QAQ，所以这里的接口也不能用了qwq，

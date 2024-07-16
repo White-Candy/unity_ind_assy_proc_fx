@@ -32,7 +32,7 @@ public class TheoreticalExamPanel : BasePanel
 
         m_Pool.AddListener(Instance);
 
-        m_Commit.onClick.AddListener(CommitQue);
+        m_Commit.onClick.AddListener(SubmitQue);
         m_Close.onClick.AddListener(Close);
     }
 
@@ -66,7 +66,7 @@ public class TheoreticalExamPanel : BasePanel
     /// <summary>
     /// Ã·Ωª ‘Ã‚
     /// </summary>
-    public void CommitQue()
+    public void SubmitQue()
     {
         if (GlobalData.mode == Mode.Examination)
         {
@@ -80,7 +80,7 @@ public class TheoreticalExamPanel : BasePanel
                 body.userScore = score.ToString();
                 body.userAnswer = user;
                 body.resourceId = id;
-                GlobalData.m_TheorExamBody.Add(body);
+                // GlobalData.m_TheorExamBody.Add(body);
             }
             return;
         }
