@@ -83,7 +83,7 @@ public class GameMode : Singleton<GameMode>
         if (GlobalData.mode == Mode.Examination)
         {
             InfoPanel._instance.SetActiveOfExamUI(true);
-            InfoPanel._instance.StartCountDown();
+            await InfoPanel._instance.StartCountDown().SuppressCancellationThrow();
         }
         else
         {

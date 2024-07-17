@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System.Collections;
@@ -55,5 +56,7 @@ public class AssessEvent : ModuleEvent
 
         // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。
         SwitchSceneAccName(m_Name);
+
+        await UniTask.Yield();
     }
 }

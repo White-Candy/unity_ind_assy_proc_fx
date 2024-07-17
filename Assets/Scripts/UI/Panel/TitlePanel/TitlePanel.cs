@@ -87,7 +87,7 @@ public class TitlePanel : BasePanel
 
             InfoPanel._instance.Active(false);
             //InfoPanel._instance.m_token.Dispose();
-            InfoPanel._instance.m_token.Cancel();
+            InfoPanel._instance.CancelCountDownToken();
 
             MinMap._instance.Active(false);
             SelectStepPanel._instance.Active(false);

@@ -30,7 +30,7 @@ public class InfoPanel : BasePanel
 
     public static InfoPanel _instance;
 
-    public CancellationTokenSource m_token;
+    public CancellationTokenSource m_cts;
 
     // public bool m_showMap = true; // 是否展示小地图
 
@@ -70,10 +70,10 @@ public class InfoPanel : BasePanel
     {
         m_Introduce?.gameObject.SetActive(false);
 
-        if (GlobalData.mode == Mode.Examination)
-        {
-            StartCountDown();
-        }
+        //if (GlobalData.mode == Mode.Examination)
+        //{
+        //    await StartCountDown();
+        //}
     }
 
     private void UpdateInfo()
@@ -116,16 +116,18 @@ public class InfoPanel : BasePanel
 
 
     // 开始倒计时
-    public async UniTaskVoid StartCountDown()
+    public async UniTask StartCountDown()
     {
-        m_token = new CancellationTokenSource();
+        m_cts = new CancellationTokenSource();
         int time = GlobalData.ExamTime;
-        Debug.Log(m_Visible);
-        while (time > 0)
+        await UniTask.WaitUntil(() => m_Visible == true);
+
+        while (time > 0 && m_Visible)
         { 
             UpdateTimeOnUI(time);
-            await UniTask.Delay(1000, cancellationToken: m_token.Token);
+            await UniTask.Delay(1000, cancellationToken: m_cts.Token);
             time--;
+            // Debug.Log(time);
         }
     }
 
@@ -144,5 +146,12 @@ public class InfoPanel : BasePanel
     {
         m_CountDown.gameObject.SetActive(b);
         m_Submit.gameObject.SetActive(b);
+    }
+
+    // 停止CountDown的线程
+    public void CancelCountDownToken()
+    {
+        m_cts.Cancel();
+        m_cts.Dispose();
     }
 }

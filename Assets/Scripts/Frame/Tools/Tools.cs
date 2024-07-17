@@ -215,8 +215,8 @@ public static class Tools
             //UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
             //Debug.Log("InfoPanel is true for active.");
 
-            InfoPanel._instance.gameObject.SetActive(true);
-            SelectStepPanel._instance.gameObject.SetActive(true);
+            InfoPanel._instance.Active(true);
+            SelectStepPanel._instance.Active(true);
             if (MinMap._instance.canshow)
             {
                 MinMap._instance.Active(true);
