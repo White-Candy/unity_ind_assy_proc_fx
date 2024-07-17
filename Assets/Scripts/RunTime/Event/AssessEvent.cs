@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System.Collections;
@@ -12,15 +13,15 @@ public class AssessEvent : ModuleEvent
     public override async void OnEvent(params object[] args)
     {
         base.OnEvent(args);
-        //Debug.Log("Assess Event!");
+        // Debug.Log("Assess Event!");
 
         GlobalData.mode = Mode.Examination;
-        if (GlobalData.currentExamIsFinish)
-        {
-            UITools.OpenDialog("", "您已完成本次考核!", () => { });
-            //Debug.Log("您已完成本次考核!");
-            return;
-        }
+        //if (GlobalData.currentExamIsFinish)
+        //{
+        //    UITools.OpenDialog("", "您已完成本次考核!", () => { });
+        //    //Debug.Log("您已完成本次考核!");
+        //    return;
+        //}
 
         // 獲取考核類型
         // 因为以前的服务器不用了QAQ，所以这里的接口也不能用了qwq，
@@ -55,5 +56,7 @@ public class AssessEvent : ModuleEvent
 
         // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。
         SwitchSceneAccName(m_Name);
+
+        await UniTask.Yield();
     }
 }

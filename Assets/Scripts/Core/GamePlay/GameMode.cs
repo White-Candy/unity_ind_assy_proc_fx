@@ -52,7 +52,6 @@ public class GameMode : Singleton<GameMode>
     {
         await UniTask.WaitUntil(() => GlobalData.stepStructs.Count != 0);
 
-
         m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
         // Debug.Log(m_arrowTrans.Count);
         // 提示物体位置的调整
@@ -79,6 +78,17 @@ public class GameMode : Singleton<GameMode>
             AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip);
         }
         m_Init = true;
+
+        // 考核模式显示 考核模式的UI
+        if (GlobalData.mode == Mode.Examination)
+        {
+            InfoPanel._instance.SetActiveOfExamUI(true);
+            await InfoPanel._instance.StartCountDown().SuppressCancellationThrow();
+        }
+        else
+        {
+            InfoPanel._instance.SetActiveOfExamUI(false);
+        }
     }
 
     private void FixedUpdate()
@@ -88,12 +98,12 @@ public class GameMode : Singleton<GameMode>
 
     private void OnEnable()
     {
-        UnityEventCenter.AddListener(EnumDefine.EventKey.NotificationCallback, UpdateRealBody);
+        //UnityEventCenter.AddListener(EnumDefine.EventKey.NotificationCallback, UpdateRealBody);
     }
 
     private void OnDisable()
     {
-        UnityEventCenter.RemoveEventLister(EnumDefine.EventKey.NotificationCallback);
+        //UnityEventCenter.RemoveEventLister(EnumDefine.EventKey.NotificationCallback);
     }
 
     private void StateMachine()
@@ -279,6 +289,6 @@ public class GameMode : Singleton<GameMode>
         avi.userScore = GlobalData.totalScore.ToString();
         realList.Add(avi);
 
-        GlobalData.m_RealExamBody = realList;
+        //GlobalData.m_RealExamBody = realList;
     }
 }

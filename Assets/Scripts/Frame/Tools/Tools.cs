@@ -162,7 +162,7 @@ public static class Tools
         AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
-        UnityEngine.Object.Instantiate(model_async.Result);
+        GlobalData.SceneModel = UnityEngine.Object.Instantiate(model_async.Result);
         await AnalysisStepFile();
         await AnalysisEquFile();
     }
@@ -215,8 +215,8 @@ public static class Tools
             //UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
             //Debug.Log("InfoPanel is true for active.");
 
-            InfoPanel._instance.gameObject.SetActive(true);
-            SelectStepPanel._instance.gameObject.SetActive(true);
+            InfoPanel._instance.Active(true);
+            SelectStepPanel._instance.Active(true);
             if (MinMap._instance.canshow)
             {
                 MinMap._instance.Active(true);

@@ -55,26 +55,27 @@ public class ModuleEvent
     {
         //Debug.Log("SwitchSceneAccName: " + module_name);
         GlobalData.currModuleName = module_name;
+        UITools.Loading("Main", module_name);
         //GlobalData.currModuleCode = module_code;
-        if (GlobalData.mode == Mode.Examination)
-        {
-            if (GlobalData.FinishExamModule.Contains(module_name))
-            {
-                //UITools.OpenDialog("", "您已完成本模块考核，不可再次进入。", () => { });
-                //Debug.Log(@"您已完成本模块考核，不可再次进入。");
-                return;
-            }
-            else
-            {
-                GlobalData.FinishExamModule.Add(module_name);
-                UITools.Loading("Main", module_name);
-                return;
-            }
-        }
-        else
-        {
-            UITools.Loading("Main", module_name);
-            return;
-        }
+        //if (GlobalData.mode == Mode.Examination)
+        //{
+        //    if (GlobalData.FinishExamModule.Contains(module_name))
+        //    {
+        //        //UITools.OpenDialog("", "您已完成本模块考核，不可再次进入。", () => { });
+        //        //Debug.Log(@"您已完成本模块考核，不可再次进入。");
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        GlobalData.FinishExamModule.Add(module_name);
+        //        UITools.Loading("Main", module_name);
+        //        return;
+        //    }
+        //}
+        //else
+        //{
+        //    UITools.Loading("Main", module_name);
+        //    return;
+        //}
     }
 }

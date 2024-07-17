@@ -1,8 +1,10 @@
 using Cysharp.Threading.Tasks;
+using LitJson;
 using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +29,8 @@ public class InfoPanel : BasePanel
     public Button m_Submit; // 提交按钮
 
     public static InfoPanel _instance;
+
+    public CancellationTokenSource m_cts;
 
     // public bool m_showMap = true; // 是否展示小地图
 
@@ -66,10 +70,10 @@ public class InfoPanel : BasePanel
     {
         m_Introduce?.gameObject.SetActive(false);
 
-        if (GlobalData.mode == Mode.Examination)
-        {
-            StartCountDown();
-        }
+        //if (GlobalData.mode == Mode.Examination)
+        //{
+        //    await StartCountDown();
+        //}
     }
 
     private void UpdateInfo()
@@ -98,19 +102,32 @@ public class InfoPanel : BasePanel
     // 考核模式成绩提交
     private void SubmitScore()
     {
+        UITools.OpenDialog("", $"是否提交{GlobalData.ModelTarget.menuName}的实训成绩？", () =>
+        {
+            GlobalData.DestroyModel = true;
+            GlobalData.StepIdx = 0;
+            GlobalData.totalScore = 0f;
+            // GlobalData.currentExamIsFinish = true;
+            GlobalData.currModuleName = "";
 
+            //UITools.Loading("Menu");
+        });
     }
 
 
     // 开始倒计时
-    private async void StartCountDown()
+    public async UniTask StartCountDown()
     {
+        m_cts = new CancellationTokenSource();
         int time = GlobalData.ExamTime;
-        while (time > 0) 
+        await UniTask.WaitUntil(() => m_Visible == true);
+
+        while (time > 0 && m_Visible)
         { 
             UpdateTimeOnUI(time);
-            await UniTask.Delay(1000);
+            await UniTask.Delay(1000, cancellationToken: m_cts.Token);
             time--;
+            // Debug.Log(time);
         }
     }
 
@@ -123,5 +140,18 @@ public class InfoPanel : BasePanel
 
         string str_time = $"{Tools.FillingForTime(hour.ToString()) + ":" + Tools.FillingForTime(min.ToString()) + ":" + Tools.FillingForTime(second.ToString())}";
         m_CountDown.SetText(str_time);
+    }
+
+    public void SetActiveOfExamUI(bool b)
+    {
+        m_CountDown.gameObject.SetActive(b);
+        m_Submit.gameObject.SetActive(b);
+    }
+
+    // 停止CountDown的线程
+    public void CancelCountDownToken()
+    {
+        m_cts.Cancel();
+        m_cts.Dispose();
     }
 }

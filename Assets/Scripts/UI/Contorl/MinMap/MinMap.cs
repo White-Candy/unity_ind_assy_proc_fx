@@ -13,14 +13,14 @@ public class MinMap : BasePanel
     [SerializeField] private RectTransform miniSpot;//地图上目标
     [SerializeField] private Transform player;//实际目标
     [SerializeField] private Vector3 origin;//偏移数据
-    public bool canshow = true;
+    public bool canshow = false;
 
     public static MinMap _instance;
 
     public override void Awake()
     {
         base.Awake();
-        canshow = true;
+        canshow = false;
 
         _instance = this;
         Active(false);
