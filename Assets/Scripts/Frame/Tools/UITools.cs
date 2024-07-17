@@ -30,9 +30,9 @@ public static class UITools
         load_panel.LoadScene(scene, model_name);
     }
 
-    public static void OpenDialog(string title, string info, Action callback)
+    public static void OpenDialog(string title, string info, Action callback, bool single = false)
     {
-        DialogPanel.OpenDialog(title, info, callback);
+        DialogPanel.OpenDialog(title, info, callback, single);
     }
 
     /// <summary>

@@ -83,24 +83,9 @@ public class TitlePanel : BasePanel
             }*/
             //Debug.Log("SceneModel != null");
 
-            CameraControl.SetMain();
-
-            InfoPanel._instance.Active(false);
-            //InfoPanel._instance.m_token.Dispose();
-            InfoPanel._instance.CancelCountDownToken();
-
-            MinMap._instance.Active(false);
-            SelectStepPanel._instance.Active(false);
-            MenuPanel._instance.Active(true);
-            MenuPanel._instance.SetActiveMenuList(true);
-            SetTitle(GlobalData.currModuleName);
-
-            Destroy(GlobalData.SceneModel.gameObject);
-            GlobalData.DestroyModel = true;
-            GlobalData.StepIdx = 0;
-            GlobalData.currItemMode = "";
             //GlobalData.currModuleName = "";
             //UITools.Loading("Menu");
+            Utilly.ExitModeSceneAction();
         }
         else
         {
