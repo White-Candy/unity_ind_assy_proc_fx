@@ -25,7 +25,7 @@ public class TheoreticalExamAction : BaseAction
     {
         if (GlobalData.isFinishTheoreticalExam)
         {
-            UITools.OpenDialog("", "已完成理论考核，请在退出考核模式后前往后台查询成绩。", () => { });
+            UITools.OpenDialog("", "已完成理论考核，请在退出考核模式后前往后台查询成绩。", () => { }, true);
             return;
         }
 

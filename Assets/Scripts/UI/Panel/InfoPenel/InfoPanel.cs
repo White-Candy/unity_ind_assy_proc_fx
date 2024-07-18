@@ -30,7 +30,7 @@ public class InfoPanel : BasePanel
 
     public static InfoPanel _instance;
 
-    public CancellationTokenSource m_cts;
+    public CancellationTokenSource m_cts = new CancellationTokenSource();
 
     // public bool m_showMap = true; // 是否展示小地图
 
@@ -109,25 +109,35 @@ public class InfoPanel : BasePanel
             GlobalData.totalScore = 0f;
             // GlobalData.currentExamIsFinish = true;
             GlobalData.currModuleName = "";
-
+            Utilly.ExitModeSceneAction();
             //UITools.Loading("Menu");
-        });
+        }, true);
     }
 
 
     // 开始倒计时
     public async UniTask StartCountDown()
     {
-        m_cts = new CancellationTokenSource();
         int time = GlobalData.ExamTime;
         await UniTask.WaitUntil(() => m_Visible == true);
 
         while (time > 0 && m_Visible)
         { 
-            UpdateTimeOnUI(time);
-            await UniTask.Delay(1000, cancellationToken: m_cts.Token);
             time--;
+            UpdateTimeOnUI(time); 
+            await UniTask.Delay(1000, cancellationToken: m_cts.Token);
             // Debug.Log(time);
+        }
+
+        if (time <= 0)
+        {
+            UITools.OpenDialog("", "时间到，已自动交卷。", UniTask.Action(async () =>
+            {
+                // TODO.. 成绩提交请求
+
+                GlobalData.totalScore = 0f;
+                Utilly.ExitModeSceneAction();                
+            }), true);
         }
     }
 
@@ -153,5 +163,6 @@ public class InfoPanel : BasePanel
     {
         m_cts.Cancel();
         m_cts.Dispose();
+        m_cts = new CancellationTokenSource();
     }
 }

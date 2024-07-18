@@ -71,7 +71,7 @@ public class ModelAnimControl : MonoBehaviour
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
         CameraControl.SetPlayer();
-        Debug.Log("Start Slice");
+        // Debug.Log("Start Slice");
         await Slice(0f, 0.5f);
     }
 
