@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
+using LitJson;
 using Paroxe.PdfRenderer;
+using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,20 +20,34 @@ public class PDFPanel : BasePanel
     public GameObject m_PDFItemParent;
     public PDFViewer m_PDFViewer;
 
+    private string moudleName = "";
+
     // PDF文件item实例列表
     private List<GameObject> m_Items = new List<GameObject>();
 
-    public void Init(List<string> paths)
+    public void Init(List<string> paths, string name)
     {
+        moudleName = name;
         SetPDFActive(false);
         m_PDFPaths = paths;
         SpawnPDFItem();
     }
 
-    private void SpawnPDFItem()
+    private async void SpawnPDFItem()
     {
         foreach (var path in m_PDFPaths)
         {
+            string[] split = path.Split('/');
+            string filename = split[split.Length - 1];
+            string suffix = Tools.GetModulePath(moudleName);
+            string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
+            Debug.Log("PDF: " + relaPath);
+
+            JsonData js = new JsonData();
+            js["relaPath"] = relaPath;
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent);
+            await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
+
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
             Button itemBtn = itemObj.GetComponentInChildren<Button>();

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using LitJson;
 using sugar;
 using System.Collections.Generic;
 using TMPro;
@@ -110,7 +111,7 @@ public class MenuGridPanel : BasePanel
             m_Actions.Add(name, m_currAction);
         }
         GlobalData.currItemMode = name;
-        //Debug.Log("curraction init finish");
+
         await m_currAction.AsyncShow(name);
     }
 }

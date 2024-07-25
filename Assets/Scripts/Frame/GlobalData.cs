@@ -77,5 +77,8 @@ namespace sugar
 
         // 场景模型实例
         public static GameObject SceneModel;
+
+        // 是否为最新的资源(PDF, 视频，图片)
+        public static bool IsLatestRes = false;
     }
 }
