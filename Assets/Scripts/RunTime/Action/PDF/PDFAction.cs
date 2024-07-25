@@ -8,6 +8,7 @@ using System.Threading;
 using UnityEngine.UIElements;
 using Unity.VisualScripting;
 using System;
+using sugar;
 public class PDFAction : BaseAction
 {
     private PDFPanel m_Panel;
@@ -33,14 +34,19 @@ public class PDFAction : BaseAction
             {
                 if (paths.Count == 0)
                     UITools.ShowMessage("当前模块没有PDF资源");
-                m_Panel.Init(paths);
+
+                // 资源更新请求
+                // NetworkClientTCP.SendAsync();
+                // await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
+
+                m_Panel.Init(paths, name);
                 m_initList.Add(name, paths);
                 m_init = true;
             });
         }
         else
         {
-            m_Panel.Init(m_initList[name]);
+            m_Panel.Init(m_initList[name], name);
             m_init = true;
         }
         await UniTask.WaitUntil(() => m_init == true, PlayerLoopTiming.Update, m_Token.Token);

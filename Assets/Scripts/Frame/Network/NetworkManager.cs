@@ -16,11 +16,18 @@ public class NetworkManager : MonoBehaviour
     {
         _Instance = this;
         DontDestroyOnLoad(this);
+
+        // 与局服务器连接请求
+        NetworkClientTCP.Connect("192.168.3.34", 5800);
     }
 
-    private void Start()
+    public void FixedUpdate()
     {
-      
+        if (NetworkClientTCP.m_MessQueue.Count > 0)
+        {
+            var pkg = NetworkClientTCP.m_MessQueue.Dequeue();
+            Debug.Log("Tcp: " + pkg.ret);
+        }
     }
 
     /// <summary>

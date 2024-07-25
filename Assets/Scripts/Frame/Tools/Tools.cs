@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -277,5 +278,44 @@ public static class Tools
             return "0" + t;
         }
         return t;
+    }
+
+    /// <summary>
+    /// 获取主机的ipv4地址
+    /// </summary>
+    /// <returns></returns>
+    public static string GetIPForTypeIPV4()
+    {
+        string ipv4_ip = "127.0.0.1";
+        foreach (var item in NetworkInterface.GetAllNetworkInterfaces())
+        {
+            NetworkInterfaceType wirless = NetworkInterfaceType.Wireless80211;
+            NetworkInterfaceType Ethernet = NetworkInterfaceType.Ethernet;
+            NetworkInterfaceType item_networkType = item.NetworkInterfaceType;
+            if ((item_networkType == wirless || item_networkType == Ethernet) && item.OperationalStatus == OperationalStatus.Up)
+            {
+                foreach (var ip in item.GetIPProperties().UnicastAddresses)
+                {
+                    if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        ipv4_ip = ip.Address.ToString();
+                    }
+                }
+            }
+        }
+        return ipv4_ip;
+    }
+
+    /// <summary>
+    /// 等待器
+    /// </summary>
+    /// <param name="sec"> 秒数 ex: 1秒 => 1.0f </param>
+    /// <param name="callback"> CallBack Action </param>
+    /// <returns></returns>
+    public static async UniTask OnAwait(float sec, Action callback)
+    {
+        int duration = (int)(sec * 1000);
+        await UniTask.Delay(duration);
+        callback();
     }
 }
