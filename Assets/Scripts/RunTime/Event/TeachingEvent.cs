@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 点击教学按钮的事件
-public class TeachingEvent : ModuleEvent
+public class TeachingEvent : BaseEvent
 {
     public override async void OnEvent(params object[] args)
     {

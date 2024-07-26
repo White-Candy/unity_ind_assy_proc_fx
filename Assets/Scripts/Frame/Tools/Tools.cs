@@ -4,6 +4,7 @@ using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -317,5 +318,40 @@ public static class Tools
         int duration = (int)(sec * 1000);
         await UniTask.Delay(duration);
         callback();
+    }
+
+    /// <summary>
+    /// 把字节数组 => 文件流
+    /// </summary>
+    /// <param name="buffer"> 文件字节流 </param>
+    /// <param name="save_path"> 保存路径 </param>
+    public static async void Bytes2File(byte[] buffer, string save_path)
+    {
+        if (File.Exists(save_path)) 
+        { 
+            File.Delete(save_path);
+        }
+        else
+        {
+            string dir = save_path;
+            int idx = dir.LastIndexOf('\\');
+            dir = dir.Substring(0, idx);
+            Directory.CreateDirectory(dir);
+        }
+
+        FileStream fs = new FileStream(save_path, FileMode.CreateNew);
+        lock (fs)
+        {
+            BinaryWriter bw = new BinaryWriter(fs);
+            lock (bw)
+            {
+                bw.Write(buffer, 0, buffer.Length);
+                bw.Close();
+            }
+            fs.Close();
+        }
+
+        await UniTask.WaitUntil(() => File.Exists(save_path) == true);
+        GlobalData.IsLatestRes = true;
     }
 }

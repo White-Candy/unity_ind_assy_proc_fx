@@ -25,8 +25,9 @@ public class NetworkManager : MonoBehaviour
     {
         if (NetworkClientTCP.m_MessQueue.Count > 0)
         {
-            var pkg = NetworkClientTCP.m_MessQueue.Dequeue();
-            Debug.Log("Tcp: " + pkg.ret);
+            MessPackage pkg = NetworkClientTCP.m_MessQueue.Dequeue();
+            BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
+            @event.OnEvent(pkg);
         }
     }
 

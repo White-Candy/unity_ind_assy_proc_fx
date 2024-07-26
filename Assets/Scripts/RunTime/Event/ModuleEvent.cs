@@ -9,13 +9,13 @@ using UnityEngine;
 public static class ModuleEventSpawn
 {
 
-    public static ModuleEvent Spawn<T>(string module_name, string code, MonoBehaviour mono) where T : ModuleEvent
+    public static BaseEvent Spawn<T>(string module_name, string code, MonoBehaviour mono) where T : BaseEvent
     {
         try
         {
             Type t = Type.GetType(module_name, true);
             object @object = Activator.CreateInstance(t);
-            ModuleEvent @event = @object as ModuleEvent;
+            BaseEvent @event = @object as BaseEvent;
             if (@event != null)
             {
                 @event.m_Name = Tools.Escaping(module_name);
@@ -34,7 +34,7 @@ public static class ModuleEventSpawn
 }
 
 // 選擇模式板塊事件
-public class ModuleEvent
+public class BaseEvent
 {
     // 模式的名字
     public string m_Name;

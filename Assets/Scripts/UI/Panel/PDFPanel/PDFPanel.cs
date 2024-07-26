@@ -41,13 +41,11 @@ public class PDFPanel : BasePanel
             string filename = split[split.Length - 1];
             string suffix = Tools.GetModulePath(moudleName);
             string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
-            Debug.Log("PDF: " + relaPath);
 
-            JsonData js = new JsonData();
-            js["relaPath"] = relaPath;
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent);
+            NetworkTCPExpand.CheckResourceReq(GlobalData.currModuleCode, moudleName, relaPath);
             await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
 
+            GlobalData.IsLatestRes = false;
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
             Button itemBtn = itemObj.GetComponentInChildren<Button>();
