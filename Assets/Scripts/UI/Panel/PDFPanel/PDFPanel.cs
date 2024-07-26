@@ -48,6 +48,7 @@ public class PDFPanel : BasePanel
             NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent);
             await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
 
+            GlobalData.IsLatestRes = false;
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
             Button itemBtn = itemObj.GetComponentInChildren<Button>();

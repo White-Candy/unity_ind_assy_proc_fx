@@ -70,7 +70,7 @@ public class ModuleSelectPanel : BasePanel
             button.onClick.AddListener(() =>
             {
                 // 不同模式执行不同的 OnEvent.
-                ModuleEvent @event = ModuleEventSpawn.Spawn<ModuleEvent>(Tools.Escaping(item.moduleName), item.moduleCode, this);
+                BaseEvent @event = ModuleEventSpawn.Spawn<BaseEvent>(Tools.Escaping(item.moduleName), item.moduleCode, this);
                 @event.OnEvent();
             });
         }

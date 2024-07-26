@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // 点击考核按钮的事件
-public class AssessEvent : ModuleEvent
+public class AssessEvent : BaseEvent
 {
     public override async void OnEvent(params object[] args)
     {
