@@ -2,16 +2,16 @@ using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+
+using Random = UnityEngine.Random;
 
 public static class Tools
 {
@@ -353,5 +353,14 @@ public static class Tools
 
         await UniTask.WaitUntil(() => File.Exists(save_path) == true);
         GlobalData.IsLatestRes = true;
+    }
+
+    /// <summary>
+    /// 为新【添加/更新】的文件更新新的版本号
+    /// </summary>
+    /// <returns></returns>
+    public static string SpawnRandomCode()
+    {
+        return $"{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}";
     }
 }

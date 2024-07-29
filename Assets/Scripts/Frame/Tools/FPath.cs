@@ -22,12 +22,12 @@ public class FPath
     /// <summary>
     /// 教学模式中 教案模式config文件路径
     /// </summary>
-    public static string JiaoAnSuffix { get { return $"/JiaoAn"; } }
-    public static string GuiFanSuffix { get { return $"/GuiFan"; } }
-    public static string FangAnSuffix { get { return $"/FangAn"; } }
-    public static string TuZhiSuffix { get { return $"/TuZhi"; } }
-    public static string PictureSuffix { get { return $"/Picture"; } }
-    public static string AnimSuffix { get { return $"/Animation"; } }
-    public static string VideoSuffix { get { return $"/Video"; } }
-    public static string ModelSuffix { get { return $"/Model/Config.txt"; } }
+    public static string JiaoAnSuffix { get { return $"\\JiaoAn"; } }
+    public static string GuiFanSuffix { get { return $"\\GuiFan"; } }
+    public static string FangAnSuffix { get { return $"\\FangAn"; } }
+    public static string TuZhiSuffix { get { return $"\\TuZhi"; } }
+    public static string PictureSuffix { get { return $"\\Picture"; } }
+    public static string AnimSuffix { get { return $"\\Animation"; } }
+    public static string VideoSuffix { get { return $"\\Video"; } }
+    public static string ModelSuffix { get { return $"\\Model\\Config.txt"; } }
 }

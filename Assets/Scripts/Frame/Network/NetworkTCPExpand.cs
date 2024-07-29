@@ -21,9 +21,9 @@ public static class NetworkTCPExpand
     /// </summary>
     /// <param name="code"></param>
     /// <param name="moduelName"></param>
-    public static void CheckResourceReq(string code, string moduelName, string relative)
+    public static void CheckResourceReq(string relative)
     {
-        var Rsinfo = StorageExpand.FindRsInfo(code, moduelName, relative);
+        var Rsinfo = StorageExpand.FindRsInfo(relative);
         string s_info = JsonMapper.ToJson(Rsinfo);
         NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent);
     }

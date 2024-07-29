@@ -49,7 +49,7 @@ public class PDFAction : BaseAction
             m_Panel.Init(m_initList[name], name);
             m_init = true;
         }
-        await UniTask.WaitUntil(() => m_init == true, PlayerLoopTiming.Update, m_Token.Token);
+        await UniTask.WaitUntil(() => m_init == true, PlayerLoopTiming.Update, m_Token.Token).SuppressCancellationThrow();
 
         m_Panel.transform.SetAsFirstSibling();
         m_Panel.Active(true);
