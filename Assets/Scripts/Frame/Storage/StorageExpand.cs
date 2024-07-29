@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
 using System.IO;
 using UnityEngine;
@@ -16,9 +17,9 @@ public static class StorageExpand
                 m_storage = Resources.Load("Storage/Clump") as StorageObject;
             }
 
-            if (File.Exists(Application.streamingAssetsPath + "Storage.json") && !m_Init)
+            if (File.Exists(Application.streamingAssetsPath + "\\CliStorage.json") && !m_Init)
             {
-                string s_json = File.ReadAllText(Application.persistentDataPath + "/Data.json");
+                string s_json = File.ReadAllText(Application.streamingAssetsPath + "\\CliStorage.json");
                 m_storage = JsonMapper.ToObject<StorageObject>(s_json);
                 m_Init = true;
             }
@@ -32,10 +33,16 @@ public static class StorageExpand
     /// <param name="code"></param>
     /// <param name="moduleName"></param>
     /// <returns></returns>
-    public static ResourcesInfo FindRsInfo(string code, string moduleName, string relative)
+    public static ResourcesInfo FindRsInfo(string relative)
     {
-        ResourcesInfo info = Storage.rsCheck.Find((x) => x.id == code && x.moduleName == moduleName);
-        return info == null ? new ResourcesInfo() { id = code, moduleName = moduleName, relaPath = relative } : info;
+        ResourcesInfo info = Storage.rsCheck.Find((x) => x.relaPath == relative);
+        if (info == null)
+        {
+            info = new ResourcesInfo() { relaPath = relative, version_code = Tools.SpawnRandomCode() };
+            Storage.rsCheck.Add(info);
+        }
+
+        return info;
     }
 
     /// <summary>
@@ -44,7 +51,7 @@ public static class StorageExpand
     /// <param name="cli_info"></param>
     public static ResourcesInfo GetThisInfoPkg(ResourcesInfo cli_info)
     {
-        return Storage.rsCheck.Find((x) => { return (x.id == cli_info.id) && (x.moduleName == cli_info.moduleName); });
+        return Storage.rsCheck.Find((x) => { return x.relaPath == cli_info.relaPath; });
     }
 
     /// <summary>
@@ -53,15 +60,14 @@ public static class StorageExpand
     /// <param name="relative"></param>
     public static void UpdateThisFileInfo(ResourcesInfo info)
     {
-        int idx = Storage.rsCheck.FindIndex((x) => { return (x.id == info.id) && (x.moduleName == info.moduleName); });
+        int idx = Storage.rsCheck.FindIndex((x) => { return x.relaPath == info.relaPath; });
         if (idx != -1)
         {
             Storage.rsCheck.RemoveAt(idx);
         }
 
         ResourcesInfo ri = new ResourcesInfo();
-        ri.id = info.id;
-        ri.moduleName = info.moduleName;
+        ri.relaPath = info.relaPath;
         ri.version_code = info.version_code;
         Storage.rsCheck.Add(ri);
         SaveToDisk();
@@ -70,10 +76,10 @@ public static class StorageExpand
     /// <summary>
     /// 将 ScriptableObject 的内容保存到硬盘中
     /// </summary>
-    public static void SaveToDisk()
+    public async static void SaveToDisk()
     {
-        // Debug.Log(Application.persistentDataPath);
+        await UniTask.SwitchToMainThread();
         string s_json = JsonMapper.ToJson(Storage);
-        File.WriteAllText(Application.persistentDataPath + "/Storage.json", s_json);
+        File.WriteAllText(Application.streamingAssetsPath + "/CliStorage.json", s_json);
     }
 }

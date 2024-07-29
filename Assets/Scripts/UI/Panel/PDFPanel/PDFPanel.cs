@@ -42,7 +42,7 @@ public class PDFPanel : BasePanel
             string suffix = Tools.GetModulePath(moudleName);
             string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
 
-            NetworkTCPExpand.CheckResourceReq(GlobalData.currModuleCode, moudleName, relaPath);
+            NetworkTCPExpand.CheckResourceReq(relaPath);
             await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
 
             GlobalData.IsLatestRes = false;

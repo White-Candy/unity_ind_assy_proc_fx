@@ -21,13 +21,22 @@ public static class UITools
     /// <summary>
     /// 加載scene場景，之前還要顯示一個加載中的UI。
     /// </summary>
-    /// <param name="scene">需要顯示的場景</param>
+    /// <param name="scene"> 需要顯示的場景 </param>
     /// <param name="real"> 如果real為True異步加載模型場景，否在異步加載UI場景 </param>
     /// <param name="model_name"></param>
     public static void Loading(string scene, string model_name = "")
     {
         LoadingPanel load_panel = UIConsole.Instance.FindAssetPanel<LoadingPanel>();
         load_panel.LoadScene(scene, model_name);
+    }
+
+    /// <summary>
+    /// 下载窗口
+    /// </summary>
+    /// <param name="f"></param>
+    public static DownLoadPanel SpawnDownLoad()
+    {
+        return UIConsole.Instance.FindAssetPanel<DownLoadPanel>();
     }
 
     public static void OpenDialog(string title, string info, Action callback, bool single = false)

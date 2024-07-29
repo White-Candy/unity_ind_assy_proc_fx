@@ -23,6 +23,13 @@ public class NetworkManager : MonoBehaviour
 
     public void FixedUpdate()
     {
+        if (NetworkClientTCP.m_FrontQueue.Count > 0)
+        {
+            FrontPackage fp = NetworkClientTCP.m_FrontQueue.Dequeue();
+            BaseEvent @event = Tools.CreateObject<BaseEvent>(fp.eventType);
+            @event.OnPrepare(fp);
+        }
+
         if (NetworkClientTCP.m_MessQueue.Count > 0)
         {
             MessPackage pkg = NetworkClientTCP.m_MessQueue.Dequeue();
@@ -88,5 +95,13 @@ public class NetworkManager : MonoBehaviour
             paths.Add(path + "/" + str);
         }
         return paths;
-    }    
+    }
+
+    /// <summary>
+    /// Ïú»Ù
+    /// </summary>
+    public void OnDestroy()
+    {
+        StorageExpand.SaveToDisk();
+    }
 }

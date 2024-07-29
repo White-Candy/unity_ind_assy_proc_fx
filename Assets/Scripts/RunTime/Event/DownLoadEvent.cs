@@ -6,6 +6,18 @@ using UnityEngine;
 
 public class DownLoadEvent : BaseEvent
 {
+    public override async void OnPrepare(params object[] args)
+    {
+        await UniTask.SwitchToMainThread();
+        DownLoadPanel._instance.Active(true);
+
+        do
+        {
+            DownLoadPanel._instance.SetPercent(NetworkClientTCP.percent);
+        } 
+        while (NetworkClientTCP.percent < 100.0f);
+    }
+
     public override async void OnEvent(params object[] args)
     {
         await UniTask.RunOnThreadPool(() =>

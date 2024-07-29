@@ -37,7 +37,12 @@ public static class NetworkClientTCP
     private static int buf_length = 1024000;
     private static byte[] buffer = new byte[buf_length];
 
+    // 内容包队列
     public static Queue<MessPackage> m_MessQueue = new Queue<MessPackage>();
+    // 前置包队列
+    public static Queue<FrontPackage> m_FrontQueue = new Queue<FrontPackage>();
+
+    public static float percent;
 
     public static void Connect(string ip, int port)
     {
@@ -51,7 +56,7 @@ public static class NetworkClientTCP
         // Socket socket = (Socket)ar.AsyncState;
         if (m_Socket != null) 
         {
-            Debug.Log($"Socket Connect: {m_Socket.Connected}");
+            // Debug.Log($"Socket Connect: {m_Socket.Connected}");
             m_Socket.EndConnect(ar);
 
             MessPackage mp = new MessPackage();
@@ -75,6 +80,10 @@ public static class NetworkClientTCP
                 mp.length = int.Parse(data["length"].ToString());
                 mp.event_type = data["event_type"].ToString();
                 mp.get_length = true;
+
+                FrontPackage fp = new FrontPackage();
+                fp.eventType = data["event_type"].ToString();
+                m_FrontQueue.Enqueue(fp);
             }
             else
             {
@@ -83,7 +92,7 @@ public static class NetworkClientTCP
                     mp.ret += mess;
                 }
 
-                float percent = (float)mp.ret.Count() * 1.0f / (float)mp.length * 1.0f * 100.0f;
+                percent = (float)mp.ret.Count() * 1.0f / (float)mp.length * 1.0f * 100.0f;
                 Debug.Log("----------" + mp.ip + " | " + percent + "%");  // Add message package for queue.
 
                 if (percent >= 100.0f)
@@ -203,4 +212,12 @@ public class MessPackage
         finish = mp.finish;
         get_length = mp.get_length;
     }
+}
+
+/// <summary>
+/// 前置包类
+/// </summary>
+public class FrontPackage
+{
+    public string eventType;
 }
