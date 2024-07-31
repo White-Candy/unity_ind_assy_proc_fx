@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class StorageExpand
@@ -12,19 +13,26 @@ public static class StorageExpand
     {
         get
         {
-            if (m_storage == null)
-            {
-                m_storage = Resources.Load("Storage/Clump") as StorageObject;
-            }
-
-            if (File.Exists(Application.streamingAssetsPath + "\\CliStorage.json") && !m_Init)
-            {
-                string s_json = File.ReadAllText(Application.streamingAssetsPath + "\\CliStorage.json");
-                m_storage = JsonMapper.ToObject<StorageObject>(s_json);
-                m_Init = true;
-            }
+            getStorage();
             return m_storage;
         }
+    }
+
+    public async static void getStorage()
+    {
+        await UniTask.SwitchToMainThread();
+        if (m_storage == null)
+        {
+            m_storage = Resources.Load("Storage/Clump") as StorageObject;
+        }
+
+        if (File.Exists(Application.persistentDataPath + "\\CliStorage.json") && !m_Init)
+        {
+            string s_json = File.ReadAllText(Application.persistentDataPath + "\\CliStorage.json");
+            JsonUtility.FromJsonOverwrite(s_json, m_storage);
+            m_Init = true;
+        }
+        await UniTask.WaitUntil(() => { return m_storage != null; } );
     }
 
     /// <summary>
@@ -80,6 +88,6 @@ public static class StorageExpand
     {
         await UniTask.SwitchToMainThread();
         string s_json = JsonMapper.ToJson(Storage);
-        File.WriteAllText(Application.streamingAssetsPath + "/CliStorage.json", s_json);
+        File.WriteAllText(Application.persistentDataPath + "/CliStorage.json", s_json);
     }
 }

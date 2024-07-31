@@ -342,16 +342,19 @@ public static class Tools
         FileStream fs = new FileStream(save_path, FileMode.CreateNew);
         lock (fs)
         {
-            BinaryWriter bw = new BinaryWriter(fs);
-            lock (bw)
-            {
-                bw.Write(buffer, 0, buffer.Length);
-                bw.Close();
-            }
+            fs.Write(buffer, 0, buffer.Length);
+            //BinaryWriter bw = new BinaryWriter(fs);
+            //lock (bw)
+            //{
+            //    bw.Write(buffer, 0, buffer.Length);
+            //    bw.Close();
+            //}
             fs.Close();
         }
 
         await UniTask.WaitUntil(() => File.Exists(save_path) == true);
+
+        DownLoadPanel._instance.SetWritePercent(100.0f);
         GlobalData.IsLatestRes = true;
     }
 
@@ -362,5 +365,37 @@ public static class Tools
     public static string SpawnRandomCode()
     {
         return $"{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}-{Random.Range(1000, 9999)}";
+    }
+
+    /// <summary>
+    /// 获取Action中每个文件的相对路径
+    /// </summary>
+    /// <param name="path"> 文件绝对路径 </param>
+    /// <param name="name"> 模块名 </param>
+    /// <returns></returns>
+    public static string GetFileRelativePath(string path, string name)
+    {
+        string[] split = path.Split('/');
+        string filename = split[split.Length - 1];
+        string suffix = Tools.GetModulePath(name);
+        string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
+
+        return relaPath;
+    }
+
+    /// <summary>
+    /// 将内存中的文件列表写入硬盘
+    /// </summary>
+    /// <returns></returns>
+    public static async UniTask WtMem2DiskOfFileList(List<FilePackage> fpList)
+    {
+        foreach (var fp in fpList)
+        {
+            string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+            Bytes2File(fp.fileData, savePath);
+
+            await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
+            GlobalData.IsLatestRes = false;
+        }
     }
 }

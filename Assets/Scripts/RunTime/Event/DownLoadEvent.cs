@@ -1,21 +1,36 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-using System.Collections;
-using System.Collections.Generic;
+using sugar;
 using UnityEngine;
 
 public class DownLoadEvent : BaseEvent
 {
-    public override async void OnPrepare(params object[] args)
+    public float old_Percent = 0.0f;
+    public async override void OnPrepare(params object[] args)
     {
-        await UniTask.SwitchToMainThread();
-        DownLoadPanel._instance.Active(true);
+        // await UniTask.SwitchToMainThread();
 
-        do
+        float displayPercent = 0.0f;
+        while(true)
         {
-            DownLoadPanel._instance.SetPercent(NetworkClientTCP.percent);
-        } 
-        while (NetworkClientTCP.percent < 100.0f);
+            await UniTask.WaitUntil(() => old_Percent != NetworkClientTCP.percent);
+
+            // TODO..优化
+            old_Percent = NetworkClientTCP.percent;
+            while (displayPercent <= old_Percent)
+            {
+                displayPercent += 0.5f;
+                DownLoadPanel._instance.SetDLPercent(displayPercent);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+
+            if (NetworkClientTCP.percent == 100.0f)
+            {
+                old_Percent = 0.0f;
+                break;
+            }
+        }
+        Debug.Log("break!");
     }
 
     public override async void OnEvent(params object[] args)
@@ -24,8 +39,11 @@ public class DownLoadEvent : BaseEvent
         {
             var mp = args[0] as MessPackage;
             FilePackage fp = JsonMapper.ToObject<FilePackage>(mp.ret);
-            string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
-            Tools.Bytes2File(fp.fileData, savePath);
+            //string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+
+            DownLoadPanel._instance.m_NeedWt.Add(fp); //将二进制文件数据加载到内存中去
+            GlobalData.Downloaded = true;
+            //Tools.Bytes2File(fp.fileData, savePath);
         });
     }
 }

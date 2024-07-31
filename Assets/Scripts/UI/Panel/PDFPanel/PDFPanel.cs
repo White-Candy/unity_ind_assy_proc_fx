@@ -20,32 +20,20 @@ public class PDFPanel : BasePanel
     public GameObject m_PDFItemParent;
     public PDFViewer m_PDFViewer;
 
-    private string moudleName = "";
-
     // PDF文件item实例列表
     private List<GameObject> m_Items = new List<GameObject>();
 
     public void Init(List<string> paths, string name)
     {
-        moudleName = name;
         SetPDFActive(false);
         m_PDFPaths = paths;
         SpawnPDFItem();
     }
 
-    private async void SpawnPDFItem()
+    private void SpawnPDFItem()
     {
         foreach (var path in m_PDFPaths)
         {
-            string[] split = path.Split('/');
-            string filename = split[split.Length - 1];
-            string suffix = Tools.GetModulePath(moudleName);
-            string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
-
-            NetworkTCPExpand.CheckResourceReq(relaPath);
-            await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
-
-            GlobalData.IsLatestRes = false;
             GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
             Button itemBtn = itemObj.GetComponentInChildren<Button>();
@@ -61,7 +49,6 @@ public class PDFPanel : BasePanel
     {
         m_PDFViewer.LoadDocumentFromFile(path);
         m_PDFViewer.transform.SetAsLastSibling();
-
         m_PDFViewer.gameObject.SetActive(true);
         //SetPDFActive(true);
     }

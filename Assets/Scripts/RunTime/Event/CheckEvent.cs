@@ -16,13 +16,11 @@ public class CheckEvent : BaseEvent
             {
                 info.need_updata = false;
                 StorageExpand.UpdateThisFileInfo(info);
-                NetworkTCPExpand.DownLoadResourcesReq(info.relaPath);
+
+                string path = info.relaPath;
+                DownLoadPanel._instance.m_NeedDL.Add(path);
             }
-            else
-            {
-                //StorageExpand.UpdateThisFileInfo(info);
-                GlobalData.IsLatestRes = true;
-            }
+            GlobalData.Checked = true;
         });
     }
 }
