@@ -78,6 +78,12 @@ namespace sugar
         // 场景模型实例
         public static GameObject SceneModel;
 
+        // 单个文件是否更新检查完毕(PDF, 视频，图片)
+        public static bool Checked = false;
+
+        // 单个文件是否下载完毕存储在内存中(PDF, 视频，图片)
+        public static bool Downloaded = false;
+
         // 是否为最新的资源(PDF, 视频，图片)
         public static bool IsLatestRes = false;
     }

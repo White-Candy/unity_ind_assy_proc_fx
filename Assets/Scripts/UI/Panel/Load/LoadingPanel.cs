@@ -82,9 +82,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
 
             if (real_percent > percent) // 顯示Loading窗口，比較平緩的滑動進度條。
             {
-
                 percent += Time.deltaTime;
-
                 percent = Mathf.Clamp01(percent);
             }
             m_ProgressSlider.value = percent;

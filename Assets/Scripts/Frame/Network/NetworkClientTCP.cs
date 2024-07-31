@@ -72,6 +72,7 @@ public static class NetworkClientTCP
         {
             string mess = Encoding.Unicode.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
+            // Debug.Log("+++++" + mess); // log message of front package
 
             if (!mp.get_length)
             {
@@ -83,6 +84,7 @@ public static class NetworkClientTCP
 
                 FrontPackage fp = new FrontPackage();
                 fp.eventType = data["event_type"].ToString();
+                percent = 0.0f; // 在准备队列填装之前 清空上一次消息留下的百分比
                 m_FrontQueue.Enqueue(fp);
             }
             else
@@ -93,7 +95,7 @@ public static class NetworkClientTCP
                 }
 
                 percent = (float)mp.ret.Count() * 1.0f / (float)mp.length * 1.0f * 100.0f;
-                Debug.Log("----------" + mp.ip + " | " + percent + "%");  // Add message package for queue.
+                // Debug.Log("----------" + percent + " || " + mess);  // Add message package for queue.
 
                 if (percent >= 100.0f)
                 {
@@ -102,7 +104,7 @@ public static class NetworkClientTCP
                     mp.Clear();
                 }
             }
-            Debug.Log("+++++" + mess); // log message of front package
+
             m_Socket.BeginReceive(buffer, 0, buf_length, 0, ReviceAsyncCallback, mp);
         }
         catch

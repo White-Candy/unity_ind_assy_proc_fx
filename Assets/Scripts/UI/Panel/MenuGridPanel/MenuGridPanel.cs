@@ -112,6 +112,6 @@ public class MenuGridPanel : BasePanel
         }
         GlobalData.currItemMode = name;
 
-        await m_currAction.AsyncShow(name);
+        await m_currAction.AsyncShow(name).SuppressCancellationThrow();
     }
 }

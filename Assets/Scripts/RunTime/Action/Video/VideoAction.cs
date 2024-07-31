@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,8 +17,6 @@ public class VideoAction : BaseAction
 
     public VideoAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
-
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
     }
@@ -32,12 +31,17 @@ public class VideoAction : BaseAction
             {
                 UITools.ShowMessage("当前模块没有Video资源");
             }
+
+            await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+
+            m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
             m_Panel.Init(paths);
             m_initList.Add(name, paths);
             m_init = true;
         }
         else
         {
+            m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
             m_Panel.Init(m_initList[name]);
             m_init = true;
         }

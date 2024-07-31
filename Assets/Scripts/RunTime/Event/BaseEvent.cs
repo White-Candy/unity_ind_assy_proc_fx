@@ -47,7 +47,7 @@ public class BaseEvent
     /// <summary>
     /// [limite] network unity socket tcp server message: 事件开始前处理前置包内容
     /// </summary>
-    public virtual async void OnPrepare(params object[] args) { await UniTask.Yield(); }
+    public virtual void OnPrepare(params object[] args) {  }
 
     /// <summary>
     /// 点击每个模式不同的事件

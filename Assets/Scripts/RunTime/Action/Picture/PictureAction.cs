@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +16,6 @@ public class PictureAction : BaseAction
 
     public PictureAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<PicturePanel>();
-
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
     }
@@ -26,6 +25,8 @@ public class PictureAction : BaseAction
         if (!m_Init)
         {
             List<Sprite> sprites = await LoadPictureAsync(name);
+
+            m_Panel = UIConsole.Instance.FindAssetPanel<PicturePanel>();
             m_Panel.Init(sprites);
             m_Init = true;
         }
@@ -49,16 +50,15 @@ public class PictureAction : BaseAction
         var paths = await NetworkManager._Instance.DownLoadAasetAsync(name);
 
         List<Sprite> sprites = new List<Sprite>();
-        //foreach (var path in paths)
-        //{
-        //    Debug.Log("picture action: " + path);
-        //}
 
         if (paths.Count == 0)
             UITools.ShowMessage("当前模块没有图片资源");
 
         AsyncResult result = await AssetConsole.Instance.LoadTexObject(paths.ToArray());
         await UniTask.WaitUntil(() => result.isLoad == true);
+
+        await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+
         foreach (var spo in result.m_Assets)
         {
             sprites.Add(Tools.SpriteConvert((Texture2D)spo.Value));

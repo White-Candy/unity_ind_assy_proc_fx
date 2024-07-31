@@ -90,7 +90,6 @@ public class AssetConsole : Singleton<AssetConsole>
         }
         result.isLoad = true;
     }
-
 }
 
 public class AsyncResult

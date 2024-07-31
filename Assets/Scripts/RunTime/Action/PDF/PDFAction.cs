@@ -20,8 +20,6 @@ public class PDFAction : BaseAction
 
     public PDFAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<PDFPanel>();
-
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
     }
@@ -30,15 +28,14 @@ public class PDFAction : BaseAction
     {
         if (!m_initList.ContainsKey(name))
         {
-            await NetworkManager._Instance.DownLoadConfigAsync(name, (paths) =>
+            await NetworkManager._Instance.DownLoadConfigAsync(name, async (paths) =>
             {
                 if (paths.Count == 0)
                     UITools.ShowMessage("当前模块没有PDF资源");
 
-                // 资源更新请求
-                // NetworkClientTCP.SendAsync();
-                // await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
+                await NetworkTCPExpand.RsCkAndDLReq(paths, name);
 
+                m_Panel = UIConsole.Instance.FindAssetPanel<PDFPanel>();
                 m_Panel.Init(paths, name);
                 m_initList.Add(name, paths);
                 m_init = true;

@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour
         NetworkClientTCP.Connect("192.168.3.34", 5800);
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         if (NetworkClientTCP.m_FrontQueue.Count > 0)
         {
