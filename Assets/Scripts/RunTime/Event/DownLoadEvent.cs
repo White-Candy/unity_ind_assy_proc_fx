@@ -10,19 +10,12 @@ public class DownLoadEvent : BaseEvent
     {
         // await UniTask.SwitchToMainThread();
 
-        float displayPercent = 0.0f;
         while(true)
         {
             await UniTask.WaitUntil(() => old_Percent != NetworkClientTCP.percent);
 
-            // TODO..”≈ªØ
             old_Percent = NetworkClientTCP.percent;
-            while (displayPercent <= old_Percent)
-            {
-                displayPercent += 0.5f;
-                DownLoadPanel._instance.SetDLPercent(displayPercent);
-                await UniTask.Yield(PlayerLoopTiming.Update);
-            }
+            DownLoadPanel._instance.SetDLPercent(NetworkClientTCP.percent);
 
             if (NetworkClientTCP.percent == 100.0f)
             {
