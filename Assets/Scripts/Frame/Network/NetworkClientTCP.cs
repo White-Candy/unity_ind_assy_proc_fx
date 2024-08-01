@@ -72,7 +72,7 @@ public static class NetworkClientTCP
         {
             string mess = Encoding.Unicode.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
-            // Debug.Log("+++++" + mess); // log message of front package
+            Debug.Log("+++++" + mess); // log message of front package
 
             if (!mp.get_length)
             {
