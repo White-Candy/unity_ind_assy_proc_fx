@@ -5,6 +5,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class UserInfo
+{
+    public string userName;
+    public string password;
+    public bool login;
+    public string hint;
+}
+
 namespace sugar
 {
     public class LoginPanel : MonoBehaviour

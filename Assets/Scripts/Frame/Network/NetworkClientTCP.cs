@@ -15,7 +15,8 @@ public enum EventType
     None = 0,
     UploadEvent,
     DownLoadEvent,
-    CheckEvent
+    CheckEvent,
+    UserLoginEvent,
 }
 
 /// <summary>
