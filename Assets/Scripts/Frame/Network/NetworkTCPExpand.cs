@@ -98,4 +98,19 @@ public static class NetworkTCPExpand
 
         DownLoadPanel._instance.Clear();
     }
+
+    /// <summary>
+    /// ÓÃ»§µÇÂ¼ÇëÇó
+    /// </summary>
+    /// <returns></returns>
+    public async static UniTask UserLoginReq(string account, string pwd)
+    {
+        await UniTask.RunOnThreadPool(() =>
+        {
+            JsonData js = new JsonData();
+            js["userName"] = account;
+            js["password"] = pwd;
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.UserLoginEvent);
+        });
+    }
 }

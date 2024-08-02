@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoginData
-{
-    public string username;
-    public string password;
-}
+//public class LoginData
+//{
+//    public string username;
+//    public string password;
+//}
 
 public class Client : Singleton<Client>
 {
@@ -30,11 +30,12 @@ public class Client : Singleton<Client>
     /// <param name="password"></param>
     public async void Login(string path, string username, string password)
     {
-        LoginData login_data = new LoginData();
-        login_data.username = username;
-        login_data.password = password;
-        string json = LitJson.JsonMapper.ToJson(login_data);
-        UITools.Loading("Menu");
+        await NetworkTCPExpand.UserLoginReq(username, password);
+        // LoginData login_data = new LoginData();
+        // login_data.username = username;
+        // login_data.password = password;
+        // string json = LitJson.JsonMapper.ToJson(login_data);
+        // UITools.Loading("Menu");
         //await m_Server.Post(path, json, (body) =>
         //{
         //    // Debug.Log(body);
