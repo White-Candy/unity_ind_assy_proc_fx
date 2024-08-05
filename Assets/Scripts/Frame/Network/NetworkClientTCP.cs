@@ -17,6 +17,7 @@ public enum EventType
     DownLoadEvent,
     CheckEvent,
     UserLoginEvent,
+    RegisterEvent
 }
 
 /// <summary>

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public static class UITools
@@ -42,6 +43,22 @@ public static class UITools
     public static void OpenDialog(string title, string info, Action callback, bool single = false)
     {
         DialogPanel.OpenDialog(title, info, callback, single);
+    }
+
+    /// <summary>
+    /// 检测UI层的输入框是否为空
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="hint"></param>
+    /// <returns></returns>
+    public static bool InputFieldCheck(string content, string hint)
+    {
+        if (string.IsNullOrEmpty(content))
+        {
+            ShowMessage(hint);
+            return true;
+        }
+        return false;
     }
 
     /// <summary>

@@ -107,10 +107,39 @@ public static class NetworkTCPExpand
     {
         await UniTask.RunOnThreadPool(() =>
         {
-            JsonData js = new JsonData();
-            js["userName"] = account;
-            js["password"] = pwd;
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.UserLoginEvent);
+            UserInfo inf = new UserInfo();
+            inf.userName = account;
+            inf.password = pwd;
+
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent);
         });
+    }
+
+    /// <summary>
+    /// 注册请求
+    /// </summary>
+    /// <param name="account"></param>
+    /// <param name="pwd"></param>
+    /// <param name="verify"></param>
+    /// <returns></returns>
+    public static void Register(string account, string pwd, string verify)
+    {
+        if (UITools.InputFieldCheck(account, "用户名不能为空")) { return; }
+        if (UITools.InputFieldCheck(pwd, "密码不能为空")) { return; }
+        if (UITools.InputFieldCheck(verify, "请再次输入密码")) { return; }
+
+        if (pwd == verify)
+        {
+            UserInfo inf = new UserInfo();
+            inf.userName = account;
+            inf.password = pwd;
+            inf.level = 0;
+
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent);
+        }
+        else
+        {
+            UITools.ShowMessage("两次密码不一样");
+        }
     }
 }

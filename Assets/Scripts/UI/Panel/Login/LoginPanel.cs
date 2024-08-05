@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,17 +6,22 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 用户信息包
+/// </summary>
+[Serializable]
 public class UserInfo
 {
     public string userName;
     public string password;
-    public bool login;
-    public string hint;
+    public int level;
+    public bool login = false;
+    public string hint = "";
 }
 
 namespace sugar
 {
-    public class LoginPanel : MonoBehaviour
+    public class LoginPanel : BasePanel
     {
         /// <summary>
         /// IF => InputField
@@ -24,9 +30,13 @@ namespace sugar
         public TMP_InputField m_PwdIF;
         public Button m_Login;
         public Button m_Close;
+        public Button m_Regiester;
+
+        public static LoginPanel _instance;
 
         private async void Awake()
         {
+            _instance = this;
             await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
             {
                 GlobalData.IP = content;
@@ -42,6 +52,12 @@ namespace sugar
             {
                 m_Close.onClick.AddListener(UITools.Quit);
             }
+
+            m_Regiester?.onClick.AddListener(() => 
+            {
+                RegisterPanel._instance.Active(true);
+                Active(false);
+            });
         }
 
         void Update()
@@ -54,16 +70,8 @@ namespace sugar
         /// </summary>
         private void LoginRequest()
         {
-            if (string.IsNullOrEmpty(m_UserIF.text))
-            {
-                UITools.ShowMessage("用户名不能为空");
-                return;
-            }
-            if (string.IsNullOrEmpty(m_PwdIF.text))
-            {
-                UITools.ShowMessage("密码不能为空");
-                return;
-            }
+            if (UITools.InputFieldCheck(m_UserIF.text, "用户名不能为空")) { return; }
+            if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
             
             // 客户端请求登录
             Client.Instance.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
