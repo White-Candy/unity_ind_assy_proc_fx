@@ -20,16 +20,6 @@ public enum EventType
     RegisterEvent
 }
 
-/// <summary>
-/// 前置包结构
-/// </summary>
-public class Frontmp
-{
-    public string ip;
-    public string length;
-    public string type;
-}
-
 public static class NetworkClientTCP
 {
     public static Socket m_Socket;
@@ -42,7 +32,7 @@ public static class NetworkClientTCP
     // 内容包队列
     public static Queue<MessPackage> m_MessQueue = new Queue<MessPackage>();
     // 前置包队列
-    public static Queue<FrontPackage> m_FrontQueue = new Queue<FrontPackage>();
+    public static Queue<FrontMp> m_FrontQueue = new Queue<FrontMp>();
 
     public static float percent;
 
@@ -74,7 +64,7 @@ public static class NetworkClientTCP
         {
             string mess = Encoding.Unicode.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
-            Debug.Log("+++++" + mess); // log message of front package
+            //Debug.Log("+++++" + mess); // log message of front package
 
             if (!mp.get_length)
             {
@@ -84,8 +74,8 @@ public static class NetworkClientTCP
                 mp.event_type = data["event_type"].ToString();
                 mp.get_length = true;
 
-                FrontPackage fp = new FrontPackage();
-                fp.eventType = data["event_type"].ToString();
+                FrontMp fp = new FrontMp();
+                fp.event_type = data["event_type"].ToString();
                 percent = 0.0f; // 在准备队列填装之前 清空上一次消息留下的百分比
                 m_FrontQueue.Enqueue(fp);
             }
@@ -138,11 +128,11 @@ public static class NetworkClientTCP
     /// <param name="event_type"></param>
     public static void SendFrontPackage(string mess, EventType event_type)
     {
-        Frontmp mpinfo = new Frontmp()
+        FrontMp mpinfo = new FrontMp()
         {
             ip = Tools.GetIPForTypeIPV4(),
             length = mess.Count().ToString(),
-            type = event_type.ToSafeString()
+            event_type = event_type.ToSafeString()
         };
 
         string s_info = JsonMapper.ToJson(mpinfo);
@@ -219,9 +209,11 @@ public class MessPackage
 }
 
 /// <summary>
-/// 前置包类
+/// 前置包结构
 /// </summary>
-public class FrontPackage
+public class FrontMp
 {
-    public string eventType;
+    public string ip;
+    public string length;
+    public string event_type;
 }
