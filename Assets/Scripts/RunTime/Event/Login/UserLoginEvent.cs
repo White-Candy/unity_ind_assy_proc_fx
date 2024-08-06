@@ -11,14 +11,17 @@ public class UserLoginEvent : BaseEvent
 
     public override async void OnEvent(params object[] args)
     {
-        await UniTask.RunOnThreadPool(() =>
+        await UniTask.RunOnThreadPool(async () =>
         {
             MessPackage mp = args[0] as MessPackage;
             UserInfo info = JsonMapper.ToObject<UserInfo>(mp.ret);
+
+            await UniTask.SwitchToMainThread();
             if (info.login)
             {
                 UITools.Loading("Menu");
             }
+
             UITools.ShowMessage(info.hint);
         });
     }
