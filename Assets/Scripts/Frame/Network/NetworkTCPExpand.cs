@@ -15,7 +15,7 @@ public static class NetworkTCPExpand
     {
         JsonData js = new JsonData();
         js["relaPath"] = relative;
-        NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent);
+        NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ public static class NetworkTCPExpand
     {
         var Rsinfo = StorageExpand.FindRsInfo(relative);
         string s_info = JsonMapper.ToJson(Rsinfo);
-        NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent);
+        NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent, OperateType.NONE);
     }
 
     /// 请求检查文件更新
@@ -111,7 +111,7 @@ public static class NetworkTCPExpand
             inf.userName = account;
             inf.password = pwd;
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent);
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
         });
     }
 
@@ -135,7 +135,7 @@ public static class NetworkTCPExpand
             inf.password = pwd;
             inf.level = 0;
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent);
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
         }
         else
         {
