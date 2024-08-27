@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// before: 广域网服务器接口
+/// now: 局域网需要自己写, 暂时用不到URL类了
+/// </summary>
 public class URL
 {
     public static string ROOT_API

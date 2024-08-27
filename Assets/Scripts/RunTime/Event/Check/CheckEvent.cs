@@ -4,8 +4,6 @@ using sugar;
 
 public class CheckEvent : BaseEvent
 {
-    public override async void OnPrepare(params object[] args) { await UniTask.Yield(); }
-
     public override async void OnEvent(params object[] args)
     {
         await UniTask.RunOnThreadPool(() =>

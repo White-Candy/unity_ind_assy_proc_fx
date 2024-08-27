@@ -57,37 +57,26 @@ public class DownLoadPanel : BasePanel
     /// <param name="percent"></param>
     public void SetDLPercent(float percent)
     {
-        Debug.Log($"=========== {m_Percent} || {m_bufPercent} || {percent}");
-        m_Percent = m_bufPercent + (percent / (float)m_NeedDL.Count) * 0.9f;
-        if (percent >= 100.0f)
+        m_Percent = m_bufPercent + percent / m_NeedDL.Count * 0.9f;
+        if (percent == 100.0f)
         {
             m_bufPercent = m_Percent;
         }
 
         SetUIPercent(m_Percent);
-        //m_ProgressSlider.value = m_Percent / 100.0f;
-        //m_ProgressPercent.text = m_Percent.ToString("f1") + "%";
-
-
+        Debug.Log($"=========== {m_Percent} || {m_bufPercent} || {percent}");
     }
 
     /// <summary>
     /// 设置写入文件时的进度条
     /// </summary>
     /// <param name="percent"></param>
-    public void SetWritePercent(float percent)
+    public void SetWritePercent()
     {
-        m_Percent = m_bufPercent + percent / 10.0f / (float)m_NeedWt.Count;
-        // Debug.Log("=========== SetWritePercent: " + m_Percent);
-
-        if (percent >= 100.0f)
-        {
-            m_bufPercent = m_Percent;
-        }
-
+        m_Percent = m_bufPercent + 10.0f / m_NeedWt.Count;
+        m_bufPercent = m_Percent;
+        Debug.Log($" SetWritePercent =========== {m_Percent} || {m_bufPercent}");
         SetUIPercent(m_Percent);
-        //m_ProgressSlider.value = m_Percent / 100.0f;
-        //m_ProgressPercent.text = m_Percent.ToString("f1") + "%";
     }
 
     /// <summary>
@@ -96,6 +85,7 @@ public class DownLoadPanel : BasePanel
     /// <param name="percent"></param>
     private async void SetUIPercent(float percent) 
     {
+        await UniTask.Yield();
         while (m_uiPercent < percent)
         {
             m_uiPercent += 0.5f;
@@ -103,7 +93,7 @@ public class DownLoadPanel : BasePanel
             m_ProgressPercent.text = m_uiPercent.ToString("f1") + "%";
 
 
-            if (m_ProgressSlider.value >= 1.0f)
+            if (m_ProgressSlider.value == 1.0f)
             {
                 Debug.Log("更新完成！");
                 m_Hint.text = $"更新完成！";
@@ -120,7 +110,7 @@ public class DownLoadPanel : BasePanel
                 m_Finished = false;
             }
 
-            await UniTask.Yield();
+            //await UniTask.Yield();
         }
     }
 

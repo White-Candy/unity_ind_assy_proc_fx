@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public static class NetworkTCPExpand
+public class NetworkTCPExpand
 {
     /// <summary>
     /// 文件下载请求
@@ -15,7 +15,7 @@ public static class NetworkTCPExpand
     {
         JsonData js = new JsonData();
         js["relaPath"] = relative;
-        NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent);
+        NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -33,15 +33,11 @@ public static class NetworkTCPExpand
             DownLoadPanel._instance.Active(true);
         }
 
-        Debug.Log("DLResourcesReqOfList: " + list.Count);
-
         foreach (var path in list)
         {
             DownLoadResourcesReq(path);
-
-            await UniTask.WaitUntil(() => GlobalData.Downloaded == true);
-            GlobalData.Downloaded = false;
         }
+        await UniTask.Yield();
     }
 
     /// <summary>
@@ -53,7 +49,7 @@ public static class NetworkTCPExpand
     {
         var Rsinfo = StorageExpand.FindRsInfo(relative);
         string s_info = JsonMapper.ToJson(Rsinfo);
-        NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent);
+        NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent, OperateType.NONE);
     }
 
     /// 请求检查文件更新
@@ -91,12 +87,18 @@ public static class NetworkTCPExpand
         // 文件列表下载到内存中请求
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
-        // 文件从内存写入硬盘
-        await Tools.WtMem2DiskOfFileList(DownLoadPanel._instance.m_NeedWt);
+        if (DownLoadPanel._instance.m_NeedDL.Count > 0)
+        {
+            // 下载准备
+            await UITools.DownLoadPrepare(DownLoadPanel._instance.m_NeedDL.Count);
 
-        await UniTask.WaitUntil(() => DownLoadPanel._instance.m_Finished == true);
+            // 文件从内存写入硬盘
+            await Tools.WtMem2DiskOfFileList(DownLoadPanel._instance.m_NeedWt);
 
-        DownLoadPanel._instance.Clear();
+            await UniTask.WaitUntil(() => DownLoadPanel._instance.m_Finished == true);
+
+            DownLoadPanel._instance.Clear();
+        }
     }
 
     /// <summary>
@@ -111,7 +113,7 @@ public static class NetworkTCPExpand
             inf.userName = account;
             inf.password = pwd;
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent);
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
         });
     }
 
@@ -130,12 +132,14 @@ public static class NetworkTCPExpand
 
         if (pwd == verify)
         {
-            UserInfo inf = new UserInfo();
-            inf.userName = account;
-            inf.password = pwd;
-            inf.level = 0;
+            UserInfo inf = new UserInfo
+            {
+                userName = account,
+                password = pwd,
+                level = 0
+            };
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent);
+            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
         }
         else
         {

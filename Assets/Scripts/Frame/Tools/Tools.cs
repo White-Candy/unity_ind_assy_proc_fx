@@ -343,18 +343,12 @@ public static class Tools
         lock (fs)
         {
             fs.Write(buffer, 0, buffer.Length);
-            //BinaryWriter bw = new BinaryWriter(fs);
-            //lock (bw)
-            //{
-            //    bw.Write(buffer, 0, buffer.Length);
-            //    bw.Close();
-            //}
             fs.Close();
         }
 
         await UniTask.WaitUntil(() => File.Exists(save_path) == true);
 
-        DownLoadPanel._instance.SetWritePercent(100.0f);
+        DownLoadPanel._instance.SetWritePercent();
         GlobalData.IsLatestRes = true;
     }
 

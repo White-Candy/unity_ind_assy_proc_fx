@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using sugar;
 using System;
 using System.Collections;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public static class UITools
+public class UITools
 {
     /// <summary>
     /// 提示窗口加載
@@ -71,6 +72,28 @@ public static class UITools
 #else
         Application.Quit();
 #endif
+    }
+
+    public static float old_Percent = 0.0f;
+    public async static UniTask DownLoadPrepare(int fileCount)
+    {
+        await UniTask.RunOnThreadPool(async () =>
+        {
+            while(fileCount > 0)
+            {
+                if (NetworkClientTCP.percent == 0.0f) continue; 
+                Debug.Log("DownLoadPrepare: " +  NetworkClientTCP.percent + " | " + fileCount);
+                DownLoadPanel._instance.SetDLPercent(NetworkClientTCP.percent);
+                if (NetworkClientTCP.percent == 100.0f) 
+                {
+                    fileCount--;
+                }
+            }
+                            
+            await UniTask.WaitUntil(() => GlobalData.Downloaded == true);
+            GlobalData.Downloaded = false;
+        });
+        //Debug.Log("break! " + fileCount);
     }
 }
 

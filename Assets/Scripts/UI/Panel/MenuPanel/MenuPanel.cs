@@ -55,7 +55,7 @@ public class MenuPanel : BasePanel
 
     private void BuildMenuList()
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
@@ -82,9 +82,9 @@ public class MenuPanel : BasePanel
 #endif
     }
 
-    private async void BuildMenuItem(List<Target> targets, GameObject list = null)
+    private void BuildMenuItem(List<Target> targets, GameObject list = null)
     {
-#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         // 多模块模式
         foreach (var target in targets)
         {

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class SubMenuGrid : MonoBehaviour
 {
-    private SubMenuItem m_Item;
     private SubMenuDragItem m_DragItem;
 
     public void Init(List<string> equs)
