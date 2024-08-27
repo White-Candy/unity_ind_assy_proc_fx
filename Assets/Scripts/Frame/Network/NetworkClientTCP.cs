@@ -25,7 +25,7 @@ public enum EventType
     RegisterEvent
 }
 
-public static class NetworkClientTCP
+public class NetworkClientTCP
 {
     public static Socket m_Socket;
 
@@ -36,8 +36,6 @@ public static class NetworkClientTCP
 
     // 内容包队列
     public static Queue<MessPackage> m_MessQueue = new Queue<MessPackage>();
-    // 前置包队列
-    public static Queue<FrontMp> m_FrontQueue = new Queue<FrontMp>();
 
     public static float percent;
 
@@ -67,72 +65,30 @@ public static class NetworkClientTCP
         int length = m_Socket.EndReceive(ar);
         try
         {
-            string mess = Encoding.Unicode.GetString(buffer, 0, length);
+            string mess = Encoding.Default.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
-            Debug.Log(mess);
-
+            // Debug.Log("ReviceAsyncCallback: " + mess);
+ 
             string[] lengthSplit = mess.Split("|");
             string totalLength = lengthSplit[0];
             if (!mp.get_length && !string.IsNullOrEmpty(totalLength))
             {
+                // Debug.Log("GET LENGTH: " + totalLength);
                 mp.length = int.Parse(totalLength);
                 mp.get_length = true;
                 mp.ret += lengthSplit[1];
-                totalLength = "";
-
-                checkParcent(mp);
+                totalLength = "";         
             }
             else
             {
-                if (mp.length > mp.ret.Count())
+                // Debug.Log("GET MESSAGE: ");
+                if (mp.length >= mp.ret.Count())
                 {
                     mp.ret += mess;
                 }
-
-                checkParcent(mp);
             }
+            checkParcent(mp);
             m_Socket.BeginReceive(buffer, 0, buf_length, 0, ReviceAsyncCallback, mp);
-
-        // MessPackage mp = (MessPackage)ar.AsyncState;
-        // int length = m_Socket.EndReceive(ar);
-        // try
-        // {
-        //     string mess = Encoding.Unicode.GetString(buffer, 0, length);
-        //     Array.Clear(buffer, 0, buffer.Length);
-        //     //Debug.Log("+++++" + mess); // log message of front package
-
-        //     if (!mp.get_length)
-        //     {
-        //         JsonData data = JsonMapper.ToObject(mess);
-        //         // 前置包获取内容包的总长度和事件类型
-        //         mp.length = int.Parse(data["length"].ToString());
-        //         mp.event_type = data["event_type"].ToString();
-        //         mp.get_length = true;
-
-        //         FrontMp fp = new FrontMp();
-        //         fp.event_type = data["event_type"].ToString();
-        //         percent = 0.0f; // 在准备队列填装之前 清空上一次消息留下的百分比
-        //         m_FrontQueue.Enqueue(fp);
-        //     }
-        //     else
-        //     {
-        //         if (mp.length > mp.ret.Count())
-        //         {
-        //             mp.ret += mess;
-        //         }
-
-        //         percent = (float)mp.ret.Count() * 1.0f / (float)mp.length * 1.0f * 100.0f;
-        //         // Debug.Log("----------" + percent + " || " + mess);  // Add message package for queue.
-
-        //         if (percent >= 100.0f)
-        //         {
-        //             mp.finish = true;
-        //             MessQueueAdd(mp);
-        //             mp.Clear();
-        //         }
-        //     }
-
-        //     m_Socket.BeginReceive(buffer, 0, buf_length, 0, ReviceAsyncCallback, mp);
         }
         catch
         {
@@ -153,23 +109,15 @@ public static class NetworkClientTCP
             string totalInfoPkg = $"|{front}#{mess}";
             long totalLength = totalInfoPkg.Count();
             string finalPkg = totalLength.ToString() + totalInfoPkg;
-            Debug.Log(finalPkg);
+            // Debug.Log(finalPkg);
 
-            var outputBuffer = Encoding.Unicode.GetBytes(finalPkg);
+            var outputBuffer = Encoding.Default.GetBytes(finalPkg);
             m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
         });
-
-        // SendFrontPackage(mess, event_type);
-
-        // await Tools.OnAwait(0.1f, () =>
-        // {
-        //     var outputBuffer = Encoding.Unicode.GetBytes(mess);
-        //     m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
-        // });
     }
 
     /// <summary>
-    /// 发送前置包
+    /// 前置包
     /// </summary>
     /// <param name="mess"></param>
     /// <param name="event_type"></param>
@@ -239,6 +187,7 @@ public static class NetworkClientTCP
         mp.ret = main;
         MessQueueAdd(mp);
         mp.Clear();
+        percent = 0.0f;
     }
 
     /// <summary>
@@ -247,8 +196,8 @@ public static class NetworkClientTCP
     /// <param name="pkg"></param>
     public static void checkParcent(MessPackage mp)
     {
-        float percent = (float)(mp.ret.Count() + 1)* 1.0f / (float)mp.length * 1.0f * 100.0f;
-        // Debug.Log("----------" +  mp.ip + " | " + percent + "%");  // Add message package for queue.
+        percent = mp.ret.Count() * 1.0f / (mp.length - 1) * 1.0f * 100.0f;
+        Debug.Log("----------" + " | " + percent + "%");  // Add message package for queue.
 
         if (percent >= 100.0f)
         {

@@ -48,7 +48,7 @@ public class UnityEventCenter
     {
         if (!eventListeners.ContainsKey(eventKey))
         {
-            Debug.Log("key值错误，请检查代码！！！= " + eventKey);
+            Debug.Log("key值错误, 请检查代码!!!= " + eventKey);
             return;
         }
 

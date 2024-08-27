@@ -23,12 +23,12 @@ public class NetworkManager : MonoBehaviour
 
     public void Update()
     {
-        if (NetworkClientTCP.m_FrontQueue.Count > 0)
-        {
-            FrontMp fp = NetworkClientTCP.m_FrontQueue.Dequeue();
-            BaseEvent @event = Tools.CreateObject<BaseEvent>(fp.event_type);
-            @event.OnPrepare(fp);
-        }
+        // if (NetworkClientTCP.m_FrontQueue.Count > 0)
+        // {
+        //     FrontMp fp = NetworkClientTCP.m_FrontQueue.Dequeue();
+        //     BaseEvent @event = Tools.CreateObject<BaseEvent>(fp.event_type);
+        //     @event.OnPrepare(fp);
+        // }
 
         if (NetworkClientTCP.m_MessQueue.Count > 0)
         {

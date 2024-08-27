@@ -72,8 +72,6 @@ namespace sugar
         public static bool isFinishTheoreticalExam; // 是否完成考核
         public static float theoreticalExamscore = 50f; // 理论考核满分是50分
         public static float trainingExamscore = 50f; // 实训考核满分是50分
-        //public static List<AnswerDetailVoListItem> m_TheorExamBody = new List<AnswerDetailVoListItem>(); // 理论考核结束时的内容
-        //public static List<AnswerDetailVoListItem> m_RealExamBody = new List<AnswerDetailVoListItem>(); // 实训考核结束时的内容
 
         // 场景模型实例
         public static GameObject SceneModel;

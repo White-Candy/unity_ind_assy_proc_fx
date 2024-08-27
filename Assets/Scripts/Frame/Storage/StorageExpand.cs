@@ -4,7 +4,7 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public static class StorageExpand
+public class StorageExpand
 {
     private static bool m_Init = false;
 
@@ -74,9 +74,11 @@ public static class StorageExpand
             Storage.rsCheck.RemoveAt(idx);
         }
 
-        ResourcesInfo ri = new ResourcesInfo();
-        ri.relaPath = info.relaPath;
-        ri.version_code = info.version_code;
+        ResourcesInfo ri = new ResourcesInfo
+        {
+            relaPath = info.relaPath,
+            version_code = info.version_code
+        };
         Storage.rsCheck.Add(ri);
         SaveToDisk();
     }
