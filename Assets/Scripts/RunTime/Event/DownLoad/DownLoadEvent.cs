@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
@@ -10,8 +12,21 @@ public class DownLoadEvent : BaseEvent
         await UniTask.RunOnThreadPool(() =>
         {
             var mp = args[0] as MessPackage;
+            // Debug.Log("================================= DownLoadEvent: " + mp.ret);
+            
+            // using (StreamWriter sw = new StreamWriter("LogErrorTestFile.txt"))
+            // {
+            //     // Add some text to the file.
+            //     sw.Write("This is the ");
+            //     sw.WriteLine("header for the file.");
+            //     sw.WriteLine("-------------------");
+            //     sw.WriteLine(mp.ret);
+            //     sw.Write("The date is: ");
+            //     sw.WriteLine(DateTime.Now);
+            // }
             FilePackage fp = JsonMapper.ToObject<FilePackage>(mp.ret);
-            //string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+            
+            // string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
 
             DownLoadPanel._instance.m_NeedWt.Add(fp); //将二进制文件数据加载到内存中去
 

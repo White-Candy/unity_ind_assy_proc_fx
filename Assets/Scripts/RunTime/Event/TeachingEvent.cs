@@ -12,6 +12,7 @@ public class TeachingEvent : BaseEvent
         base.OnEvent(args);
         //Debug.Log("Teaching Event!");
 
+        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
         SwitchSceneAccName(m_Name);
         await UniTask.Yield();
     }

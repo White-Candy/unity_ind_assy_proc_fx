@@ -34,7 +34,7 @@ public class TheoreticalExamAction : BaseAction
             ExamJsonData ex_js_data = GlobalData.examData; // 可以理解为里面是理论试题
             foreach (var child in ex_js_data.data.softwareInfoVo.child)
             {
-                if (child.code.Equals(GlobalData.currModuleCode))
+                if (child.code.Equals(GlobalData.ProjGroupName))
                 {
                     m_Panel.Init(ConvertExam(child.softwareQuestionVos));
                     m_Init = true;

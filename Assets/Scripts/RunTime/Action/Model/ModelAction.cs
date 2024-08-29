@@ -63,10 +63,10 @@ public class ModelAction : BaseAction
     {
         await UniTask.WaitUntil(() => 
         {
-            return Addressables.LoadAssetAsync<GameObject>(GlobalData.currModuleCode).IsDone == true;
+            return Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName).IsDone == true;
         });
 
-        Addressables.LoadAssetAsync<GameObject>(GlobalData.currModuleCode).Completed += (handle) =>
+        Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName).Completed += (handle) =>
         {
             GameObject go = handle.Result;
             if (go != null)

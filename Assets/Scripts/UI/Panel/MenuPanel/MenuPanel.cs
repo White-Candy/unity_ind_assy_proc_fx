@@ -53,23 +53,25 @@ public class MenuPanel : BasePanel
         //Init();
     }
 
-    private void BuildMenuList()
+    private async void BuildMenuList()
     {
+        await UniTask.WaitUntil(() => { return GlobalData.Projs.Count != 0;});
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
             GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
 
-            BuildMenuItem(proj.targets, list);
+            BuildMenuItem(proj.Courses, list);
             list.gameObject.SetActive(false);
             menuItem.gameObject.SetActive(true);
 
             Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
-            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.ProjName;
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.Columns;
             menuBtn.onClick.AddListener(() => 
             {
                 bool b = list.activeSelf;
+                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
                 SetActiveMenuItem(list, !b);
             });
 
@@ -82,17 +84,17 @@ public class MenuPanel : BasePanel
 #endif
     }
 
-    private void BuildMenuItem(List<Target> targets, GameObject list = null)
+    private void BuildMenuItem(List<string> courses, GameObject list = null)
     {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         // 多模块模式
-        foreach (var target in targets)
+        foreach (var course in courses)
         {
             GameObject item = Instantiate(m_Item, list.transform);
             item.gameObject.SetActive(true);
             Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
-            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = target.menuName;
-            itemBtn.onClick.AddListener(() => { ChooseThisItem(target, list); });
+            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
+            itemBtn.onClick.AddListener(() => { ChooseThisItem(course, list); });
         }
 #elif UNITY_WEBGL
         // 单模块模式
@@ -122,19 +124,17 @@ public class MenuPanel : BasePanel
     /// 训练模式：异步加载模型场景切换
     /// 其他模式：显示菜单
     /// </summary>
-    /// <param name="target"> 子项目的info </param>
+    /// <param name="course"> 课程名 </param>
     /// <param name="obj"> 菜单窗口的实例 </param>
-    private async void ChooseThisItem(Target target, GameObject obj)
+    private async void ChooseThisItem(string course, GameObject obj)
     {
-        GlobalData.ModelTarget = target;
-        GlobalData.currModuleCode = target.modelCode.ToString();
-        //GlobalData.currModuleName = target.modelName;
+        GlobalData.courseName = course;
 
         if (GlobalData.isLoadModel)
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
-            TitlePanel._instance.SetTitle(target.menuName);
+            TitlePanel._instance.SetTitle(course);
             Active(false);
         }
         else

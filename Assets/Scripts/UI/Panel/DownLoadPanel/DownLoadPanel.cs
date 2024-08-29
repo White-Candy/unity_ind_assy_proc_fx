@@ -64,7 +64,7 @@ public class DownLoadPanel : BasePanel
         }
 
         SetUIPercent(m_Percent);
-        Debug.Log($"=========== {m_Percent} || {m_bufPercent} || {percent}");
+        // Debug.Log($"=========== {m_Percent} || {m_bufPercent} || {percent} || {m_NeedDL.Count}");
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class DownLoadPanel : BasePanel
     {
         m_Percent = m_bufPercent + 10.0f / m_NeedWt.Count;
         m_bufPercent = m_Percent;
-        Debug.Log($" SetWritePercent =========== {m_Percent} || {m_bufPercent}");
+        // Debug.Log($" SetWritePercent =========== {m_Percent} || {m_bufPercent}");
         SetUIPercent(m_Percent);
     }
 
@@ -85,7 +85,6 @@ public class DownLoadPanel : BasePanel
     /// <param name="percent"></param>
     private async void SetUIPercent(float percent) 
     {
-        await UniTask.Yield();
         while (m_uiPercent < percent)
         {
             m_uiPercent += 0.5f;
@@ -109,8 +108,7 @@ public class DownLoadPanel : BasePanel
                 m_Finish.enabled = false;
                 m_Finished = false;
             }
-
-            //await UniTask.Yield();
+            await UniTask.Yield();
         }
     }
 

@@ -46,9 +46,9 @@ public class ModelAnimControl : MonoBehaviour
 
         m_Animtor = GetComponent<Animator>();
 
-        ModelName = GlobalData.ModelTarget.modelName;
+        ModelName = GlobalData.ProjGroupName;
         // 获取 xxx.json 中的 当前步骤_施工要点
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + ModelName + ".json", (str) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName  + ".json", (str) =>
         {
             // Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);

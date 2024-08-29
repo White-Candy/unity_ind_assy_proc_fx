@@ -25,7 +25,7 @@ public class VideoAction : BaseAction
     {
         if (!m_initList.ContainsKey(name))
         {
-            var paths = await NetworkManager._Instance.DownLoadAasetAsync(name);
+            var paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
 
             if (paths.Count == 0)
             {

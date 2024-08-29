@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
-
+using UnityEngine;
 public class CheckEvent : BaseEvent
 {
     public override async void OnEvent(params object[] args)
@@ -9,15 +9,20 @@ public class CheckEvent : BaseEvent
         await UniTask.RunOnThreadPool(() =>
         {
             MessPackage mp = args[0] as MessPackage;
-            ResourcesInfo info = JsonMapper.ToObject<ResourcesInfo>(mp.ret);
-            if (info.need_updata)
+            UpdatePackage up = JsonMapper.ToObject<UpdatePackage>(mp.ret);
+            foreach (var info in up.filesInfo)
             {
-                info.need_updata = false;
-                StorageExpand.UpdateThisFileInfo(info);
+                Debug.Log(info.relaPath);
+                if (info.need_updata)
+                {
+                    info.need_updata = false;
+                    StorageExpand.UpdateThisFileInfo(info);
 
-                string path = info.relaPath;
-                DownLoadPanel._instance.m_NeedDL.Add(path);
+                    string path = info.relaPath;
+                    DownLoadPanel._instance.m_NeedDL.Add(path);
+                }
             }
+           
             GlobalData.Checked = true;
         });
     }

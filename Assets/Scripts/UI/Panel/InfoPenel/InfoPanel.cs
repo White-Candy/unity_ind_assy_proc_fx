@@ -102,7 +102,7 @@ public class InfoPanel : BasePanel
     // 考核模式成绩提交
     private void SubmitScore()
     {
-        UITools.OpenDialog("", $"是否提交{GlobalData.ModelTarget.menuName}的实训成绩？", () =>
+        UITools.OpenDialog("", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
         {
             GlobalData.DestroyModel = true;
             GlobalData.StepIdx = 0;

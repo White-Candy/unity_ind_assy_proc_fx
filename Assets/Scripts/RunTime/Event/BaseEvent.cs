@@ -1,8 +1,6 @@
 using Cysharp.Threading.Tasks;
 using sugar;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // ·Ö°lÆ÷
@@ -57,4 +55,20 @@ public class BaseEvent
         GlobalData.currModuleName = module_name;
         UITools.Loading("Main", module_name);
     }
+}
+
+public enum OperateType
+{
+    NONE = 0, GET, ADD, REVISE, DELETE,
+}
+
+public enum EventType
+{
+    None = 0,
+    UploadEvent,
+    DownLoadEvent,
+    CheckEvent,
+    UserLoginEvent,
+    RegisterEvent,
+    GetProjInfo
 }

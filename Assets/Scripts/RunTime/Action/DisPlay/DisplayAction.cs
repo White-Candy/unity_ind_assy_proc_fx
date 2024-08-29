@@ -25,7 +25,7 @@ public class DisplayAction : BaseAction
 
     public override async UniTask AsyncShow(string name)
     {
-        await NetworkManager._Instance.DownLoadTextFromServer(FPath.AssetRootPath + GlobalData.currModuleCode + FPath.ModelSuffix, 
+        await NetworkManager._Instance.DownLoadTextFromServer(FPath.AssetRootPath + GlobalData.ProjGroupName + FPath.ModelSuffix, 
             (names) => 
             {
                 string[] arr_name = names.Split('_');

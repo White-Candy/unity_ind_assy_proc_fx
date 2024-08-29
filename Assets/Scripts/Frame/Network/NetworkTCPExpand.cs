@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,7 +16,7 @@ public class NetworkTCPExpand
     {
         JsonData js = new JsonData();
         js["relaPath"] = relative;
-        NetworkClientTCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
+        TCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -45,11 +46,16 @@ public class NetworkTCPExpand
     /// </summary>
     /// <param name="code"></param>
     /// <param name="moduelName"></param>
-    public static void CheckResourceReq(string relative)
-    {
-        var Rsinfo = StorageExpand.FindRsInfo(relative);
-        string s_info = JsonMapper.ToJson(Rsinfo);
-        NetworkClientTCP.SendAsync(s_info, EventType.CheckEvent, OperateType.NONE);
+    public static async void CheckResourceReq(UpdatePackage up, List<string> filesPath)
+    {     
+        foreach (var path in filesPath)
+        {
+            var Rsinfo = StorageExpand.FindRsInfo(path);
+            up.filesInfo.Add(Rsinfo);
+        }
+        string body = await JsonHelper.AsyncToJson(up);
+
+        TCP.SendAsync(body, EventType.CheckEvent, OperateType.NONE);
     }
 
     /// 请求检查文件更新
@@ -58,20 +64,21 @@ public class NetworkTCPExpand
     /// <param name="moduelName"></param>
     public async static UniTask CkResourceReqOfList(List<string> paths, string name)
     {
+        UpdatePackage up = new UpdatePackage();
+        
+        string relative = GlobalData.ProjGroupName + Tools.GetModulePath(name);
+        List<string> filesPath = new List<string>();
         foreach (string path in paths)
         {
             string relaPath = Tools.GetFileRelativePath(path, name);
-
-            // 向服务器发送检查文件请求
-            // To Future developers:
-            // 目前时一次只能请求一个文件的更新...
-            // 所以遇到多文件更新只能在循环中一次一次请求
-            // 以后可以写成直接传输一个列表
-            CheckResourceReq(relaPath);
-
-            await UniTask.WaitUntil(() => GlobalData.Checked == true);
-            GlobalData.Checked = false;
+            filesPath.Add(relaPath);
         }
+        up.relativePath = relative;
+
+        CheckResourceReq(up, filesPath);
+
+        await UniTask.WaitUntil(() => GlobalData.Checked == true);
+        GlobalData.Checked = false;
     }
 
     /// <summary>
@@ -113,7 +120,7 @@ public class NetworkTCPExpand
             inf.userName = account;
             inf.password = pwd;
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
+            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
         });
     }
 
@@ -139,7 +146,7 @@ public class NetworkTCPExpand
                 level = 0
             };
 
-            NetworkClientTCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
+            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
         }
         else
         {

@@ -47,7 +47,7 @@ public class PictureAction : BaseAction
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
     {
-        var paths = await NetworkManager._Instance.DownLoadAasetAsync(name);
+        var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 
         List<Sprite> sprites = new List<Sprite>();
 
@@ -80,7 +80,5 @@ public class PictureAction : BaseAction
         //m_panelToken = new CancellationTokenSource();
 
         m_Panel.Active(false);
-    }
-
-    
+    }  
 }
