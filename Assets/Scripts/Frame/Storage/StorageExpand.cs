@@ -72,14 +72,15 @@ public class StorageExpand
         if (idx != -1)
         {
             Storage.rsCheck[idx].version_code = info.version_code;
-            Storage.rsCheck[idx].need_updata = false;
+            Storage.rsCheck[idx].need_updata = info.need_updata;
         }
         else
         {
             ResourcesInfo ri = new ResourcesInfo
             {
                 relaPath = info.relaPath,
-                version_code = info.version_code
+                version_code = info.version_code,
+                need_updata = info.need_updata
             };
             Storage.rsCheck.Add(ri);
         }

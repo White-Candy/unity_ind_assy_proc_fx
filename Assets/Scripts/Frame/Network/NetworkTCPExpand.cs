@@ -86,10 +86,12 @@ public class NetworkTCPExpand
     /// </summary>
     /// <param name="paths"> 文件路径 </param>
     /// <param name="name"> 模块名字 </param>
-    public async static UniTask RsCkAndDLReq(List<string> paths, string name)
+    public async static UniTask<List<string>> RsCkAndDLReq(List<string> paths, string name)
     {
+        List<string> newPaths = new List<string>(paths);
+
         // 文件列表更新检查请求
-        await CkResourceReqOfList(paths, name);
+        await CkResourceReqOfList(newPaths, name);
 
         // 文件列表下载到内存中请求
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
@@ -101,11 +103,20 @@ public class NetworkTCPExpand
 
             // 文件从内存写入硬盘
             await Tools.WtMem2DiskOfFileList(DownLoadPanel._instance.m_NeedWt);
+            
+            foreach (var fp in DownLoadPanel._instance.m_NeedWt)
+            {
+                string path = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+                int i = newPaths.FindIndex(x => x == path);
+                if (i == -1)
+                    newPaths.Add(path);
+            }
 
             await UniTask.WaitUntil(() => DownLoadPanel._instance.m_Finished == true);
 
             DownLoadPanel._instance.Clear();
         }
+        return newPaths;
     }
 
     /// <summary>

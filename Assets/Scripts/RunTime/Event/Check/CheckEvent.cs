@@ -12,9 +12,8 @@ public class CheckEvent : BaseEvent
             UpdatePackage up = JsonMapper.ToObject<UpdatePackage>(mp.ret);
             foreach (var info in up.filesInfo)
             {
-                Debug.Log(info.relaPath);
                 if (info.need_updata)
-                {
+                { 
                     info.need_updata = false;
                     StorageExpand.UpdateThisFileInfo(info);
 

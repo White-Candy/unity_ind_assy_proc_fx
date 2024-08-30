@@ -90,7 +90,6 @@ public class NetworkManager : MonoBehaviour
         foreach (var info in filesInfo)
         {
             filesPath.Add(info.FullName);
-            // Debug.Log(info.FullName);
         }
         return filesPath;
     }

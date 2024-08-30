@@ -49,15 +49,16 @@ public class PictureAction : BaseAction
     {
         var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 
+        paths = await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+
         List<Sprite> sprites = new List<Sprite>();
 
         if (paths.Count == 0)
             UITools.ShowMessage("当前模块没有图片资源");
 
         AsyncResult result = await AssetConsole.Instance.LoadTexObject(paths.ToArray());
-        await UniTask.WaitUntil(() => result.isLoad == true);
 
-        await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+        await UniTask.WaitUntil(() => result.isLoad == true);
 
         foreach (var spo in result.m_Assets)
         {

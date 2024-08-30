@@ -82,12 +82,12 @@ public class UITools
             while(fileCount > 0)
             {
                 if (TCP.percent == 0.0f) continue; 
-                Debug.Log("DownLoadPrepare: " +  TCP.percent + " | " + fileCount);
+                // Debug.Log("DownLoadPrepare: " +  TCP.percent + " | " + fileCount);
+                DownLoadPanel._instance.SetDLPercent(TCP.percent);
                 if (TCP.percent == 100.0f) 
                 {
                     fileCount--;
                 }
-                DownLoadPanel._instance.SetDLPercent(TCP.percent);
             }
                             
             await UniTask.WaitUntil(() => GlobalData.Downloaded == true);

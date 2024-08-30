@@ -44,6 +44,10 @@ public class TCP
         }
     }
 
+    /// <summary>
+    /// 接受消息功能的callback
+    /// </summary>
+    /// <param name="ar"></param>
     public static void ReviceAsyncCallback(IAsyncResult ar)
     {
         MessPackage mp = (MessPackage)ar.AsyncState;
@@ -52,33 +56,15 @@ public class TCP
         {
             string mess = Encoding.Default.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
-            Debug.Log("ReviceAsyncCallback: " + mess);
-        
-            string[] lengthSplit = mess.Split("|");
-            string totalLength = lengthSplit[0];
-            if (!mp.get_length && !string.IsNullOrEmpty(totalLength))
+
+            string[] messages = mess.Split("@");
+            foreach (var message in messages)
             {
-                Debug.Log("GET LENGTH: " + totalLength);
-                mp.length = int.Parse(totalLength);
-                mp.get_length = true;
-                mp.ret += lengthSplit[1];
-                totalLength = "";         
-            }
-            else
-            {
-                Debug.Log("GET MESSAGE: ");
-                if (mp.length >= mp.ret.Count())
-                {
-                    mp.ret += mess;
-                }
-            }
-            check(mp);
+                InforProcessing(message, mp);
+            }          
             m_Socket.BeginReceive(buffer, 0, buf_length, 0, ReviceAsyncCallback, mp);
         }
-        catch
-        {
-
-        }
+        catch { }
     }
 
     /// <summary>
@@ -102,25 +88,6 @@ public class TCP
     }
 
     /// <summary>
-    /// 前置包
-    /// </summary>
-    /// <param name="mess"></param>
-    /// <param name="event_type"></param>
-    public static string FrontPackage(string mess, EventType event_type, OperateType operateType)
-    {
-        FrontMp mpinfo = new FrontMp()
-        {
-            ip = Tools.GetIPForTypeIPV4(),
-            length = mess.Count().ToString(),
-            event_type = event_type.ToSafeString(),
-            operate_type = operateType.ToSafeString()
-        };
-
-        string s_info = JsonMapper.ToJson(mpinfo);
-        return s_info;
-    }
-
-    /// <summary>
     /// 异步发送回调
     /// </summary>
     /// <param name="ar"></param>
@@ -137,6 +104,25 @@ public class TCP
         {
             Debug.Log("socket send fail" + e.ToString());
         }
+    }
+
+    /// <summary>
+    /// 前置包
+    /// </summary>
+    /// <param name="mess"></param>
+    /// <param name="event_type"></param>
+    public static string FrontPackage(string mess, EventType event_type, OperateType operateType)
+    {
+        FrontMp mpinfo = new FrontMp()
+        {
+            ip = Tools.GetIPForTypeIPV4(),
+            length = mess.Count().ToString(),
+            event_type = event_type.ToSafeString(),
+            operate_type = operateType.ToSafeString()
+        };
+
+        string s_info = JsonMapper.ToJson(mpinfo);
+        return s_info;
     }
 
     /// <summary>
@@ -176,42 +162,42 @@ public class TCP
     /// </summary>
     /// <param name="pkg"></param>
     public static void check(MessPackage mp)
-    {
-        string[] mainSplit = mp.ret.Split("@");
-        mp.ret = mainSplit[0];
-        
-        percent = mp.ret.Count() * 1.0f / (mp.length - 2) * 1.0f * 100.0f;
-        Debug.Log("----------" + " | " + percent + "%");  // Add message package for queue.
-
-        if (percent >= 100.0f)
+    {   
+        percent = (mp.ret.Count() + 2.0f) * 1.0f / mp.length * 1.0f * 100.0f;
+        Debug.Log(" ============ percent: " + percent);
+        if (JsonHelper.isJson(mp.ret))
         {
+            percent = 100.0f;
             mp.finish = true;
             ParsingThePackageBody(mp.ret, mp);
         }
+    }
 
-        if (mainSplit.Length > 1 && mainSplit[1].Length > 0)
-        {           
-            Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@: " + mainSplit[1] + " | " + mainSplit[1].Length);
-            string mess = mainSplit[1];
-            string[] lengthSplit = mess.Split("|");
-            string totalLength = lengthSplit[0];   
-            if (!mp.get_length && !string.IsNullOrEmpty(totalLength))
-            {
-                Debug.Log("GET LENGTH: " + totalLength);
-                mp.length = int.Parse(totalLength);
-                mp.get_length = true;
-                mp.ret += lengthSplit[1];
-            }
-            else
-            {
-                Debug.Log("GET MESSAGE: ");
-                if (mp.length >= mp.ret.Count())
-                {
-                    mp.ret += mess;
-                }
-            }
-            check(mp);
+    /// <summary>
+    /// 接受到的信息分析
+    /// </summary>
+    /// <param name="mess"></param>
+    /// <param name="mp"></param>
+    public static void InforProcessing(string mess, MessPackage mp)
+    {
+        if (string.IsNullOrEmpty(mess) || mess.Count() == 0) return;
+
+        string[] lengthSplit = mess.Split("|");
+        string totalLength = lengthSplit[0];
+        if (!mp.get_length && !string.IsNullOrEmpty(totalLength))
+        {
+            mp.length = int.Parse(totalLength);
+            mp.get_length = true;
+            mp.ret += lengthSplit[1];
         }
+        else
+        {
+            if (mp.length >= mp.ret.Count())
+            {
+                mp.ret += mess;
+            }
+        }
+        check(mp);
     }
 
     public static void Close()

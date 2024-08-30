@@ -58,12 +58,13 @@ public class DownLoadPanel : BasePanel
     public void SetDLPercent(float percent)
     {
         m_Percent = m_bufPercent + percent / m_NeedDL.Count * 0.9f;
+        SetUIPercent(m_Percent);
+
         if (percent == 100.0f)
         {
             m_bufPercent = m_Percent;
         }
 
-        SetUIPercent(m_Percent);
         // Debug.Log($"=========== {m_Percent} || {m_bufPercent} || {percent} || {m_NeedDL.Count}");
     }
 
@@ -85,6 +86,7 @@ public class DownLoadPanel : BasePanel
     /// <param name="percent"></param>
     private async void SetUIPercent(float percent) 
     {
+        await UniTask.SwitchToMainThread();
         while (m_uiPercent < percent)
         {
             m_uiPercent += 0.5f;
@@ -92,21 +94,21 @@ public class DownLoadPanel : BasePanel
             m_ProgressPercent.text = m_uiPercent.ToString("f1") + "%";
 
 
-            if (m_ProgressSlider.value == 1.0f)
-            {
-                Debug.Log("更新完成！");
-                m_Hint.text = $"更新完成！";
-                m_Finish.enabled = true;
-            }
-            else if (m_ProgressSlider.value >= 0.9f)
-            {
-                m_Hint.text = $"等待文件写入到本地...";
-            }
-            else
-            {
-                m_Hint.text = $"正在下载资源...";
-                m_Finish.enabled = false;
-                m_Finished = false;
+        if (m_ProgressSlider.value == 1.0f)
+        {
+            Debug.Log("更新完成！");
+            m_Hint.text = $"更新完成！";
+            m_Finish.enabled = true;
+        }
+        else if (m_ProgressSlider.value >= 0.9f)
+        {
+            m_Hint.text = $"等待文件写入到本地...";
+        }
+        else
+        {
+            m_Hint.text = $"正在下载资源...";
+            m_Finish.enabled = false;
+            m_Finished = false;
             }
             await UniTask.Yield();
         }

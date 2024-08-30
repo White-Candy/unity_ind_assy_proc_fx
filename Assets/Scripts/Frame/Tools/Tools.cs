@@ -369,7 +369,7 @@ public static class Tools
     /// <returns></returns>
     public static string GetFileRelativePath(string path, string name)
     {
-        string[] split = path.Split('/');
+        string[] split = path.Split('\\');
         string filename = split[split.Length - 1];
         string suffix = GetModulePath(name);
         string relaPath = $"{GlobalData.ProjGroupName}{suffix}\\{filename}";
