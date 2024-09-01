@@ -80,7 +80,7 @@ public class StorageExpand
             {
                 relaPath = info.relaPath,
                 version_code = info.version_code,
-                need_updata = info.need_updata
+                need_updata = true
             };
             Storage.rsCheck.Add(ri);
         }
