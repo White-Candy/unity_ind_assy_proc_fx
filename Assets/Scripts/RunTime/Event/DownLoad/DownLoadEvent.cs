@@ -15,7 +15,7 @@ public class DownLoadEvent : BaseEvent
             FilePackage fp = JsonMapper.ToObject<FilePackage>(mp.ret);
 
             DownLoadPanel._instance.m_NeedWt.Add(fp); //将二进制文件数据加载到内存中去
-
+            
             if (DownLoadPanel._instance.m_NeedDL.Count == DownLoadPanel._instance.m_NeedWt.Count) 
                 GlobalData.Downloaded = true;
         });

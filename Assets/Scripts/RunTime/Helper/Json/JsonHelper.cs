@@ -29,7 +29,6 @@ public class JsonHelper
     /// <returns></returns>
     public static bool isJson(string json)
     {
-        Debug.Log("is Json: " + json);
         return json[0] == '{' && json[json.Count() - 1] == '}';
     }
 }

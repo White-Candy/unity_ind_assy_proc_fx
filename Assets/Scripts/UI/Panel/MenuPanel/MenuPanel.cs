@@ -55,7 +55,11 @@ public class MenuPanel : BasePanel
 
     private async void BuildMenuList()
     {
-        await UniTask.WaitUntil(() => { return GlobalData.Projs.Count != 0;});
+        await UniTask.WaitUntil(() => 
+        {
+            // Debug.Log($"wait at a time: {GlobalData.Projs.Count}");
+            return GlobalData.Projs.Count != 0;
+        });
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         foreach (var proj in GlobalData.Projs)
         {

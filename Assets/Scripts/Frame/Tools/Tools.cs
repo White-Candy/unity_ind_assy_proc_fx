@@ -345,7 +345,6 @@ public static class Tools
             fs.Write(buffer, 0, buffer.Length);
             fs.Close();
         }
-
         await UniTask.WaitUntil(() => File.Exists(save_path) == true);
 
         DownLoadPanel._instance.SetWritePercent();

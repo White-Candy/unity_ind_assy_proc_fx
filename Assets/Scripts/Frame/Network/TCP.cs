@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using LitJson;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -56,7 +57,11 @@ public class TCP
         {
             string mess = Encoding.Default.GetString(buffer, 0, length);
             Array.Clear(buffer, 0, buffer.Length);
-
+            // Debug.Log($"========== mess : {mess}.");
+            // using (StreamWriter write = new StreamWriter("C:\\Users\\Administrator\\Desktop\\FxLog.txt"))
+            // {
+            //     write.WriteLine(mess);
+            // }
             string[] messages = mess.Split("@");
             foreach (var message in messages)
             {
@@ -162,12 +167,13 @@ public class TCP
     /// </summary>
     /// <param name="pkg"></param>
     public static void check(MessPackage mp)
-    {   
-        percent = (mp.ret.Count() + 2.0f) * 1.0f / mp.length * 1.0f * 100.0f;
-        Debug.Log(" ============ percent: " + percent);
-        if (JsonHelper.isJson(mp.ret))
+    {
+        int finalLength = mp.ret.Count() + 2;
+        percent = finalLength * 1.0f / mp.length * 100.0f;
+        // Debug.Log($" ============ {mp.ret.Count() + 2.0f} || {mp.length} || {percent}");
+        // Debug.Log($" ============ {finalLength} || {mp.length} || {percent}"); 
+        if (percent == 100.0f)
         {
-            percent = 100.0f;
             mp.finish = true;
             ParsingThePackageBody(mp.ret, mp);
         }
@@ -180,7 +186,11 @@ public class TCP
     /// <param name="mp"></param>
     public static void InforProcessing(string mess, MessPackage mp)
     {
-        if (string.IsNullOrEmpty(mess) || mess.Count() == 0) return;
+        if (string.IsNullOrEmpty(mess) || mess.Count() == 0) 
+        {
+            // Debug.Log("its null string..");
+            return;
+        }
 
         string[] lengthSplit = mess.Split("|");
         string totalLength = lengthSplit[0];
@@ -192,12 +202,12 @@ public class TCP
         }
         else
         {
-            if (mp.length >= mp.ret.Count())
+            if (mp.length > mp.ret.Count())
             {
                 mp.ret += mess;
             }
         }
-        check(mp);
+        check(mp);                  
     }
 
     public static void Close()

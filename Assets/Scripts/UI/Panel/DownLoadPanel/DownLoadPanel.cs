@@ -25,9 +25,9 @@ public class DownLoadPanel : BasePanel
     public static DownLoadPanel _instance;
 
 
-    private float m_uiPercent; // UI进度条显示
-    private float m_Percent; // 总进度
-    private float m_bufPercent; // 单个文件的进度
+    // private float m_uiPercent; // UI进度条显示
+    private float m_Percent = 0.0f; // 总进度
+    private float m_bufPercent = 0.0f; // 单个文件的进度
 
     public override void Awake()
     {
@@ -37,7 +37,7 @@ public class DownLoadPanel : BasePanel
         m_Finished = false;
         m_Finish.onClick.AddListener(() => 
         {
-            Debug.Log("Go Finish~");
+            // Debug.Log("Go Finish~");
             Active(false);
 
             // m_uiPercent = 0.0f;
@@ -58,6 +58,7 @@ public class DownLoadPanel : BasePanel
     public void SetDLPercent(float percent)
     {
         m_Percent = m_bufPercent + percent / m_NeedDL.Count * 0.9f;
+        // Debug.Log("===================== SetDLPercent: " + percent);
         SetUIPercent(m_Percent);
 
         if (percent == 100.0f)
@@ -84,34 +85,37 @@ public class DownLoadPanel : BasePanel
     /// UI进度条
     /// </summary>
     /// <param name="percent"></param>
-    private async void SetUIPercent(float percent) 
+    private async void SetUIPercent(float percent)
     {
-        await UniTask.SwitchToMainThread();
-        while (m_uiPercent < percent)
-        {
-            m_uiPercent += 0.5f;
-            m_ProgressSlider.value = m_uiPercent / 100.0f;
-            m_ProgressPercent.text = m_uiPercent.ToString("f1") + "%";
-
+        // await UniTask.SwitchToMainThread();
+        // Debug.Log("Set UI Percent: " + percent);
+        //while (m_uiPercent < percent)
+        //{
+            //m_uiPercent += 0.5f;
+        m_ProgressSlider.value = percent / 100.0f;
+        m_ProgressPercent.text = percent.ToString("f1") + "%";
+        // Debug.Log("=============== SetUIPercent: " + percent * 1.0f);
 
         if (m_ProgressSlider.value == 1.0f)
         {
-            Debug.Log("更新完成！");
+            // Debug.Log("更新完成！" + " || " + percent);
             m_Hint.text = $"更新完成！";
             m_Finish.enabled = true;
         }
         else if (m_ProgressSlider.value >= 0.9f)
         {
+            // Debug.Log("文件写入！" + " || " + percent);
             m_Hint.text = $"等待文件写入到本地...";
         }
         else
         {
+            // Debug.Log("正在下载资源 " + " || " + percent);
             m_Hint.text = $"正在下载资源...";
             m_Finish.enabled = false;
             m_Finished = false;
-            }
-            await UniTask.Yield();
         }
+        await UniTask.Yield();
+        //}
     }
 
     /// <summary>
@@ -124,7 +128,7 @@ public class DownLoadPanel : BasePanel
         m_Finished = false;
         m_Percent = 0.0f;
         m_bufPercent = 0.0f;
-        m_uiPercent = 0.0f;
+        // m_uiPercent = 0.0f;
 
         m_Hint.text = $"正在下载资源...";
         m_ProgressSlider.value = 0.0f;
