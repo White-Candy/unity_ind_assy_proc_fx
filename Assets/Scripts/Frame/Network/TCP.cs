@@ -77,19 +77,16 @@ public class TCP
     /// </summary>
     /// <param name="mess">内容</param>
     /// <param name="event_type">事件类型</param>
-    public static async void SendAsync(string mess, EventType event_type, OperateType operateType)
+    public static void SendAsync(string mess, EventType event_type, OperateType operateType)
     {
-        await UniTask.RunOnThreadPool(() => 
-        {
-            string front = FrontPackage(mess, event_type, operateType);
-            string totalInfoPkg = $"|{front}#{mess}@";
-            long totalLength = totalInfoPkg.Count();
-            string finalPkg = totalLength.ToString() + totalInfoPkg;
-            // Debug.Log(finalPkg);
+        string front = FrontPackage(mess, event_type, operateType);
+        string totalInfoPkg = $"|{front}#{mess}@";
+        long totalLength = totalInfoPkg.Count();
+        string finalPkg = totalLength.ToString() + totalInfoPkg;
+        // Debug.Log(finalPkg);
 
-            var outputBuffer = Encoding.Default.GetBytes(finalPkg);
-            m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
-        });
+        var outputBuffer = Encoding.Default.GetBytes(finalPkg);
+        m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
     }
 
     /// <summary>
@@ -210,9 +207,13 @@ public class TCP
         check(mp);                  
     }
 
+    /// <summary>
+    /// 发送关闭请求
+    /// </summary>
     public static void Close()
     {
-        m_Socket.Close();
+        var outputBuffer = Encoding.Default.GetBytes("Close");
+        m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);        
     }
 }
 

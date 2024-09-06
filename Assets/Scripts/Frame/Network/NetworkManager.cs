@@ -25,13 +25,6 @@ public class NetworkManager : MonoBehaviour
 
     public void Update()
     {
-        // if (TCP.m_FrontQueue.Count > 0)
-        // {
-        //     FrontMp fp = TCP.m_FrontQueue.Dequeue();
-        //     BaseEvent @event = Tools.CreateObject<BaseEvent>(fp.event_type);
-        //     @event.OnPrepare(fp);
-        // }
-
         if (TCP.m_MessQueue.Count > 0)
         {
             MessPackage pkg = TCP.m_MessQueue.Dequeue();

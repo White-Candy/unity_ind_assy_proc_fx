@@ -11,7 +11,9 @@ public class TrainEvent : BaseEvent
     {
         base.OnEvent(args);
         //Debug.Log("Train Event!");
-        SwitchSceneAccName(base.m_Name);
+
+        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
+        SwitchSceneAccName(m_Name);
         await UniTask.Yield();
     }
 }

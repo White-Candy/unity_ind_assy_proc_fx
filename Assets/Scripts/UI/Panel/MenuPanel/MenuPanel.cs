@@ -32,7 +32,6 @@ public class MenuPanel : BasePanel
     private string currTaskName; // 目前的Task名字
     //private BaseTask currTask; // 目前的任务实例
 
-    //private Dictionary<string, BaseTask> m_TaskDic = new Dictionary<string, BaseTask>(); // 任务字典
 
     [HideInInspector] public List<GameObject> m_Menus = new List<GameObject>(); // 保存 菜单按钮列表
     private List<GameObject> m_Menulist = new List<GameObject>(); // 保存 菜单列表

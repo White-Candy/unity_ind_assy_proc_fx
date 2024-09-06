@@ -160,8 +160,7 @@ public static class Tools
     private static async UniTask LoadModelAsync()
     {
         // 模型场景异步加载
-        // Debug.Log(GlobalData.ModelTarget.modelName);
-        AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName);
+        AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName + "-Scene");
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
         GlobalData.SceneModel = UnityEngine.Object.Instantiate(model_async.Result);
@@ -175,7 +174,7 @@ public static class Tools
     /// </summary>
     private static async UniTask AnalysisStepFile()
     {
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\ModelExplain\\" + GlobalData.ProjGroupName + "Step.txt", (dataStr) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\ModelExplain\\" + GlobalData.ProjGroupName + "\\Step.txt", (dataStr) =>
         {
             // Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
@@ -233,7 +232,7 @@ public static class Tools
     /// <returns></returns>
     private static async UniTask AnalysisEquFile()
     {
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName + "Equ.json", (str) => 
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName + "\\Equ.json", (str) => 
         {
             // Debug.Log(str);
             JsonData json_data = JsonMapper.ToObject<JsonData>(str);
