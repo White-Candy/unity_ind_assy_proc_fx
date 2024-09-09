@@ -31,9 +31,11 @@ public class ConfigMenuList : ConfigTemplate
             List<SubMenu> subMenuList = new List<SubMenu>();
             foreach( var sub_item in item.Elements("SubMenuItems"))
             {
-                SubMenu sub = new SubMenu();
-                sub.subMenuName = sub_item.Attribute("SubMenuName").Value;
-                sub.enumID = Convert.ToInt32(sub_item.Attribute("Enum").Value);
+                SubMenu sub = new SubMenu
+                {
+                    subMenuName = sub_item.Attribute("SubMenuName").Value,
+                    enumID = Convert.ToInt32(sub_item.Attribute("Enum").Value)
+                };
 
                 subMenuList.Add(sub);
             }

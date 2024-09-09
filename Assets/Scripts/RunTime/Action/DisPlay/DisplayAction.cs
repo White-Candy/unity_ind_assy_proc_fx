@@ -19,7 +19,7 @@ public class DisplayAction : BaseAction
     private GameObject m_currModel; // 当前展示的模型
     public DisplayAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<ModelPanel>();
+        m_Panel = UIConsole.FindAssetPanel<ModelPanel>();
         m_Token = new CancellationTokenSource();
     }
 

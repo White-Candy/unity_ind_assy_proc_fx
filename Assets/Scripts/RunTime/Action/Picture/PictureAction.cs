@@ -26,7 +26,7 @@ public class PictureAction : BaseAction
         {
             List<Sprite> sprites = await LoadPictureAsync(name);
 
-            m_Panel = UIConsole.Instance.FindAssetPanel<PicturePanel>();
+            m_Panel = UIConsole.FindAssetPanel<PicturePanel>();
             m_Panel.Init(sprites);
             m_Init = true;
         }
@@ -49,7 +49,7 @@ public class PictureAction : BaseAction
     {
         var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 
-        paths = await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+        paths = await TCPHelper.RsCkAndDLReq(paths, name);
 
         List<Sprite> sprites = new List<Sprite>();
 

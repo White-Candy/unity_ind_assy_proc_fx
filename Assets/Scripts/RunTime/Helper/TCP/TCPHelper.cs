@@ -6,7 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NetworkTCPExpand
+public class TCPHelper
 {
     /// <summary>
     /// 文件下载请求
@@ -164,4 +164,17 @@ public class NetworkTCPExpand
             UITools.ShowMessage("两次密码不一样");
         }
     }
+
+    /// 获取信息请求
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public static void GetInfoReq<T>(EventType type) 
+    {
+        // TCPBaseHelper helper = new T();
+        // helper.GetInfReq();
+
+        List<T> inf = new List<T>();       
+        string body = JsonMapper.ToJson(inf);
+        TCP.SendAsync(body, type, OperateType.GET);
+    }    
 }

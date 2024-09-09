@@ -16,7 +16,7 @@ public class UITools
     /// <param name="duration"></param>
     public static void ShowMessage(string mess, float duration = 3.0f)
     {
-        MessagePanel panel = UIConsole.Instance.FindAssetPanel<MessagePanel>();
+        MessagePanel panel = UIConsole.FindAssetPanel<MessagePanel>();
         panel.Show(mess, duration);
     }
 
@@ -28,7 +28,7 @@ public class UITools
     /// <param name="model_name"></param>
     public static void Loading(string scene, string model_name = "")
     {
-        LoadingPanel load_panel = UIConsole.Instance.FindAssetPanel<LoadingPanel>();
+        LoadingPanel load_panel = UIConsole.FindAssetPanel<LoadingPanel>();
         load_panel.LoadScene(scene, model_name);
     }
 
@@ -38,7 +38,7 @@ public class UITools
     /// <param name="f"></param>
     public static DownLoadPanel SpawnDownLoad()
     {
-        return UIConsole.Instance.FindAssetPanel<DownLoadPanel>();
+        return UIConsole.FindAssetPanel<DownLoadPanel>();
     }
 
     public static void OpenDialog(string title, string info, Action callback, bool single = false)

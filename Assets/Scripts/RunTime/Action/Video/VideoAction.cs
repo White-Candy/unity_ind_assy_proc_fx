@@ -27,21 +27,21 @@ public class VideoAction : BaseAction
         {
             var paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
 
-            paths = await NetworkTCPExpand.RsCkAndDLReq(paths, name); 
+            paths = await TCPHelper.RsCkAndDLReq(paths, name); 
                
             if (paths.Count == 0)
             {
                 UITools.ShowMessage("当前模块没有Video资源");
             }
 
-            m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
+            m_Panel = UIConsole.FindAssetPanel<VideoPanel>();
             m_Panel.Init(paths);
             m_initList.Add(name, paths);
             m_init = true;
         }
         else
         {
-            m_Panel = UIConsole.Instance.FindAssetPanel<VideoPanel>();
+            m_Panel = UIConsole.FindAssetPanel<VideoPanel>();
             m_Panel.Init(m_initList[name]);
             m_init = true;
         }

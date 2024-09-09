@@ -8,6 +8,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 public struct StepStruct
 {
@@ -60,12 +61,25 @@ public class MenuPanel : BasePanel
             return GlobalData.Projs.Count != 0;
         });
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        if (GlobalData.currModuleName != "考核") NormalBuildMenu();
+        else ExamineBuildMenu();
+#elif UNITY_WEBGL
+        var proj = GlobalData.Projs[0];
+        BuildMenuItem(proj.targets);
+#endif
+    }
+
+    /// <summary>
+    /// 非考核模式Menu的创建
+    /// </summary>
+    public void NormalBuildMenu()
+    {
         foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
             GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
 
-            BuildMenuItem(proj.Courses, list);
+            BuildMenuItem(courses: proj.Courses, list: list);
             list.gameObject.SetActive(false);
             menuItem.gameObject.SetActive(true);
 
@@ -80,25 +94,42 @@ public class MenuPanel : BasePanel
 
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
-        }
-#elif UNITY_WEBGL
-        var proj = GlobalData.Projs[0];
-        BuildMenuItem(proj.targets);
-#endif
+        }        
     }
 
-    private void BuildMenuItem(List<string> courses, GameObject list = null)
+    /// <summary>
+    /// 考核模式菜单构建
+    /// </summary>
+    public void ExamineBuildMenu()
+    {
+        foreach (var inf in GlobalData.ExamineesInfo)
+        {
+            GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
+            GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
+
+            BuildMenuItem(examinees: GlobalData.ExamineesInfo, list: list);
+            list.gameObject.SetActive(false);
+            menuItem.gameObject.SetActive(true);
+
+            Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = inf.ColumnsName;
+            menuBtn.onClick.AddListener(() => 
+            {
+                bool b = list.activeSelf;
+                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
+                SetActiveMenuItem(list, !b);
+            });
+
+            m_Menus.Add(menuItem);
+            m_Menulist.Add(list);
+        }           
+    }
+
+    private void BuildMenuItem(List<ExamineInfo> examinees = null, List<string> courses = null, GameObject list = null)
     {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        // 多模块模式
-        foreach (var course in courses)
-        {
-            GameObject item = Instantiate(m_Item, list.transform);
-            item.gameObject.SetActive(true);
-            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
-            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
-            itemBtn.onClick.AddListener(() => { ChooseThisItem(course, list); });
-        }
+        if (GlobalData.currModuleName != "考核") NormalBuildItem(courses, list: list);
+        else ExamsBuildItem(examinees, list: list);
 #elif UNITY_WEBGL
         // 单模块模式
         if (targets.Count > 0)
@@ -121,6 +152,53 @@ public class MenuPanel : BasePanel
             }
         }
 #endif
+    }
+
+
+    /// <summary>
+    /// 非考核模式的关于 Menu Item的创建
+    /// </summary>
+    /// <param name="courses"></param>
+    /// <param name="list"></param>
+    public void NormalBuildItem(List<string> courses, GameObject list = null)
+    {
+        // 多模块模式
+        foreach (var course in courses)
+        {
+            GameObject item = Instantiate(m_Item, list.transform);
+            item.gameObject.SetActive(true);
+            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
+            //itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
+            itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = course;
+            itemBtn.onClick.AddListener(() => { ChooseThisItem(course, list); });
+        }
+    }
+    
+    /// <summary>
+    /// 考核模式Menu的Item的创建
+    /// </summary>
+    /// <param name="examinees"></param>
+    public void ExamsBuildItem(List<ExamineInfo> examinees, GameObject list = null)
+    {
+        // 多模块模式
+        foreach (var exams in examinees)
+        {
+            GameObject item = Instantiate(m_Item, list.transform);
+            item.gameObject.SetActive(true);
+            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
+            //itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
+            string name = $"{exams.CourseName}\n{exams.RegisterTime}";
+            itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = name;
+            itemBtn.onClick.AddListener(() => 
+            {
+                string name = itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text;
+                string[] split = name.Split("\n");
+                GlobalData.currModuleName = split[0];
+                GlobalData.currExamsTime = split[1];
+                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == GlobalData.currExamsTime && x.CourseName == GlobalData.currModuleName);
+                ChooseThisItem(exams.CourseName, list); 
+            });
+        }        
     }
 
     /// <summary>

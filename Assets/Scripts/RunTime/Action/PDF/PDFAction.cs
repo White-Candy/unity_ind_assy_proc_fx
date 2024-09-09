@@ -32,8 +32,8 @@ public class PDFAction : BaseAction
         {
             var paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
 
-            paths = await NetworkTCPExpand.RsCkAndDLReq(paths, name);
-            m_Panel = UIConsole.Instance.FindAssetPanel<PDFPanel>();
+            paths = await TCPHelper.RsCkAndDLReq(paths, name);
+            m_Panel = UIConsole.FindAssetPanel<PDFPanel>();
             m_Panel.Init(paths, name);
             m_initList.Add(name, paths);
             m_init = true;
