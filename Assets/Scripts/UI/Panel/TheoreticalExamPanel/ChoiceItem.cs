@@ -17,7 +17,7 @@ public class ChoiceItem : MonoBehaviour
         string strSerial = "";
         strSerial += cSerial;
 
-        serial.text = strSerial;
+        serial.text = strSerial + ". ";
         topic.text = _topic;
     }
 

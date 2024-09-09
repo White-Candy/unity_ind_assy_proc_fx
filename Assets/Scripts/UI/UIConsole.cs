@@ -29,7 +29,7 @@ public class UIConsole : MonoBehaviour
     {
         if (!m_List.ContainsKey(key))
         {
-            Debug.Log("AddPanel: " + key);
+            // Debug.Log("AddPanel: " + key);
             m_List.Add(key, panel);
         }
     }

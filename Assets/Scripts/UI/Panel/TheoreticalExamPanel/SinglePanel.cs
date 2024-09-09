@@ -20,8 +20,10 @@ public class SinglePanel : BasePanel
     {
         m_singleList = singleList;
         List<string> list = new List<string>();
-        foreach (var item in m_singleList)
+        for (int i = 0; i < singleList.Count; ++i)
         {
+            var item = singleList[i];
+
             list.Clear();
             list.Add(item.toA.m_content);
             list.Add(item.toB.m_content);
@@ -29,7 +31,7 @@ public class SinglePanel : BasePanel
             list.Add(item.toD.m_content);
 
             var topic = GameObject.Instantiate(topicItem, parentTrans);
-            topic.Init(list);
+            topic.Init(i + 1, item.Topic, list);
             topic.gameObject.SetActive(true);
             m_itemList.Add(topic);
         }

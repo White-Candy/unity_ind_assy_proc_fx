@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,13 +9,15 @@ using UnityEngine;
 /// </summary>
 public class TopicItem : MonoBehaviour
 {
+    public TextMeshProUGUI content;
     public ChoiceItem choiceItem;
     public Transform parentTrans;
 
     private List<ChoiceItem> m_itemList = new List<ChoiceItem>();
 
-    public void Init(List<string> choices)
+    public void Init(int serial, string topic, List<string> choices)
     {
+        content.text = $"{serial}. {topic}";
         for (int i = 0; i < choices.Count; ++i)
         {
             ChoiceItem item = GameObject.Instantiate(choiceItem, parentTrans);
