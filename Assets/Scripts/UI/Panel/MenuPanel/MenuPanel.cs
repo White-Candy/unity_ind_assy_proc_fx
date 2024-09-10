@@ -196,8 +196,7 @@ public class MenuPanel : BasePanel
                 string name = itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text;
                 string[] split = name.Split("\n");
                 GlobalData.currModuleName = split[0];
-                GlobalData.currExamsTime = split[1];
-                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == GlobalData.currExamsTime && x.CourseName == GlobalData.currModuleName).Clone();
+                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == split[1] && x.CourseName == GlobalData.currModuleName).Clone();
                 ChooseThisItem(exams.CourseName, list); 
             });
         }        

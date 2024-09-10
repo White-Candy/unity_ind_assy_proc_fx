@@ -79,8 +79,6 @@ namespace sugar
         public static bool isFinishTheoreticalExam; // 是否完成考核
         public static float theoreticalExamscore = 50f; // 理论考核满分是50分
         public static float trainingExamscore = 50f; // 实训考核满分是50分
-        public static string currExamsTime; // 当前考试科目的注册时间
-        public static string currExamsCourse; // 当前考试课程
         public static List<ScoreInfo> scoresInfo = new List<ScoreInfo>(); // 成绩信息
 
         // 场景模型实例
