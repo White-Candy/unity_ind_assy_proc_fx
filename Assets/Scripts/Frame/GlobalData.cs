@@ -23,6 +23,8 @@ namespace sugar
             Url = $"http://{_ip}:{_port}";
         }
 
+        public static UserInfo usrInfo; // 用户名信息
+
         public static string token;
         public static int examId; // 考核id
 
@@ -79,6 +81,8 @@ namespace sugar
         public static float trainingExamscore = 50f; // 实训考核满分是50分
         public static string currExamsTime; // 当前考试科目的注册时间
         public static string currExamsCourse; // 当前考试课程
+        public static List<ScoreInfo> scoresInfo = new List<ScoreInfo>(); // 成绩信息
+
         // 场景模型实例
         public static GameObject SceneModel;
 

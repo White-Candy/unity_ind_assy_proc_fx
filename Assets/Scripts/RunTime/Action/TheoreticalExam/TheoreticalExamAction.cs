@@ -25,6 +25,13 @@ public class TheoreticalExamAction : BaseAction
         //     UITools.OpenDialog("", "已完成理论考核，请在退出考核模式后前往后台查询成绩。", () => { }, true);
         //     return;
         // }
+        var inf = GlobalData.scoresInfo.Find(x => x.className == GlobalData.usrInfo.className && x.userName == GlobalData.usrInfo.userName 
+                                             && x.courseName == GlobalData.currExamsCourse && x.registerTime == GlobalData.currExamsTime);
+        if (inf != null && inf.theoryFinished)
+        {
+            UITools.OpenDialog("", "已完成理论考核。", () => { }, true);
+            return;
+        }
 
         if (GlobalData.mode == Mode.Examination)
         {

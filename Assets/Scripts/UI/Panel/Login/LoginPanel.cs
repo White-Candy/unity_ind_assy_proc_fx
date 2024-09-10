@@ -9,12 +9,17 @@ using UnityEngine.UI;
 /// <summary>
 /// 用户信息包
 /// </summary>
-[Serializable]
 public class UserInfo
 {
     public string userName;
     public string password;
-    public int level;
+    public string Name;
+    public string Gender;
+    public string Age;
+    public string Identity;
+    public string idCoder;
+    public string Contact;
+    public string className;
     public bool login = false;
     public string hint = "";
 }

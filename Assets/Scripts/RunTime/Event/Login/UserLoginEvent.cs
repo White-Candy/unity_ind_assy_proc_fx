@@ -13,6 +13,7 @@ public class UserLoginEvent : BaseEvent
         {
             MessPackage mp = args[0] as MessPackage;
             UserInfo info = JsonMapper.ToObject<UserInfo>(mp.ret);
+            GlobalData.usrInfo = info;
 
             await UniTask.SwitchToMainThread();
             if (info.login)

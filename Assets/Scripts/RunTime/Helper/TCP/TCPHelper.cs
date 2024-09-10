@@ -154,7 +154,7 @@ public class TCPHelper
             {
                 userName = account,
                 password = pwd,
-                level = 0
+                Identity = "Ñ§Éú"
             };
 
             TCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);

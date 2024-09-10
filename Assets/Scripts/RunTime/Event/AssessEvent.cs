@@ -1,8 +1,12 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -58,6 +62,7 @@ public class AssessEvent : BaseEvent
         GlobalData.mode = Mode.Examination;
         TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
         TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
+        TCPHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
         SwitchSceneAccName(m_Name);
 
         await UniTask.Yield();
@@ -84,22 +89,24 @@ public class ExamineInfo
     public List<TOFChoice> TOFChoices = new List<TOFChoice>();
 
     public ExamineInfo() {}
-    public ExamineInfo(ExamineInfo info)
+    public ExamineInfo Clone ()
     {
-        id = info.id;
-        ColumnsName = info.ColumnsName;
-        CourseName = info.CourseName;
-        RegisterTime = info.RegisterTime;
-        TrainingScore = info.TrainingScore;
-        ClassNum = info.ClassNum;
-        SingleNum = info.SingleNum;
-        MulitNum = info.MulitNum;
-        TOFNum = info.TOFNum;
-        Status = info.Status;
-        SingleChoices = new List<SingleChoice>(info.SingleChoices);
-        MulitChoices = new List<MulitChoice>(info.MulitChoices);
-        TOFChoices = new List<TOFChoice>(info.TOFChoices);
-    }
+        ExamineInfo inf = new ExamineInfo();
+        inf.id = id;
+        inf.ColumnsName = ColumnsName;
+        inf.CourseName = CourseName;
+        inf.RegisterTime = RegisterTime;
+        inf.TrainingScore = TrainingScore;
+        inf.ClassNum = ClassNum;
+        inf.SingleNum = SingleNum;
+        inf.MulitNum = MulitNum;
+        inf.TOFNum = TOFNum;
+        inf.Status = Status;
+        foreach (var Option in SingleChoices) { inf.SingleChoices.Add(Option.Clone()); }
+        foreach (var Option in MulitChoices) { inf.MulitChoices.Add(Option.Clone()); }
+        foreach (var Option in TOFChoices) { inf.TOFChoices.Add(Option.Clone()); }
+        return inf;
+    }    
 }
 
 /// <summary>
@@ -113,7 +120,20 @@ public class SingleChoice
     public ItemChoice toC = new ItemChoice();
     public ItemChoice toD = new ItemChoice();
     public string Answer;
-    public int Score = 0;
+    public string Score = "";
+
+    public SingleChoice Clone()
+    {
+        SingleChoice single = new SingleChoice();
+        single.Topic = Topic;
+        single.toA = toA.Clone();
+        single.toB = toB.Clone();
+        single.toC = toB.Clone();
+        single.toD = toB.Clone();
+        single.Answer = Answer;
+        single.Score = Score;
+        return single;
+    }    
 }
 
 /// <summary>
@@ -124,7 +144,17 @@ public class MulitChoice
     public string Topic;
     public List<MulitChoiceItem> Options = new List<MulitChoiceItem>(); // {{"A", "xxxxx", true}, {"B", "xxxxxxx", false}}
     public string Answer;
-    public int Score;
+    public string Score = "";
+
+    public MulitChoice Clone()
+    {
+        MulitChoice mulit = new MulitChoice();
+        mulit.Topic = Topic;
+        foreach (var Option in Options) { mulit.Options.Add(Option.Clone()); }
+        mulit.Answer = Answer;
+        mulit.Score = Score;
+        return mulit;
+    }
 }
 
 /// <summary>
@@ -136,7 +166,18 @@ public class TOFChoice
     public ItemChoice toA = new ItemChoice();
     public ItemChoice toB = new ItemChoice();
     public string Answer;
-    public int Score;
+    public string Score = "";
+
+    public TOFChoice Clone()
+    {
+        TOFChoice tof = new TOFChoice();
+        tof.Topic = Topic;
+        tof.toA = toA.Clone();
+        tof.toB = toB.Clone();
+        tof.Answer = Answer;
+        tof.Score = Score;
+        return tof;
+    }
 }
 
 /// <summary>
@@ -154,6 +195,14 @@ public class ItemChoice
         m_content = content;
         m_isOn = ison;
     }
+
+    public ItemChoice Clone()
+    {
+        ItemChoice item = new ItemChoice();
+        item.m_content = m_content;
+        item.m_isOn = m_isOn;
+        return item;
+    }
 }
 
 /// <summary>
@@ -166,10 +215,47 @@ public class MulitChoiceItem
     public bool isOn = false;
 
     public MulitChoiceItem() {}
-    public MulitChoiceItem(string serial, string content, bool isOn)
+
+    public MulitChoiceItem Clone()
     {
-        Serial = serial;
-        Content = content;
-        this.isOn = isOn;
+        MulitChoiceItem item = new MulitChoiceItem();
+        item.Serial = Serial;
+        item.Content = Content;
+        item.isOn = isOn;
+        return item;
+    }
+}
+
+
+/// <summary>
+/// 成绩管理信息
+/// </summary>
+public class ScoreInfo
+{
+    public string className;
+    public string columnsName;
+    public string courseName;
+    public string registerTime; // 该次考试的注册时间
+    public string userName;
+    public string Name;
+    public string theoryScore = "";
+    public string trainingScore = "";
+    public bool theoryFinished = false; //本次理论考试是否完成
+    public bool trainingFinished = false; //本次实训考试是否完成
+
+    public ScoreInfo Clone()
+    {
+        ScoreInfo inf = new ScoreInfo();
+        inf.className = className;
+        inf.columnsName = columnsName;
+        inf.courseName =courseName;
+        inf.registerTime = registerTime;
+        inf.userName = userName;
+        inf.Name = Name;
+        inf.theoryScore = theoryScore;
+        inf.trainingScore = trainingScore;
+        inf.theoryFinished = theoryFinished;
+        inf.trainingFinished = trainingFinished;
+        return inf;
     }
 }

@@ -104,10 +104,11 @@ public class MenuPanel : BasePanel
     {
         foreach (var inf in GlobalData.ExamineesInfo)
         {
+            if (inf.Status == false) continue;
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
             GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
 
-            BuildMenuItem(examinees: GlobalData.ExamineesInfo, list: list);
+            BuildMenuItem(examinees: GlobalData.ExamineesInfo, inf.ColumnsName, list: list);
             list.gameObject.SetActive(false);
             menuItem.gameObject.SetActive(true);
 
@@ -125,11 +126,11 @@ public class MenuPanel : BasePanel
         }           
     }
 
-    private void BuildMenuItem(List<ExamineInfo> examinees = null, List<string> courses = null, GameObject list = null)
+    private void BuildMenuItem(List<ExamineInfo> examinees = null, string colName = "", List<string> courses = null, GameObject list = null)
     {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         if (GlobalData.currModuleName != "考核") NormalBuildItem(courses, list: list);
-        else ExamsBuildItem(examinees, list: list);
+        else ExamsBuildItem(examinees, colName, list: list);
 #elif UNITY_WEBGL
         // 单模块模式
         if (targets.Count > 0)
@@ -178,11 +179,12 @@ public class MenuPanel : BasePanel
     /// 考核模式Menu的Item的创建
     /// </summary>
     /// <param name="examinees"></param>
-    public void ExamsBuildItem(List<ExamineInfo> examinees, GameObject list = null)
+    public void ExamsBuildItem(List<ExamineInfo> examinees, string parentCol, GameObject list = null)
     {
         // 多模块模式
         foreach (var exams in examinees)
         {
+            if (exams.Status == false || parentCol != exams.ColumnsName) continue;
             GameObject item = Instantiate(m_Item, list.transform);
             item.gameObject.SetActive(true);
             Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
@@ -195,7 +197,7 @@ public class MenuPanel : BasePanel
                 string[] split = name.Split("\n");
                 GlobalData.currModuleName = split[0];
                 GlobalData.currExamsTime = split[1];
-                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == GlobalData.currExamsTime && x.CourseName == GlobalData.currModuleName);
+                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == GlobalData.currExamsTime && x.CourseName == GlobalData.currModuleName).Clone();
                 ChooseThisItem(exams.CourseName, list); 
             });
         }        
