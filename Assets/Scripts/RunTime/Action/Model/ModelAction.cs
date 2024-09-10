@@ -20,7 +20,7 @@ public class ModelAction : BaseAction
 
     public ModelAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<ModelPanel>();
+        m_Panel = UIConsole.FindAssetPanel<ModelPanel>();
 
         m_Token = new CancellationTokenSource();
         m_panelToken = new CancellationTokenSource();
@@ -63,10 +63,10 @@ public class ModelAction : BaseAction
     {
         await UniTask.WaitUntil(() => 
         {
-            return Addressables.LoadAssetAsync<GameObject>(GlobalData.currModuleCode).IsDone == true;
+            return Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName).IsDone == true;
         });
 
-        Addressables.LoadAssetAsync<GameObject>(GlobalData.currModuleCode).Completed += (handle) =>
+        Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName).Completed += (handle) =>
         {
             GameObject go = handle.Result;
             if (go != null)

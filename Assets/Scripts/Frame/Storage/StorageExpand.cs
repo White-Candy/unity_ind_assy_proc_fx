@@ -71,15 +71,20 @@ public class StorageExpand
         int idx = Storage.rsCheck.FindIndex((x) => { return x.relaPath == info.relaPath; });
         if (idx != -1)
         {
-            Storage.rsCheck.RemoveAt(idx);
+            Storage.rsCheck[idx].version_code = info.version_code;
+            Storage.rsCheck[idx].need_updata = info.need_updata;
         }
-
-        ResourcesInfo ri = new ResourcesInfo
+        else
         {
-            relaPath = info.relaPath,
-            version_code = info.version_code
-        };
-        Storage.rsCheck.Add(ri);
+            ResourcesInfo ri = new ResourcesInfo
+            {
+                relaPath = info.relaPath,
+                version_code = info.version_code,
+                need_updata = true
+            };
+            Storage.rsCheck.Add(ri);
+        }
+        
         SaveToDisk();
     }
 

@@ -284,9 +284,11 @@ public class GameMode : Singleton<GameMode>
         if (GlobalData.mode != Mode.Examination) { return; }
         List<AnswerDetailVoListItem> realList = new List<AnswerDetailVoListItem>();
 
-        AnswerDetailVoListItem avi = new AnswerDetailVoListItem();
-        avi.resourceId = GlobalData.codeVSidDic[GlobalData.currModuleCode];
-        avi.userScore = GlobalData.totalScore.ToString();
+        AnswerDetailVoListItem avi = new AnswerDetailVoListItem
+        {
+            resourceId = GlobalData.codeVSidDic[GlobalData.ProjGroupName],
+            userScore = GlobalData.totalScore.ToString()
+        };
         realList.Add(avi);
 
         //GlobalData.m_RealExamBody = realList;

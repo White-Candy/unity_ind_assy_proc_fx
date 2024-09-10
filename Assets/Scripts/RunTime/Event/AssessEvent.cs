@@ -1,8 +1,12 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +19,6 @@ public class AssessEvent : BaseEvent
         base.OnEvent(args);
         // Debug.Log("Assess Event!");
 
-        GlobalData.mode = Mode.Examination;
         //if (GlobalData.currentExamIsFinish)
         //{
         //    UITools.OpenDialog("", "您已完成本次考核!", () => { });
@@ -54,9 +57,205 @@ public class AssessEvent : BaseEvent
             }
         });*/
 
-        // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。
+        // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。-2024/08
+        // TODO...获取栏目和课程数据 以及 考核数据。
+        GlobalData.mode = Mode.Examination;
+        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
+        TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
+        TCPHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
         SwitchSceneAccName(m_Name);
 
         await UniTask.Yield();
+    }
+}
+
+/// <summary>
+///  考核信息包
+/// </summary>
+public class ExamineInfo
+{
+    public string id;
+    public string ColumnsName;
+    public string CourseName;
+    public string RegisterTime;
+    public int TrainingScore;
+    public int ClassNum;
+    public int SingleNum;
+    public int MulitNum;
+    public int TOFNum;
+    public bool Status = false;
+    public List<SingleChoice> SingleChoices = new List<SingleChoice>();
+    public List<MulitChoice> MulitChoices = new List<MulitChoice>();
+    public List<TOFChoice> TOFChoices = new List<TOFChoice>();
+
+    public ExamineInfo() {}
+    public ExamineInfo Clone ()
+    {
+        ExamineInfo inf = new ExamineInfo();
+        inf.id = id;
+        inf.ColumnsName = ColumnsName;
+        inf.CourseName = CourseName;
+        inf.RegisterTime = RegisterTime;
+        inf.TrainingScore = TrainingScore;
+        inf.ClassNum = ClassNum;
+        inf.SingleNum = SingleNum;
+        inf.MulitNum = MulitNum;
+        inf.TOFNum = TOFNum;
+        inf.Status = Status;
+        foreach (var Option in SingleChoices) { inf.SingleChoices.Add(Option.Clone()); }
+        foreach (var Option in MulitChoices) { inf.MulitChoices.Add(Option.Clone()); }
+        foreach (var Option in TOFChoices) { inf.TOFChoices.Add(Option.Clone()); }
+        return inf;
+    }    
+}
+
+/// <summary>
+/// 单选题包
+/// </summary>
+public class SingleChoice
+{
+    public string Topic;
+    public ItemChoice toA = new ItemChoice();
+    public ItemChoice toB = new ItemChoice();
+    public ItemChoice toC = new ItemChoice();
+    public ItemChoice toD = new ItemChoice();
+    public string Answer;
+    public string Score = "";
+
+    public SingleChoice Clone()
+    {
+        SingleChoice single = new SingleChoice();
+        single.Topic = Topic;
+        single.toA = toA.Clone();
+        single.toB = toB.Clone();
+        single.toC = toB.Clone();
+        single.toD = toB.Clone();
+        single.Answer = Answer;
+        single.Score = Score;
+        return single;
+    }    
+}
+
+/// <summary>
+/// 多选
+/// </summary>
+public class MulitChoice
+{
+    public string Topic;
+    public List<MulitChoiceItem> Options = new List<MulitChoiceItem>(); // {{"A", "xxxxx", true}, {"B", "xxxxxxx", false}}
+    public string Answer;
+    public string Score = "";
+
+    public MulitChoice Clone()
+    {
+        MulitChoice mulit = new MulitChoice();
+        mulit.Topic = Topic;
+        foreach (var Option in Options) { mulit.Options.Add(Option.Clone()); }
+        mulit.Answer = Answer;
+        mulit.Score = Score;
+        return mulit;
+    }
+}
+
+/// <summary>
+/// 判断题
+/// </summary>
+public class TOFChoice
+{
+    public string Topic;
+    public ItemChoice toA = new ItemChoice();
+    public ItemChoice toB = new ItemChoice();
+    public string Answer;
+    public string Score = "";
+
+    public TOFChoice Clone()
+    {
+        TOFChoice tof = new TOFChoice();
+        tof.Topic = Topic;
+        tof.toA = toA.Clone();
+        tof.toB = toB.Clone();
+        tof.Answer = Answer;
+        tof.Score = Score;
+        return tof;
+    }
+}
+
+/// <summary>
+/// 理论模式中 一个选项的信息
+/// </summary>
+public class ItemChoice
+{
+    public string m_content = "";
+    public bool m_isOn = false;
+
+    public ItemChoice() {}
+
+    public ItemChoice(string content, bool ison)
+    {
+        m_content = content;
+        m_isOn = ison;
+    }
+
+    public ItemChoice Clone()
+    {
+        ItemChoice item = new ItemChoice();
+        item.m_content = m_content;
+        item.m_isOn = m_isOn;
+        return item;
+    }
+}
+
+/// <summary>
+/// 因为服务器端没有办法 序列化 字典类型，所以为了保存多选题的选项，需要自定义一个类
+/// </summary>
+public class MulitChoiceItem
+{
+    public string Serial = "A";
+    public string Content = "";
+    public bool isOn = false;
+
+    public MulitChoiceItem() {}
+
+    public MulitChoiceItem Clone()
+    {
+        MulitChoiceItem item = new MulitChoiceItem();
+        item.Serial = Serial;
+        item.Content = Content;
+        item.isOn = isOn;
+        return item;
+    }
+}
+
+
+/// <summary>
+/// 成绩管理信息
+/// </summary>
+public class ScoreInfo
+{
+    public string className;
+    public string columnsName;
+    public string courseName;
+    public string registerTime; // 该次考试的注册时间
+    public string userName;
+    public string Name;
+    public string theoryScore = "";
+    public string trainingScore = "";
+    public bool theoryFinished = false; //本次理论考试是否完成
+    public bool trainingFinished = false; //本次实训考试是否完成
+
+    public ScoreInfo Clone()
+    {
+        ScoreInfo inf = new ScoreInfo();
+        inf.className = className;
+        inf.columnsName = columnsName;
+        inf.courseName =courseName;
+        inf.registerTime = registerTime;
+        inf.userName = userName;
+        inf.Name = Name;
+        inf.theoryScore = theoryScore;
+        inf.trainingScore = trainingScore;
+        inf.theoryFinished = theoryFinished;
+        inf.trainingFinished = trainingFinished;
+        return inf;
     }
 }

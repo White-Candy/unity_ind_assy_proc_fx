@@ -160,8 +160,7 @@ public static class Tools
     private static async UniTask LoadModelAsync()
     {
         // 模型场景异步加载
-        // Debug.Log(GlobalData.ModelTarget.modelName);
-        AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ModelTarget.modelName);
+        AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName + "-Scene");
         await UniTask.WaitUntil(() => model_async.IsDone == true);
 
         GlobalData.SceneModel = UnityEngine.Object.Instantiate(model_async.Result);
@@ -175,7 +174,7 @@ public static class Tools
     /// </summary>
     private static async UniTask AnalysisStepFile()
     {
-        await NetworkManager._Instance.DownLoadTextFromServer((Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Step.txt"), (dataStr) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\ModelExplain\\" + GlobalData.ProjGroupName + "\\Step.txt", (dataStr) =>
         {
             // Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
@@ -233,7 +232,7 @@ public static class Tools
     /// <returns></returns>
     private static async UniTask AnalysisEquFile()
     {
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.currModuleCode + "/" + GlobalData.ModelTarget.modelName + "Equ.json", (str) => 
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName + "\\Equ.json", (str) => 
         {
             // Debug.Log(str);
             JsonData json_data = JsonMapper.ToObject<JsonData>(str);
@@ -325,7 +324,7 @@ public static class Tools
     /// </summary>
     /// <param name="buffer"> 文件字节流 </param>
     /// <param name="save_path"> 保存路径 </param>
-    public static async void Bytes2File(byte[] buffer, string save_path)
+    public static async UniTask Bytes2File(byte[] buffer, string save_path)
     {
         if (File.Exists(save_path)) 
         { 
@@ -345,7 +344,6 @@ public static class Tools
             fs.Write(buffer, 0, buffer.Length);
             fs.Close();
         }
-
         await UniTask.WaitUntil(() => File.Exists(save_path) == true);
 
         DownLoadPanel._instance.SetWritePercent();
@@ -369,10 +367,10 @@ public static class Tools
     /// <returns></returns>
     public static string GetFileRelativePath(string path, string name)
     {
-        string[] split = path.Split('/');
+        string[] split = path.Split('\\');
         string filename = split[split.Length - 1];
-        string suffix = Tools.GetModulePath(name);
-        string relaPath = $"{GlobalData.currModuleCode}{suffix}\\{filename}";
+        string suffix = GetModulePath(name);
+        string relaPath = $"{GlobalData.ProjGroupName}{suffix}\\{filename}";
 
         return relaPath;
     }
@@ -386,7 +384,7 @@ public static class Tools
         foreach (var fp in fpList)
         {
             string savePath = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
-            Bytes2File(fp.fileData, savePath);
+            await Bytes2File(fp.fileData, savePath);
 
             await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
             GlobalData.IsLatestRes = false;

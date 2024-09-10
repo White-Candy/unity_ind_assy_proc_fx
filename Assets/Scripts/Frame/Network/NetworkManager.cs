@@ -1,8 +1,11 @@
 using Cysharp.Threading.Tasks;
+using DG.Tweening.Plugins;
 using sugar;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,21 +21,14 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         // 与局服务器连接请求
-        NetworkClientTCP.Connect("192.168.3.34", 5800);
+        TCP.Connect("192.168.3.34", 5800);
     }
 
     public void Update()
     {
-        // if (NetworkClientTCP.m_FrontQueue.Count > 0)
-        // {
-        //     FrontMp fp = NetworkClientTCP.m_FrontQueue.Dequeue();
-        //     BaseEvent @event = Tools.CreateObject<BaseEvent>(fp.event_type);
-        //     @event.OnPrepare(fp);
-        // }
-
-        if (NetworkClientTCP.m_MessQueue.Count > 0)
+        if (TCP.m_MessQueue.Count > 0)
         {
-            MessPackage pkg = NetworkClientTCP.m_MessQueue.Dequeue();
+            MessPackage pkg = TCP.m_MessQueue.Dequeue();
             BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
             @event.OnEvent(pkg);
         }
@@ -57,9 +53,9 @@ public class NetworkManager : MonoBehaviour
     {
         //Debug.Log(FPath.JiaoAnPath);
         string suffix = Tools.GetModulePath(name);
-        string path = FPath.AssetRootPath + GlobalData.currModuleCode + suffix;
+        string path = FPath.AssetRootPath + GlobalData.ProjGroupName + suffix;
 
-        UnityWebRequest req = UnityWebRequest.Get(path + "/Config.txt");
+        UnityWebRequest req = UnityWebRequest.Get(path + "\\Config.txt");
         await req.SendWebRequest();
 
         string content = req.downloadHandler.text;
@@ -68,33 +64,28 @@ public class NetworkManager : MonoBehaviour
         List<string> paths = new List<string>();
         foreach (string str in strs)
         {
-            paths.Add(path + "/" + str + ".pdf");
+            paths.Add(path + "\\" + str + ".pdf");
         }
         callback(paths);
     }
 
     /// <summary>
-    /// 下载资源文件Config目录内容
+    /// 获取文件夹中所有满足后缀的文件
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    public async UniTask<List<string>> DownLoadAasetAsync(string name)
+    public List<string> DownLoadAaset(string name, string extentsion)
     {
         string suffix = Tools.GetModulePath(name);
-        string path = FPath.AssetRootPath + GlobalData.currModuleCode + suffix;
+        string path = FPath.AssetRootPath + GlobalData.ProjGroupName + suffix;
 
-        UnityWebRequest req = UnityWebRequest.Get(path + "/Config.txt");
-        await req.SendWebRequest();
-
-        string content = req.downloadHandler.text;
-        string[] strs = content.Split('_');
-
-        List<string> paths = new List<string>();
-        foreach (string str in strs)
+        FileInfo[] filesInfo = FileHelper.GetDirectoryFileInfo(path, extentsion);
+        List<string> filesPath = new List<string>();
+        foreach (var info in filesInfo)
         {
-            paths.Add(path + "/" + str);
+            filesPath.Add(info.FullName);
         }
-        return paths;
+        return filesPath;
     }
 
     /// <summary>
@@ -103,5 +94,6 @@ public class NetworkManager : MonoBehaviour
     public void OnDestroy()
     {
         StorageExpand.SaveToDisk();
+        TCP.Close();
     }
 }

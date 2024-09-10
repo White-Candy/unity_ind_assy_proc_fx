@@ -30,6 +30,6 @@ public class Client : Singleton<Client>
     /// <param name="password"></param>
     public async void Login(string path, string username, string password)
     {
-        await NetworkTCPExpand.UserLoginReq(username, password);
+        await TCPHelper.UserLoginReq(username, password);
     }
 }

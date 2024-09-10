@@ -8,6 +8,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 public struct StepStruct
 {
@@ -32,7 +33,6 @@ public class MenuPanel : BasePanel
     private string currTaskName; // 目前的Task名字
     //private BaseTask currTask; // 目前的任务实例
 
-    //private Dictionary<string, BaseTask> m_TaskDic = new Dictionary<string, BaseTask>(); // 任务字典
 
     [HideInInspector] public List<GameObject> m_Menus = new List<GameObject>(); // 保存 菜单按钮列表
     private List<GameObject> m_Menulist = new List<GameObject>(); // 保存 菜单列表
@@ -53,47 +53,84 @@ public class MenuPanel : BasePanel
         //Init();
     }
 
-    private void BuildMenuList()
+    private async void BuildMenuList()
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        foreach (var proj in GlobalData.Projs)
+        await UniTask.WaitUntil(() => 
         {
-            GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
-            GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
-
-            BuildMenuItem(proj.targets, list);
-            list.gameObject.SetActive(false);
-            menuItem.gameObject.SetActive(true);
-
-            Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
-            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.ProjName;
-            menuBtn.onClick.AddListener(() => 
-            {
-                bool b = list.activeSelf;
-                SetActiveMenuItem(list, !b);
-            });
-
-            m_Menus.Add(menuItem);
-            m_Menulist.Add(list);
-        }
+            // Debug.Log($"wait at a time: {GlobalData.Projs.Count}");
+            return GlobalData.Projs.Count != 0;
+        });
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        if (GlobalData.currModuleName != "考核") NormalBuildMenu();
+        else ExamineBuildMenu();
 #elif UNITY_WEBGL
         var proj = GlobalData.Projs[0];
         BuildMenuItem(proj.targets);
 #endif
     }
 
-    private void BuildMenuItem(List<Target> targets, GameObject list = null)
+    /// <summary>
+    /// 非考核模式Menu的创建
+    /// </summary>
+    public void NormalBuildMenu()
+    {
+        foreach (var proj in GlobalData.Projs)
+        {
+            GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
+            GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
+
+            BuildMenuItem(courses: proj.Courses, list: list);
+            list.gameObject.SetActive(false);
+            menuItem.gameObject.SetActive(true);
+
+            Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.Columns;
+            menuBtn.onClick.AddListener(() => 
+            {
+                bool b = list.activeSelf;
+                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
+                SetActiveMenuItem(list, !b);
+            });
+
+            m_Menus.Add(menuItem);
+            m_Menulist.Add(list);
+        }        
+    }
+
+    /// <summary>
+    /// 考核模式菜单构建
+    /// </summary>
+    public void ExamineBuildMenu()
+    {
+        foreach (var inf in GlobalData.ExamineesInfo)
+        {
+            if (inf.Status == false) continue;
+            GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
+            GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
+
+            BuildMenuItem(examinees: GlobalData.ExamineesInfo, inf.ColumnsName, list: list);
+            list.gameObject.SetActive(false);
+            menuItem.gameObject.SetActive(true);
+
+            Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = inf.ColumnsName;
+            menuBtn.onClick.AddListener(() => 
+            {
+                bool b = list.activeSelf;
+                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
+                SetActiveMenuItem(list, !b);
+            });
+
+            m_Menus.Add(menuItem);
+            m_Menulist.Add(list);
+        }           
+    }
+
+    private void BuildMenuItem(List<ExamineInfo> examinees = null, string colName = "", List<string> courses = null, GameObject list = null)
     {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        // 多模块模式
-        foreach (var target in targets)
-        {
-            GameObject item = Instantiate(m_Item, list.transform);
-            item.gameObject.SetActive(true);
-            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
-            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = target.menuName;
-            itemBtn.onClick.AddListener(() => { ChooseThisItem(target, list); });
-        }
+        if (GlobalData.currModuleName != "考核") NormalBuildItem(courses, list: list);
+        else ExamsBuildItem(examinees, colName, list: list);
 #elif UNITY_WEBGL
         // 单模块模式
         if (targets.Count > 0)
@@ -118,23 +155,68 @@ public class MenuPanel : BasePanel
 #endif
     }
 
+
+    /// <summary>
+    /// 非考核模式的关于 Menu Item的创建
+    /// </summary>
+    /// <param name="courses"></param>
+    /// <param name="list"></param>
+    public void NormalBuildItem(List<string> courses, GameObject list = null)
+    {
+        // 多模块模式
+        foreach (var course in courses)
+        {
+            GameObject item = Instantiate(m_Item, list.transform);
+            item.gameObject.SetActive(true);
+            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
+            //itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
+            itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = course;
+            itemBtn.onClick.AddListener(() => { ChooseThisItem(course, list); });
+        }
+    }
+    
+    /// <summary>
+    /// 考核模式Menu的Item的创建
+    /// </summary>
+    /// <param name="examinees"></param>
+    public void ExamsBuildItem(List<ExamineInfo> examinees, string parentCol, GameObject list = null)
+    {
+        // 多模块模式
+        foreach (var exams in examinees)
+        {
+            if (exams.Status == false || parentCol != exams.ColumnsName) continue;
+            GameObject item = Instantiate(m_Item, list.transform);
+            item.gameObject.SetActive(true);
+            Button itemBtn = item.transform.GetChild(0).GetComponent<Button>();
+            //itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = course;
+            string name = $"{exams.CourseName}\n{exams.RegisterTime}";
+            itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = name;
+            itemBtn.onClick.AddListener(() => 
+            {
+                string name = itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text;
+                string[] split = name.Split("\n");
+                GlobalData.currModuleName = split[0];
+                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == split[1] && x.CourseName == GlobalData.currModuleName).Clone();
+                ChooseThisItem(exams.CourseName, list); 
+            });
+        }        
+    }
+
     /// <summary>
     /// 训练模式：异步加载模型场景切换
     /// 其他模式：显示菜单
     /// </summary>
-    /// <param name="target"> 子项目的info </param>
+    /// <param name="course"> 课程名 </param>
     /// <param name="obj"> 菜单窗口的实例 </param>
-    private async void ChooseThisItem(Target target, GameObject obj)
+    private async void ChooseThisItem(string course, GameObject obj)
     {
-        GlobalData.ModelTarget = target;
-        GlobalData.currModuleCode = target.modelCode.ToString();
-        //GlobalData.currModuleName = target.modelName;
+        GlobalData.courseName = course;
 
         if (GlobalData.isLoadModel)
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
-            TitlePanel._instance.SetTitle(target.menuName);
+            TitlePanel._instance.SetTitle(course);
             Active(false);
         }
         else

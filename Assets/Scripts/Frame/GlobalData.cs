@@ -23,6 +23,8 @@ namespace sugar
             Url = $"http://{_ip}:{_port}";
         }
 
+        public static UserInfo usrInfo; // 用户名信息
+
         public static string token;
         public static int examId; // 考核id
 
@@ -31,10 +33,12 @@ namespace sugar
         public static int WarningCode = 601;//系统警告信息
 
         public static Mode mode = Mode.None;
-        public static string currModuleCode = "";
         public static string currModuleName = "";
+        public static string columnsName = ""; // 当前栏目
+        public static string courseName = ""; // 当前课程
+        public static string ProjGroupName {get {return $"{columnsName}\\{courseName}";} } //组名
         public static List<Proj> Projs = new List<Proj>(); // 训练/实训考核的模型场景 Addressables Groups Default Name 的列表.
-        public static Target ModelTarget; // 训练/实训考核的模型场景 Addressables Groups Default Name.
+        // public static Target ModelTarget; // 训练/实训考核的模型场景 Addressables Groups Default Name.
 
         // 已经完成本次考核，重新登录后才可再次考试
         public static bool currentExamIsFinish = false;
@@ -59,7 +63,7 @@ namespace sugar
 
         public static string currItemMode; // 子模式
         public static bool isLoadModel { get { return (currModuleName == "训练") || (currItemMode == "实操" && currModuleName == "考核"); } } // 模型加载的条件
-        public static bool isSubmit { get { return (currModuleName == "考核"); } } // 点击右方按钮是否触发提交窗口
+        public static bool isSubmit { get { return currModuleName == "考核"; } } // 点击右方按钮是否触发提交窗口
         public static bool DestroyModel = false; // 训练模式退出销毁模型，重置相机
         public static int StepIdx = 0; // 步骤索引
         public static List<StepStruct> stepStructs = new List<StepStruct>(); // 动画步骤信息
@@ -67,11 +71,15 @@ namespace sugar
         public static List<string> Materials = new List<string>(); // 材料名称
         public static bool canClone = false; // 当stepStructes刷新 表示其他监听的UI类[SelectStepPanel]可以对stepStructes进行Clone
 
+        // 考核数据结构[理论考核题库，实训考核分数]
+        public static List<ExamineInfo> ExamineesInfo = new List<ExamineInfo>();
+        public static ExamineInfo currExamsInfo = new ExamineInfo(); // 当前考核课程信息
         public static int ExamTime = 10; // 考核时间（秒）
         public static float totalScore;
         public static bool isFinishTheoreticalExam; // 是否完成考核
         public static float theoreticalExamscore = 50f; // 理论考核满分是50分
         public static float trainingExamscore = 50f; // 实训考核满分是50分
+        public static List<ScoreInfo> scoresInfo = new List<ScoreInfo>(); // 成绩信息
 
         // 场景模型实例
         public static GameObject SceneModel;

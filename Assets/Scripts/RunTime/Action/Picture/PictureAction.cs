@@ -26,7 +26,7 @@ public class PictureAction : BaseAction
         {
             List<Sprite> sprites = await LoadPictureAsync(name);
 
-            m_Panel = UIConsole.Instance.FindAssetPanel<PicturePanel>();
+            m_Panel = UIConsole.FindAssetPanel<PicturePanel>();
             m_Panel.Init(sprites);
             m_Init = true;
         }
@@ -47,7 +47,9 @@ public class PictureAction : BaseAction
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
     {
-        var paths = await NetworkManager._Instance.DownLoadAasetAsync(name);
+        var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
+
+        paths = await TCPHelper.RsCkAndDLReq(paths, name);
 
         List<Sprite> sprites = new List<Sprite>();
 
@@ -55,9 +57,8 @@ public class PictureAction : BaseAction
             UITools.ShowMessage("当前模块没有图片资源");
 
         AsyncResult result = await AssetConsole.Instance.LoadTexObject(paths.ToArray());
-        await UniTask.WaitUntil(() => result.isLoad == true);
 
-        await NetworkTCPExpand.RsCkAndDLReq(paths, name);
+        await UniTask.WaitUntil(() => result.isLoad == true);
 
         foreach (var spo in result.m_Assets)
         {
@@ -80,7 +81,5 @@ public class PictureAction : BaseAction
         //m_panelToken = new CancellationTokenSource();
 
         m_Panel.Active(false);
-    }
-
-    
+    }  
 }

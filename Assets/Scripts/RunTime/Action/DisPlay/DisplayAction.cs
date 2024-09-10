@@ -19,13 +19,13 @@ public class DisplayAction : BaseAction
     private GameObject m_currModel; // 当前展示的模型
     public DisplayAction()
     {
-        m_Panel = UIConsole.Instance.FindAssetPanel<ModelPanel>();
+        m_Panel = UIConsole.FindAssetPanel<ModelPanel>();
         m_Token = new CancellationTokenSource();
     }
 
     public override async UniTask AsyncShow(string name)
     {
-        await NetworkManager._Instance.DownLoadTextFromServer(FPath.AssetRootPath + GlobalData.currModuleCode + FPath.ModelSuffix, 
+        await NetworkManager._Instance.DownLoadTextFromServer(FPath.AssetRootPath + GlobalData.ProjGroupName + FPath.ModelSuffix, 
             (names) => 
             {
                 string[] arr_name = names.Split('_');

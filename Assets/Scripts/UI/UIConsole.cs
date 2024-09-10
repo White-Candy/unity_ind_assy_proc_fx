@@ -3,17 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIConsole : Singleton<UIConsole>
+public class UIConsole : MonoBehaviour
 {
-    public Dictionary<string, BasePanel> m_List = new Dictionary<string, BasePanel>();
+    public static Dictionary<string, BasePanel> m_List = new Dictionary<string, BasePanel>();
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         DontDestroyOnLoad(gameObject);
     }
 
-    public T FindPanel<T>() where T : class, IBasePanel
+    public static T FindPanel<T>() where T : class, IBasePanel
     {
         foreach (var panel in m_List.Values)
         {
@@ -26,10 +25,11 @@ public class UIConsole : Singleton<UIConsole>
         return null;
     }
 
-    public void AddPanel(string key, BasePanel panel)
+    public static void AddPanel(string key, BasePanel panel)
     {
         if (!m_List.ContainsKey(key))
         {
+            // Debug.Log("AddPanel: " + key);
             m_List.Add(key, panel);
         }
     }
@@ -39,7 +39,7 @@ public class UIConsole : Singleton<UIConsole>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T FindAssetPanel<T>() where T : BasePanel
+    public static T FindAssetPanel<T>() where T : BasePanel
     {
         T t = FindPanel<T>();
         if (t == null)

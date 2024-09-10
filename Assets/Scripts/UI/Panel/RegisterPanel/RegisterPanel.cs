@@ -35,7 +35,7 @@ public class RegisterPanel : BasePanel
 
         register?.onClick.AddListener(() =>
         {
-            NetworkTCPExpand.Register(account?.text, password?.text, verify?.text);
+            TCPHelper.Register(account?.text, password?.text, verify?.text);
         });
 
         quit?.onClick.AddListener(UITools.Quit);

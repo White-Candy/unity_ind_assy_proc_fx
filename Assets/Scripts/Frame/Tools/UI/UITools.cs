@@ -16,7 +16,7 @@ public class UITools
     /// <param name="duration"></param>
     public static void ShowMessage(string mess, float duration = 3.0f)
     {
-        MessagePanel panel = UIConsole.Instance.FindAssetPanel<MessagePanel>();
+        MessagePanel panel = UIConsole.FindAssetPanel<MessagePanel>();
         panel.Show(mess, duration);
     }
 
@@ -28,7 +28,7 @@ public class UITools
     /// <param name="model_name"></param>
     public static void Loading(string scene, string model_name = "")
     {
-        LoadingPanel load_panel = UIConsole.Instance.FindAssetPanel<LoadingPanel>();
+        LoadingPanel load_panel = UIConsole.FindAssetPanel<LoadingPanel>();
         load_panel.LoadScene(scene, model_name);
     }
 
@@ -38,7 +38,7 @@ public class UITools
     /// <param name="f"></param>
     public static DownLoadPanel SpawnDownLoad()
     {
-        return UIConsole.Instance.FindAssetPanel<DownLoadPanel>();
+        return UIConsole.FindAssetPanel<DownLoadPanel>();
     }
 
     public static void OpenDialog(string title, string info, Action callback, bool single = false)
@@ -77,22 +77,34 @@ public class UITools
     public static float old_Percent = 0.0f;
     public async static UniTask DownLoadPrepare(int fileCount)
     {
-        await UniTask.RunOnThreadPool(async () =>
+        await UniTask.WaitUntil(() => 
         {
-            while(fileCount > 0)
+            if (TCP.percent == old_Percent) return false; 
+            old_Percent = TCP.percent;
+            DownLoadPanel._instance.SetDLPercent(TCP.percent);
+            // Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
+            if (old_Percent == 100.0f) 
             {
-                if (NetworkClientTCP.percent == 0.0f) continue; 
-                Debug.Log("DownLoadPrepare: " +  NetworkClientTCP.percent + " | " + fileCount);
-                DownLoadPanel._instance.SetDLPercent(NetworkClientTCP.percent);
-                if (NetworkClientTCP.percent == 100.0f) 
-                {
-                    fileCount--;
-                }
+                old_Percent = 0.0f;
+                fileCount--;
             }
-                            
-            await UniTask.WaitUntil(() => GlobalData.Downloaded == true);
-            GlobalData.Downloaded = false;
+            return fileCount == 0; 
         });
+        // while(fileCount > 0)
+        // {
+        //     if (TCP.percent == old_Percent) continue; 
+        //     Debug.Log("========================= DownLoadPrepare: " +  TCP.percent + " | " + fileCount);
+        //     DownLoadPanel._instance.SetDLPercent(TCP.percent);
+        //     old_Percent = TCP.percent;
+        //     if (TCP.percent == 100.0f) 
+        //     {
+        //         old_Percent = 0.0f;
+        //         fileCount--;
+        //     }
+        // }
+                        
+        await UniTask.WaitUntil(() => GlobalData.Downloaded == true);
+        GlobalData.Downloaded = false;
         //Debug.Log("break! " + fileCount);
     }
 }

@@ -16,7 +16,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
     public virtual void Awake()
     {
         m_NameP = this.GetType().ToString();
-        UIConsole.Instance.AddPanel(m_NameP, this);
+        UIConsole.AddPanel(m_NameP, this);
         m_Visible = m_Content == null ? false : m_Content.activeSelf;
     }
 

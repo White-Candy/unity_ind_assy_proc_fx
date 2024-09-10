@@ -161,7 +161,7 @@ public class DialogPanel : BasePanel
     /// <param name="callback"></param>
     public static void OpenDialog(string title, string info, Action callback, bool single)
     {
-        DialogPanel panel = UIConsole.Instance.FindAssetPanel<DialogPanel>();
+        DialogPanel panel = UIConsole.FindAssetPanel<DialogPanel>();
         if (panel != null && !single)
         {
             panel.UpdateData(title, info, new ButtonData("确定", callback), new ButtonData("取消", () => { panel.Active(false); }));
