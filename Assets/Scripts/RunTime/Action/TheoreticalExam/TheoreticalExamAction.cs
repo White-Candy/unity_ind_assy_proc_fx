@@ -20,15 +20,9 @@ public class TheoreticalExamAction : BaseAction
 
     public override async UniTask AsyncShow(string name)
     {
-        // if (GlobalData.isFinishTheoreticalExam)
-        // {
-        //     UITools.OpenDialog("", "已完成理论考核，请在退出考核模式后前往后台查询成绩。", () => { }, true);
-        //     return;
-        // }
-        // Debug.Log($"user inf: {GlobalData.usrInfo.userName} | {GlobalData.usrInfo.Name} | {GlobalData.usrInfo.className}");
         var inf = GlobalData.scoresInfo.Find(x => x.className == GlobalData.usrInfo.className && x.userName == GlobalData.usrInfo.userName 
                                              && x.courseName == GlobalData.currExamsInfo.CourseName && x.registerTime == GlobalData.currExamsInfo.RegisterTime);
-        Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
+        // Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
         if (inf != null && inf.theoryFinished)
         {
             UITools.OpenDialog("", "已完成理论考核。", () => { }, true);
@@ -40,6 +34,7 @@ public class TheoreticalExamAction : BaseAction
             m_Panel = UIConsole.FindAssetPanel<TheoryExaminePanel>();
             m_Panel.Init(GlobalData.currExamsInfo);
             m_Panel.Active(true);
+            await m_Panel.StartCountDown().SuppressCancellationThrow();
             try
             {
                 await UniTask.WaitUntil(() => m_Panel?.m_Content.activeSelf == false, PlayerLoopTiming.Update, m_panelToken.Token);

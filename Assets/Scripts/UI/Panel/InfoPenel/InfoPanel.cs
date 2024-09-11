@@ -30,7 +30,7 @@ public class InfoPanel : BasePanel
 
     public static InfoPanel _instance;
 
-    public CancellationTokenSource m_cts = new CancellationTokenSource();
+    private CancellationTokenSource m_cts = new CancellationTokenSource();
 
     // public bool m_showMap = true; // 是否展示小地图
 
@@ -104,21 +104,15 @@ public class InfoPanel : BasePanel
     {
         UITools.OpenDialog("", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
         {
-            GlobalData.DestroyModel = true;
-            GlobalData.StepIdx = 0;
-            GlobalData.totalScore = 0f;
-            // GlobalData.currentExamIsFinish = true;
-            GlobalData.currModuleName = "";
-            Utilly.ExitModeSceneAction();
-            //UITools.Loading("Menu");
-        }, true);
+            ExamineSubmit();
+        });
     }
 
 
     // 开始倒计时
     public async UniTask StartCountDown()
     {
-        int time = GlobalData.ExamTime;
+        int time = int.Parse(GlobalData.currExamsInfo.TrainingTime) * 60;
         await UniTask.WaitUntil(() => m_Visible == true);
 
         while (time > 0 && m_Visible)
@@ -131,13 +125,7 @@ public class InfoPanel : BasePanel
 
         if (time <= 0)
         {
-            UITools.OpenDialog("", "时间到，已自动交卷。", UniTask.Action(async () =>
-            {
-                // TODO.. 成绩提交请求
-
-                GlobalData.totalScore = 0f;
-                Utilly.ExitModeSceneAction();                
-            }), true);
+            UITools.OpenDialog("", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
         }
     }
 
@@ -150,6 +138,20 @@ public class InfoPanel : BasePanel
 
         string str_time = $"{Tools.FillingForTime(hour.ToString()) + ":" + Tools.FillingForTime(min.ToString()) + ":" + Tools.FillingForTime(second.ToString())}";
         m_CountDown.SetText(str_time);
+    }
+
+    /// <summary>
+    /// 提交
+    /// </summary>
+    public void ExamineSubmit()
+    {
+        // GlobalData.currModuleName = "";
+        float trainingScore = GameMode.Instance.totalScore;
+        GlobalData.currScoreInfo.trainingScore = trainingScore.ToString();
+        GlobalData.currScoreInfo.trainingFinished = true;            
+        // Debug.Log("training Score total: " + trainingScore);
+        TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
+        Utilly.ExitModeSceneAction();
     }
 
     public void SetActiveOfExamUI(bool b)

@@ -102,18 +102,17 @@ public class MenuPanel : BasePanel
     /// </summary>
     public void ExamineBuildMenu()
     {
-        foreach (var inf in GlobalData.ExamineesInfo)
+        foreach (var inf in GlobalData.Projs)
         {
-            if (inf.Status == false) continue;
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
             GameObject list = menuItem.transform.Find("SubMenuGrid").gameObject;
 
-            BuildMenuItem(examinees: GlobalData.ExamineesInfo, inf.ColumnsName, list: list);
+            BuildMenuItem(examinees: GlobalData.ExamineesInfo, inf.Columns, list: list);
             list.gameObject.SetActive(false);
             menuItem.gameObject.SetActive(true);
 
             Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
-            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = inf.ColumnsName;
+            menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = inf.Columns;
             menuBtn.onClick.AddListener(() => 
             {
                 bool b = list.activeSelf;
@@ -197,6 +196,23 @@ public class MenuPanel : BasePanel
                 string[] split = name.Split("\n");
                 GlobalData.currModuleName = split[0];
                 GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == split[1] && x.CourseName == GlobalData.currModuleName).Clone();
+                int scoreIdx = GlobalData.scoresInfo.FindIndex(x => x.className == GlobalData.usrInfo.className && x.userName == GlobalData.usrInfo.userName
+                            && x.registerTime == GlobalData.currExamsInfo.RegisterTime && x.columnsName == GlobalData.currExamsInfo.ColumnsName 
+                            && x.courseName == GlobalData.currExamsInfo.CourseName);
+                if (scoreIdx == -1)
+                {
+                    ScoreInfo inf = new ScoreInfo()
+                    {
+                        className = GlobalData.usrInfo.className,
+                        columnsName = GlobalData.currExamsInfo.ColumnsName,
+                        courseName = GlobalData.currExamsInfo.CourseName,
+                        registerTime = GlobalData.currExamsInfo.RegisterTime,
+                        userName = GlobalData.usrInfo.userName,
+                        Name = GlobalData.usrInfo.Name,
+                    };
+                    GlobalData.currScoreInfo = inf.Clone();
+                }
+                else GlobalData.currScoreInfo = GlobalData.scoresInfo[scoreIdx].Clone();              
                 ChooseThisItem(exams.CourseName, list); 
             });
         }        

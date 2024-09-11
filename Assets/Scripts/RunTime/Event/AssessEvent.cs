@@ -57,8 +57,6 @@ public class AssessEvent : BaseEvent
             }
         });*/
 
-        // TODO。。现在先这么写，后面开发了新服务器要对应新的接口。-2024/08
-        // TODO...获取栏目和课程数据 以及 考核数据。
         GlobalData.mode = Mode.Examination;
         TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
         TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
@@ -78,8 +76,10 @@ public class ExamineInfo
     public string ColumnsName;
     public string CourseName;
     public string RegisterTime;
-    public int TrainingScore;
-    public int ClassNum;
+    public string TrainingScore;
+    public string TheoryTime = "5"; // 分钟
+    public string TrainingTime = "5"; // 分钟
+    public int PNum;
     public int SingleNum;
     public int MulitNum;
     public int TOFNum;
@@ -97,10 +97,12 @@ public class ExamineInfo
         inf.CourseName = CourseName;
         inf.RegisterTime = RegisterTime;
         inf.TrainingScore = TrainingScore;
-        inf.ClassNum = ClassNum;
+        inf.PNum = PNum;
         inf.SingleNum = SingleNum;
         inf.MulitNum = MulitNum;
         inf.TOFNum = TOFNum;
+        inf.TheoryTime = TheoryTime;
+        inf.TrainingTime = TrainingTime;        
         inf.Status = Status;
         foreach (var Option in SingleChoices) { inf.SingleChoices.Add(Option.Clone()); }
         foreach (var Option in MulitChoices) { inf.MulitChoices.Add(Option.Clone()); }

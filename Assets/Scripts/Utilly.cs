@@ -49,6 +49,8 @@ namespace sugar
             GlobalData.DestroyModel = true;
             GlobalData.StepIdx = 0;
             GlobalData.currItemMode = "";
+
+            GameMode.Instance.totalScore = 0f;
         }
     }
 }

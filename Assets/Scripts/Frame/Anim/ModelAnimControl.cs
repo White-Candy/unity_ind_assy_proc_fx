@@ -126,7 +126,7 @@ public class ModelAnimControl : MonoBehaviour
         CameraControl.SetPlayer(); // 切换回 Player相机。
         // InfoPanel._instance.gameObject.SetActive(true);
         canvas.gameObject.SetActive(true);
-        Debug.Log("Over canvas active: " + canvas.gameObject.activeSelf);
+        // Debug.Log("Over canvas active: " + canvas.gameObject.activeSelf);
         GameMode.Instance.NextStep(); // 播放结束 开始下一步
     }
 

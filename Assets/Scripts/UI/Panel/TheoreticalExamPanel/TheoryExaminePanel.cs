@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
 using sugar;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +32,8 @@ public class TheoryExaminePanel : BasePanel
 
     // 判断窗口
     public TOFPanel m_tofPanel;
-    
+    public TextMeshProUGUI m_CountDown; // 考核模式倒计时
+
     // 单选题问题列表
     private List<SingleChoice> m_singleList = new List<SingleChoice>();
 
@@ -40,6 +44,8 @@ public class TheoryExaminePanel : BasePanel
     private List<TOFChoice> m_tofList = new List<TOFChoice>();
 
     private ExamineInfo m_info = new ExamineInfo(); // 该 栏目| 课程 的所有信息。
+
+    private CancellationTokenSource m_cts = new CancellationTokenSource();
 
     public void Start()
     {
@@ -54,27 +60,8 @@ public class TheoryExaminePanel : BasePanel
             m_tofPanel.Active(i == 2 ? true : false);
         });
 
-        m_Submit.onClick.AddListener(() => 
-        {
-            UITools.OpenDialog("", "是否提交本次理论考核？", () => 
-            {
-                float _theoryScore = Submit(m_info); 
-                ScoreInfo inf = new ScoreInfo()
-                {
-                    className = GlobalData.usrInfo.className,
-                    columnsName = m_info.ColumnsName,
-                    courseName = m_info.CourseName,
-                    registerTime = m_info.RegisterTime,
-                    userName = GlobalData.usrInfo.userName,
-                    Name = GlobalData.usrInfo.Name,
-                    theoryScore = _theoryScore.ToString(),
-                    theoryFinished = true,
-                };
-                TCP.SendAsync(JsonMapper.ToJson(inf), EventType.ScoreEvent, OperateType.ADD);
-                // Debug.Log($"Submit Finish! User Name: {GlobalData.usrInfo.userName}, | Theory Score: {_theoryScore}, | This Examins Register Time: {m_info.RegisterTime}");
-                Active(false);
-            });
-        });
+        m_Submit.onClick.AddListener(FinishAction);
+
         m_Close.onClick.AddListener(Close);
 
         // 默认是单选界面
@@ -120,12 +107,71 @@ public class TheoryExaminePanel : BasePanel
         return theoryScore;
     }
 
+    /// <summary>
+    /// 完成操作
+    /// </summary>
+    public void FinishAction()
+    {
+        UITools.OpenDialog("", "是否提交本次理论考核？", () => { ExamineSubmit(); });
+    }
+
+    public void ExamineSubmit()
+    {
+        float _theoryScore = Submit(m_info); 
+        GlobalData.currScoreInfo.theoryScore = _theoryScore.ToString();
+        GlobalData.currScoreInfo.theoryFinished = true;
+        TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
+        // Debug.Log($"Submit Finish! User Name: {GlobalData.usrInfo.userName}, | Theory Score: {_theoryScore}, | This Examins Register Time: {m_info.RegisterTime}");
+        Close();
+    }
+
+    // 开始倒计时
+    public async UniTask StartCountDown()
+    {
+        int time = int.Parse(GlobalData.currExamsInfo.TheoryTime) * 60;
+        await UniTask.WaitUntil(() => m_Visible == true);
+
+        while (time > 0 && m_Visible)
+        { 
+            time--;
+            UpdateTimeOnUI(time); 
+            await UniTask.Delay(1000, cancellationToken: m_cts.Token);
+            // Debug.Log(time);
+        }
+
+        if (time <= 0)
+        {
+            UITools.OpenDialog("", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
+        }
+    }
+    
+    // 修改UI的时间
+    private void UpdateTimeOnUI(int time)
+    {
+        int hour = time / 3600;
+        int min = (time - hour * 3600) / 60;
+        int second = time - hour * 3600 - min * 60;
+
+        string str_time = $"{Tools.FillingForTime(hour.ToString()) + ":" + Tools.FillingForTime(min.ToString()) + ":" + Tools.FillingForTime(second.ToString())}";
+        m_CountDown.SetText(str_time);
+    }
+
+    // 停止CountDown的线程
+    public void CancelCountDownToken()
+    {
+        m_cts.Cancel();
+        m_cts.Dispose();
+        m_cts = new CancellationTokenSource();
+    }
+
     public void Close() 
     {
+        CancelCountDownToken();
         m_singlePanel.Clear();
         m_mulitPanel.Clear();
         m_tofPanel.Clear();
         queType.value = 0;
         Active(false);
     }
+    
 }

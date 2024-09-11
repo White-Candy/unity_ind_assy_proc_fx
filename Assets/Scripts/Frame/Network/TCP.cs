@@ -214,7 +214,7 @@ public class TCP
     {
         var outputBuffer = Encoding.Default.GetBytes("Close");
         m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);    
-        m_Socket.Close();    
+        // m_Socket.Close();    
     }
 }
 
