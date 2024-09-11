@@ -142,11 +142,12 @@ public class TCPHelper
     /// <param name="pwd"></param>
     /// <param name="verify"></param>
     /// <returns></returns>
-    public static void Register(string account, string pwd, string verify)
+    public static void Register(string account, string pwd, string verify, string name, string _className)
     {
         if (UITools.InputFieldCheck(account, "用户名不能为空")) { return; }
         if (UITools.InputFieldCheck(pwd, "密码不能为空")) { return; }
         if (UITools.InputFieldCheck(verify, "请再次输入密码")) { return; }
+        if (UITools.InputFieldCheck(name, "姓名不能为空")) { return; }
 
         if (pwd == verify)
         {
@@ -154,6 +155,8 @@ public class TCPHelper
             {
                 userName = account,
                 password = pwd,
+                Name = name,
+                className = _className,
                 Identity = "学生"
             };
 

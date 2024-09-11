@@ -60,6 +60,7 @@ namespace sugar
 
             m_Regiester?.onClick.AddListener(() => 
             {
+                TCP.SendAsync("[]", EventType.ClassEvent, OperateType.GET);
                 RegisterPanel._instance.Active(true);
                 Active(false);
             });

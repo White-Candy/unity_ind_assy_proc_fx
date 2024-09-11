@@ -38,7 +38,7 @@ namespace sugar
         public static string courseName = ""; // 当前课程
         public static string ProjGroupName {get {return $"{columnsName}\\{courseName}";} } //组名
         public static List<Proj> Projs = new List<Proj>(); // 训练/实训考核的模型场景 Addressables Groups Default Name 的列表.
-        public static List<string> classList = new List<string>(); // 服务器中注册的班级名
+        public static List<ClassInfo> classList = new List<ClassInfo>(); // 服务器中注册的班级名
 
         public static Transform TaskParent = null; // 顯示考核内容列表按鈕的Parent Transform
 
