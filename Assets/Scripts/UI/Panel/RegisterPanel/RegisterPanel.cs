@@ -11,6 +11,8 @@ public class RegisterPanel : BasePanel
     public TMP_InputField account;
     public TMP_InputField password;
     public TMP_InputField verify;
+    public TMP_InputField Name;
+    public TMP_Dropdown className;
 
     public Button register;
     public Button comeback;
