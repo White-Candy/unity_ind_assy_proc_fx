@@ -65,7 +65,7 @@ public class TCPHelper
     public async static UniTask CkResourceReqOfList(List<string> paths, string name)
     {
         UpdatePackage up = new UpdatePackage();
-        
+
         string relative = GlobalData.ProjGroupName + Tools.GetModulePath(name);
         List<string> filesPath = new List<string>();
         foreach (string path in paths)
@@ -96,6 +96,7 @@ public class TCPHelper
         // 文件列表下载到内存中请求
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
+        Debug.Log($"DownLoadPanel._instance.m_NeedDL.Count : {DownLoadPanel._instance.m_NeedDL.Count}");
         if (DownLoadPanel._instance.m_NeedDL.Count > 0)
         {
             // 下载准备

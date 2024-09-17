@@ -36,6 +36,7 @@ namespace sugar
         public static string currModuleName = "";
         public static string columnsName = ""; // 当前栏目
         public static string courseName = ""; // 当前课程
+        public static List<string> CurrActionPathList = new List<string>(); // 当前教学模式的某个模块的文件相对路径
         public static string ProjGroupName {get {return $"{columnsName}\\{courseName}";} } //组名
         public static List<Proj> Projs = new List<Proj>(); // 训练/实训考核的模型场景 Addressables Groups Default Name 的列表.
         public static List<ClassInfo> classList = new List<ClassInfo>(); // 服务器中注册的班级名

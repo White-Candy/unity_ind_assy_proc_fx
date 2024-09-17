@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
+using System;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,26 +14,25 @@ public class StorageExpand
     {
         get
         {
-            getStorage();
+            if (m_storage == null)
+            {
+                //Debug.Log("m_storage is null");
+                m_storage = Resources.Load("Storage/Clump") as StorageObject;
+            }
+    
+            if (File.Exists(Application.persistentDataPath + "\\CliStorage.json") && !m_Init)
+            {
+                //Debug.Log("Init  " + Application.persistentDataPath + "\\CliStorage.json");
+                string s_json = File.ReadAllText(Application.persistentDataPath + "\\CliStorage.json");
+                JsonUtility.FromJsonOverwrite(s_json, m_storage);
+                m_Init = true;
+            }            
+
+            //if (m_storage == null) Debug.Log("Storage is null!");
+            //if (m_storage.rsCheck == null) Debug.Log("Storage.rsCheck is null!");
+
             return m_storage;
         }
-    }
-
-    public async static void getStorage()
-    {
-        await UniTask.SwitchToMainThread();
-        if (m_storage == null)
-        {
-            m_storage = Resources.Load("Storage/Clump") as StorageObject;
-        }
-
-        if (File.Exists(Application.persistentDataPath + "\\CliStorage.json") && !m_Init)
-        {
-            string s_json = File.ReadAllText(Application.persistentDataPath + "\\CliStorage.json");
-            JsonUtility.FromJsonOverwrite(s_json, m_storage);
-            m_Init = true;
-        }
-        await UniTask.WaitUntil(() => { return m_storage != null; } );
     }
 
     /// <summary>
@@ -66,8 +66,9 @@ public class StorageExpand
     /// 保存这个文件的版本信息
     /// </summary>
     /// <param name="relative"></param>
-    public static void UpdateThisFileInfo(ResourcesInfo info)
+    public async static void UpdateThisFileInfo(ResourcesInfo info)
     {
+        await UniTask.SwitchToMainThread();
         int idx = Storage.rsCheck.FindIndex((x) => { return x.relaPath == info.relaPath; });
         if (idx != -1)
         {
