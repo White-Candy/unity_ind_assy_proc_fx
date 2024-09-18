@@ -44,7 +44,10 @@ public class GameMode : Singleton<GameMode>
     private string currToolName = ""; // 玩家操作的的这个工具的名字
 
     [HideInInspector]
-    public float m_Score; // 考核模式一个步骤的分数
+    public float oneStepScore; // 考核模式一个步骤的分数
+    
+    [HideInInspector]
+    public float totalScore; // 用户作答实训考试总成绩
 
     private bool m_Init = false; // 初始化成功
 
@@ -175,8 +178,8 @@ public class GameMode : Singleton<GameMode>
 
             // 如果本次需要用到的工具用户已经全部用到了，就可以播放动画了
             if (m_Tools.Count == 0)
-            {
-                if (GlobalData.mode == Mode.Examination) GlobalData.totalScore += m_Score;
+            {   
+                if (GlobalData.mode == Mode.Examination) totalScore += oneStepScore;
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
                 await ModelAnimControl._Instance.PlayAnim(start, end); // 播放这次流程步骤的动画
@@ -235,7 +238,7 @@ public class GameMode : Singleton<GameMode>
 
     public void NextStep()
     {
-        UnityEventCenter.DistributeEvent(EnumDefine.EventKey.NotificationCallback, null); // 更新一下实训考核成绩body内存内容
+        // UnityEventCenter.DistributeEvent(EnumDefine.EventKey.NotificationCallback, null); // 更新一下实训考核成绩body内存内容
         if (GlobalData.StepIdx + 1 < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx++;
@@ -266,7 +269,7 @@ public class GameMode : Singleton<GameMode>
             {
                 // TODO..这部分代码可能存在冗余，后续要修改
                 float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
-                 Debug.Log(frame);
+                // Debug.Log(frame);
                 await ModelAnimControl._Instance.Slice(frame, frame + 1); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
             }
             Prepare();
@@ -276,21 +279,21 @@ public class GameMode : Singleton<GameMode>
     // 目前还需要几个工具才能激活动画
     public string NumberOfToolsRemaining()
     {
-        return (m_Tools.Count).ToString();
+        return m_Tools.Count.ToString();
     }
 
-    private void UpdateRealBody(IMessage msg)
-    {
-        if (GlobalData.mode != Mode.Examination) { return; }
-        List<AnswerDetailVoListItem> realList = new List<AnswerDetailVoListItem>();
+    // private void UpdateRealBody(IMessage msg)
+    // {
+    //     if (GlobalData.mode != Mode.Examination) { return; }
+    //     List<AnswerDetailVoListItem> realList = new List<AnswerDetailVoListItem>();
 
-        AnswerDetailVoListItem avi = new AnswerDetailVoListItem
-        {
-            resourceId = GlobalData.codeVSidDic[GlobalData.ProjGroupName],
-            userScore = GlobalData.totalScore.ToString()
-        };
-        realList.Add(avi);
+    //     AnswerDetailVoListItem avi = new AnswerDetailVoListItem
+    //     {
+    //         resourceId = GlobalData.codeVSidDic[GlobalData.ProjGroupName],
+    //         userScore = GlobalData.totalScore.ToString()
+    //     };
+    //     realList.Add(avi);
 
-        //GlobalData.m_RealExamBody = realList;
-    }
+    //     //GlobalData.m_RealExamBody = realList;
+    // }
 }

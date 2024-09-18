@@ -38,6 +38,7 @@ public class DialogPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
+        DontDestroyOnLoad(this);
 
         m_Pool.AddListener(OnInstanceItem);
     }
@@ -160,16 +161,26 @@ public class DialogPanel : BasePanel
     /// <param name="info"></param>
     /// <param name="callback"></param>
     public static void OpenDialog(string title, string info, Action callback, bool single)
-    {
+    {        
         DialogPanel panel = UIConsole.FindAssetPanel<DialogPanel>();
+        Action action = () => 
+        {
+            callback();
+            Destroy(panel.gameObject);
+        };
+
         if (panel != null && !single)
         {
-            panel.UpdateData(title, info, new ButtonData("确定", callback), new ButtonData("取消", () => { panel.Active(false); }));
+            panel.UpdateData(title, info, new ButtonData("确定", action), new ButtonData("取消", () => 
+            {
+                panel.Active(false); 
+                Destroy(panel.gameObject);
+            }));
             panel.Active(true);
         }
         else if (panel != null && single)
-        {
-            panel.UpdateData(title, info, new ButtonData("确定", callback));
+        { 
+            panel.UpdateData(title, info, new ButtonData("确定", action));
             panel.Active(true);
         }
         else

@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         // 与局服务器连接请求
-        TCP.Connect("192.168.3.34", 5800);
+        TCP.Connect("127.0.0.1", 5800);
     }
 
     public void Update()
@@ -76,6 +76,7 @@ public class NetworkManager : MonoBehaviour
     /// <returns></returns>
     public List<string> DownLoadAaset(string name, string extentsion)
     {
+        GlobalData.CurrActionPathList = new List<string>();
         string suffix = Tools.GetModulePath(name);
         string path = FPath.AssetRootPath + GlobalData.ProjGroupName + suffix;
 
@@ -83,6 +84,7 @@ public class NetworkManager : MonoBehaviour
         List<string> filesPath = new List<string>();
         foreach (var info in filesInfo)
         {
+            GlobalData.CurrActionPathList.Add(GlobalData.ProjGroupName + suffix + "\\" + info.Name);
             filesPath.Add(info.FullName);
         }
         return filesPath;

@@ -71,6 +71,7 @@ public enum EventType
     UserLoginEvent,
     RegisterEvent,
     GetProjInfo,
+    ClassEvent,
     ExamineEvent,
     ScoreEvent
 }

@@ -176,7 +176,6 @@ public static class Tools
     {
         await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\ModelExplain\\" + GlobalData.ProjGroupName + "\\Step.txt", (dataStr) =>
         {
-            // Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
             JsonData js_data = JsonMapper.ToObject(dataStr);
             JsonData step = js_data["child"];
@@ -208,22 +207,12 @@ public static class Tools
             GameMode.Instance.Prepare(); // Step录入完成后，游戏准备
 
             if (GlobalData.mode == Mode.Examination)
-            {
-                GameMode.Instance.m_Score = GlobalData.trainingExamscore / GlobalData.stepStructs.Count;
-                //Debug.Log("实训： " + GameMode.Instance.m_Score);
-            }
-            //UIConsole.Instance.FindPanel<SelectStepPanel>().Active(true);
-            //UIConsole.Instance.FindPanel<InfoPanel>().Active(true);
-            //Debug.Log("InfoPanel is true for active.");
-
+                GameMode.Instance.oneStepScore = float.Parse(GlobalData.currExamsInfo.TrainingScore) / GlobalData.stepStructs.Count;
+            
             InfoPanel._instance.Active(true);
             SelectStepPanel._instance.Active(true);
-            if (MinMap._instance.canshow)
-            {
-                MinMap._instance.Active(true);
-            }
+            if (MinMap._instance.canshow) { MinMap._instance.Active(true); }
         });
-        // SpawnTask();
     }
 
     /// <summary>

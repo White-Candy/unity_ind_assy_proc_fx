@@ -79,10 +79,11 @@ public class UITools
     {
         await UniTask.WaitUntil(() => 
         {
+            Debug.Log($"TCP.percent: {TCP.percent}");
             if (TCP.percent == old_Percent) return false; 
             old_Percent = TCP.percent;
             DownLoadPanel._instance.SetDLPercent(TCP.percent);
-            // Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
+            Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
             if (old_Percent == 100.0f) 
             {
                 old_Percent = 0.0f;
@@ -90,18 +91,6 @@ public class UITools
             }
             return fileCount == 0; 
         });
-        // while(fileCount > 0)
-        // {
-        //     if (TCP.percent == old_Percent) continue; 
-        //     Debug.Log("========================= DownLoadPrepare: " +  TCP.percent + " | " + fileCount);
-        //     DownLoadPanel._instance.SetDLPercent(TCP.percent);
-        //     old_Percent = TCP.percent;
-        //     if (TCP.percent == 100.0f) 
-        //     {
-        //         old_Percent = 0.0f;
-        //         fileCount--;
-        //     }
-        // }
                         
         await UniTask.WaitUntil(() => GlobalData.Downloaded == true);
         GlobalData.Downloaded = false;

@@ -65,7 +65,7 @@ public class TCPHelper
     public async static UniTask CkResourceReqOfList(List<string> paths, string name)
     {
         UpdatePackage up = new UpdatePackage();
-        
+
         string relative = GlobalData.ProjGroupName + Tools.GetModulePath(name);
         List<string> filesPath = new List<string>();
         foreach (string path in paths)
@@ -94,8 +94,11 @@ public class TCPHelper
         await CkResourceReqOfList(newPaths, name);
 
         // 文件列表下载到内存中请求
+        if (DownLoadPanel._instance == null) Debug.Log("instance is null");
+        if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
+        Debug.Log($"DownLoadPanel._instance.m_NeedDL.Count : {DownLoadPanel._instance.m_NeedDL.Count}");
         if (DownLoadPanel._instance.m_NeedDL.Count > 0)
         {
             // 下载准备
@@ -142,11 +145,12 @@ public class TCPHelper
     /// <param name="pwd"></param>
     /// <param name="verify"></param>
     /// <returns></returns>
-    public static void Register(string account, string pwd, string verify)
+    public static void Register(string account, string pwd, string verify, string name, string _className)
     {
         if (UITools.InputFieldCheck(account, "用户名不能为空")) { return; }
         if (UITools.InputFieldCheck(pwd, "密码不能为空")) { return; }
         if (UITools.InputFieldCheck(verify, "请再次输入密码")) { return; }
+        if (UITools.InputFieldCheck(name, "姓名不能为空")) { return; }
 
         if (pwd == verify)
         {
@@ -154,6 +158,8 @@ public class TCPHelper
             {
                 userName = account,
                 password = pwd,
+                Name = name,
+                className = _className,
                 Identity = "学生"
             };
 
