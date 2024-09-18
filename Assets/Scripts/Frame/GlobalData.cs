@@ -37,6 +37,14 @@ namespace sugar
         public static string columnsName = ""; // 当前栏目
         public static string courseName = ""; // 当前课程
         public static List<string> CurrActionPathList = new List<string>(); // 当前教学模式的某个模块的文件相对路径
+
+        /// <summary>
+        /// 菜单存储列表
+        ///  key: 是菜单按钮实例， value: 该菜单下的客户名列表
+        ///  该变量是为了实现搜索功能而创建，用户会通过搜索框搜索课程名，我要去遍历这个字典，然后找到搜索的课程列表和父菜单栏目实例，
+        ///  然后自动点击菜单栏目按钮，显示存在该项目的列表UI。
+        /// </summary>
+        public static Dictionary<GameObject, List<string>> CurrModeMenuList = new Dictionary<GameObject, List<string>>();
         public static string ProjGroupName {get {return $"{columnsName}\\{courseName}";} } //组名
         public static List<Proj> Projs = new List<Proj>(); // 训练/实训考核的模型场景 Addressables Groups Default Name 的列表.
         public static List<ClassInfo> classList = new List<ClassInfo>(); // 服务器中注册的班级名

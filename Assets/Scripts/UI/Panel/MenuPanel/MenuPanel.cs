@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
+using System.Linq;
 
 public struct StepStruct
 {
@@ -26,8 +27,9 @@ public class MenuPanel : BasePanel
 {
     public GameObject m_MenuItem; 
     public GameObject m_Item; // 菜单列表中的Item
-
     public Transform menuItemParent;
+    public GameObject SearchObj;
+
 
     //private List<Menu> m_MenuList = new List<Menu>(); // 裏面有需要配置工具的信息
     private string currTaskName; // 目前的Task名字
@@ -39,6 +41,9 @@ public class MenuPanel : BasePanel
 
     private GameObject currMeunList; //目前打开的菜单列表
 
+    private TMP_InputField m_SearchInputField;
+    private Button m_SearchButton;
+
     public static MenuPanel _instance;
 
     public override void Awake()
@@ -49,7 +54,27 @@ public class MenuPanel : BasePanel
 
     private void Start()
     {
+        m_SearchInputField = SearchObj.GetComponentInChildren<TMP_InputField>();
+        m_SearchButton = SearchObj.GetComponentInChildren<Button>();
+
         BuildMenuList();
+
+        m_SearchButton.onClick.AddListener(() =>
+        {
+            string course = m_SearchInputField.text;
+            Debug.Log("m_SearchButton on Clcked! InputField content: " + course);
+            if (string.IsNullOrEmpty(course)) return;
+
+            Debug.Log($"GlobalData.CurrModeMenuList.Count: {GlobalData.CurrModeMenuList.Count}");
+            foreach (var pair in GlobalData.CurrModeMenuList)
+            {
+                if (pair.Value.FindIndex(x => x == course) != -1)
+                {
+                    GameObject targetMenu = pair.Key;
+                    MeunClick(ref targetMenu);
+                }
+            }
+        });
         //Init();
     }
 
@@ -74,6 +99,7 @@ public class MenuPanel : BasePanel
     /// </summary>
     public void NormalBuildMenu()
     {
+        GlobalData.CurrModeMenuList.Clear();
         foreach (var proj in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
@@ -85,13 +111,10 @@ public class MenuPanel : BasePanel
 
             Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
             menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = proj.Columns;
-            menuBtn.onClick.AddListener(() => 
-            {
-                bool b = list.activeSelf;
-                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
-                SetActiveMenuItem(list, !b);
-            });
+            menuBtn.onClick.AddListener(() => { MeunClick(ref menuItem); });
 
+            if (GlobalData.CurrModeMenuList.ContainsKey(menuItem)) GlobalData.CurrModeMenuList[menuItem] = new List<string>(proj.Courses);
+            else GlobalData.CurrModeMenuList.Add(menuItem, new List<string>(proj.Courses));
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
         }        
@@ -102,6 +125,7 @@ public class MenuPanel : BasePanel
     /// </summary>
     public void ExamineBuildMenu()
     {
+        GlobalData.CurrModeMenuList.Clear();
         foreach (var inf in GlobalData.Projs)
         {
             GameObject menuItem = Instantiate(m_MenuItem, menuItemParent);
@@ -113,16 +137,27 @@ public class MenuPanel : BasePanel
 
             Button menuBtn = menuItem.transform.GetChild(0).GetComponent<Button>();
             menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = inf.Columns;
-            menuBtn.onClick.AddListener(() => 
-            {
-                bool b = list.activeSelf;
-                GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
-                SetActiveMenuItem(list, !b);
-            });
+            menuBtn.onClick.AddListener(() => { MeunClick(ref menuItem); });
 
+            if (GlobalData.CurrModeMenuList.ContainsKey(menuItem)) GlobalData.CurrModeMenuList[menuItem] = new List<string>(inf.Courses);
+            else GlobalData.CurrModeMenuList.Add(menuItem, new List<string>(inf.Courses));
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
         }           
+    }
+
+    /// <summary>
+    /// 点击菜单，弹出子菜单列表
+    /// </summary>
+    /// <param name="menu"></param>
+    public void MeunClick(ref GameObject menu)
+    {
+        GameObject list = menu.transform.Find("SubMenuGrid").gameObject;
+        Button menuBtn = menu.transform.GetChild(0).GetComponent<Button>();
+
+        bool b = list.activeSelf;
+        GlobalData.columnsName = menuBtn.GetComponentInChildren<TextMeshProUGUI>().text;
+        SetActiveMenuItem(list, !b);
     }
 
     private void BuildMenuItem(List<ExamineInfo> examinees = null, string colName = "", List<string> courses = null, GameObject list = null)

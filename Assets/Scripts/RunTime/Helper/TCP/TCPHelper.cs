@@ -94,6 +94,8 @@ public class TCPHelper
         await CkResourceReqOfList(newPaths, name);
 
         // 文件列表下载到内存中请求
+        if (DownLoadPanel._instance == null) Debug.Log("instance is null");
+        if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
         Debug.Log($"DownLoadPanel._instance.m_NeedDL.Count : {DownLoadPanel._instance.m_NeedDL.Count}");

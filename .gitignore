@@ -70,3 +70,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Plugins/Easy performant outline/Demo/Models for Demo scene/CartoonLowPolyCityLite/CartoonLowPolyCityLite_HDRP_2018.3.unitypackage.meta
+Assets/Plugins/Easy performant outline/Demo/Models for Demo scene/CartoonLowPolyCityLite/CartoonLowPolyCityLite_LWRP_2018.3.unitypackage.meta
+Assets/Plugins/Easy performant outline/Demo/Models for Demo scene/CartoonLowPolyCityLite/CartoonLowPolyCityLite_URP_2019.3.unitypackage.meta

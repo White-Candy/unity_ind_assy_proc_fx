@@ -32,7 +32,7 @@ public class DownLoadPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-
+        Debug.Log("DownLoadPanel Awake");
         _instance = this;
         m_Finished = false;
         m_Finish.onClick.AddListener(() => 
@@ -44,9 +44,13 @@ public class DownLoadPanel : BasePanel
             // m_bufPercent = 0.0f;
             // m_Percent = 0.0f;
             Clear();
+            TCP.percent = 0.0f;
             m_Finished = true;
         });
+    }
 
+    public void Start()
+    {
         Active(false);
         m_Finish.enabled = false;
     }
@@ -58,7 +62,7 @@ public class DownLoadPanel : BasePanel
     public void SetDLPercent(float percent)
     {
         m_Percent = m_bufPercent + percent / m_NeedDL.Count * 0.9f;
-        // Debug.Log("===================== SetDLPercent: " + percent);
+        //Debug.Log("===================== SetDLPercent: " + percent);
         SetUIPercent(m_Percent);
 
         if (percent == 100.0f)
