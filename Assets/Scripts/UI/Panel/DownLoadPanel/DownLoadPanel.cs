@@ -44,7 +44,6 @@ public class DownLoadPanel : BasePanel
             // m_bufPercent = 0.0f;
             // m_Percent = 0.0f;
             Clear();
-            TCP.percent = 0.0f;
             m_Finished = true;
         });
     }
@@ -134,6 +133,7 @@ public class DownLoadPanel : BasePanel
         m_bufPercent = 0.0f;
         // m_uiPercent = 0.0f;
 
+        TCP.percent = 0.0f;
         m_Hint.text = $"正在下载资源...";
         m_ProgressSlider.value = 0.0f;
         m_ProgressPercent.text = "0.00%";

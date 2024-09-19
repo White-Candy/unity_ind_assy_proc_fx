@@ -156,7 +156,7 @@ public class TCP
         mp.ret = main;
         MessQueueAdd(mp);
         mp.Clear();
-        // percent = 0.0f;
+        percent = 0.0f;
     }
 
     /// <summary>

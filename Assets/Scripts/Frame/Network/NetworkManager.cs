@@ -15,13 +15,16 @@ public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager _Instance;
 
-    private void Awake()
+    private async void Awake()
     {
         _Instance = this;
         DontDestroyOnLoad(this);
 
-        // 与局服务器连接请求
-        TCP.Connect("127.0.0.1", 5800);
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
+        {
+            // 与局服务器连接请求
+            TCP.Connect(ip, 5800);
+        });
     }
 
     public void Update()

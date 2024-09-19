@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using sugar;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,7 +60,7 @@ public class ModelPanel : BasePanel
             GameObject go = GameObject.Instantiate(m_EquiItem, m_EquiItemParent);
             go.gameObject.SetActive(true);
 
-            Sprite spr = Resources.Load<Sprite>($"Textures/Tools/{item}");
+            Sprite spr = Resources.Load<Sprite>($"Textures/Tools/{GlobalData.courseName}\\{item}");
             if (null == spr)
             {
                 spr = Resources.Load<Sprite>("Textures/NotFoundTips/NotFoundImage");
