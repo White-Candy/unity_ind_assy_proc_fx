@@ -16,6 +16,7 @@ public class TCPHelper
     {
         JsonData js = new JsonData();
         js["relaPath"] = relative;
+        GlobalData.currEventType = EventType.DownLoadEvent;
         TCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
