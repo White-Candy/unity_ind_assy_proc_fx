@@ -32,7 +32,7 @@ public class DownLoadPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        Debug.Log("DownLoadPanel Awake");
+        // Debug.Log("DownLoadPanel Awake");
         _instance = this;
         m_Finished = false;
         m_Finish.onClick.AddListener(() => 
@@ -44,7 +44,6 @@ public class DownLoadPanel : BasePanel
             // m_bufPercent = 0.0f;
             // m_Percent = 0.0f;
             Clear();
-            TCP.percent = 0.0f;
             m_Finished = true;
         });
     }
@@ -133,6 +132,9 @@ public class DownLoadPanel : BasePanel
         m_Percent = 0.0f;
         m_bufPercent = 0.0f;
         // m_uiPercent = 0.0f;
+
+        GlobalData.DownloadParcent = 0.0f;
+        GlobalData.currEventType = EventType.None;
 
         m_Hint.text = $"正在下载资源...";
         m_ProgressSlider.value = 0.0f;

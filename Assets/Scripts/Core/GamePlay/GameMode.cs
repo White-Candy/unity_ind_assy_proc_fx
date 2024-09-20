@@ -248,6 +248,11 @@ public class GameMode : Singleton<GameMode>
             }
             SetStep(GlobalData.StepIdx);
         }
+        else
+        {
+            GlobalData.StepIdx++;
+            m_Arrow.SetActive(false);
+        }
     }
 
     /// <summary>

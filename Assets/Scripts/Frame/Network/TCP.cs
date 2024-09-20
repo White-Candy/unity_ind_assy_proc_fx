@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
+using sugar;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,7 @@ public class TCP
     // 内容包队列
     public static Queue<MessPackage> m_MessQueue = new Queue<MessPackage>();
 
-    public static float percent;
+    private static float percent;
 
     public static void Connect(string ip, int port)
     {
@@ -156,7 +157,7 @@ public class TCP
         mp.ret = main;
         MessQueueAdd(mp);
         mp.Clear();
-        // percent = 0.0f;
+        percent = 0.0f;
     }
 
     /// <summary>
@@ -167,6 +168,7 @@ public class TCP
     {
         int finalLength = mp.ret.Count() + 2;
         percent = finalLength * 1.0f / mp.length * 100.0f;
+        if (GlobalData.currEventType == EventType.DownLoadEvent) GlobalData.DownloadParcent = percent;
         // Debug.Log($" ============ {mp.ret.Count() + 2.0f} || {mp.length} || {percent}");
         // Debug.Log($" ============ {finalLength} || {mp.length} || {percent}"); 
         if (percent == 100.0f)

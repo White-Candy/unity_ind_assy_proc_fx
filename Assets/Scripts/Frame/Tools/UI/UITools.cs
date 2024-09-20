@@ -79,10 +79,10 @@ public class UITools
     {
         await UniTask.WaitUntil(() => 
         {
-            Debug.Log($"TCP.percent: {TCP.percent}");
-            if (TCP.percent == old_Percent) return false; 
-            old_Percent = TCP.percent;
-            DownLoadPanel._instance.SetDLPercent(TCP.percent);
+            Debug.Log($"TCP.percent: {GlobalData.DownloadParcent}");
+            if (GlobalData.DownloadParcent == old_Percent) return false; 
+            old_Percent = GlobalData.DownloadParcent;
+            DownLoadPanel._instance.SetDLPercent(GlobalData.DownloadParcent);
             Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
             if (old_Percent == 100.0f) 
             {

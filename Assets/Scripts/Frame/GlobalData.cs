@@ -37,6 +37,8 @@ namespace sugar
         public static string columnsName = ""; // 当前栏目
         public static string courseName = ""; // 当前课程
         public static List<string> CurrActionPathList = new List<string>(); // 当前教学模式的某个模块的文件相对路径
+        public static EventType currEventType = EventType.None; // 当前向服务器请求的事件类型
+        public static float DownloadParcent = 0.0f; // 下载进度。
 
         /// <summary>
         /// 菜单存储列表

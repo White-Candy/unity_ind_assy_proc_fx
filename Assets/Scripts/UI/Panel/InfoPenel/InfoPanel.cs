@@ -24,7 +24,7 @@ public class InfoPanel : BasePanel
     public GameObject m_StepHint; // 步骤提示面板
     // public GameObject m_Minmap; // 小地图
 
-    public TextMeshProUGUI m_CountDown; // 考核模式倒计时
+    public GameObject ExamineTime; // 考核模式倒计时
 
     public Button m_Submit; // 提交按钮
 
@@ -78,7 +78,7 @@ public class InfoPanel : BasePanel
 
     private void UpdateInfo()
     {
-        if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < GlobalData.stepStructs.Count)
+        if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < ModelAnimControl._Instance.m_ConPtStep.Count)
         {
             m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
             m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
@@ -137,7 +137,7 @@ public class InfoPanel : BasePanel
         int second = time - hour * 3600 - min * 60;
 
         string str_time = $"{Tools.FillingForTime(hour.ToString()) + ":" + Tools.FillingForTime(min.ToString()) + ":" + Tools.FillingForTime(second.ToString())}";
-        m_CountDown.SetText(str_time);
+        ExamineTime.GetComponentInChildren<TextMeshProUGUI>().SetText(str_time);
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public class InfoPanel : BasePanel
 
     public void SetActiveOfExamUI(bool b)
     {
-        m_CountDown.gameObject.SetActive(b);
+        ExamineTime.gameObject.SetActive(b);
         m_Submit.gameObject.SetActive(b);
     }
 
