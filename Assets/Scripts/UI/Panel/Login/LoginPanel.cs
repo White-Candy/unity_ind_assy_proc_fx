@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,63 +25,67 @@ public class UserInfo
     public string hint = "";
 }
 
-namespace sugar
+
+public class LoginPanel : BasePanel
 {
-    public class LoginPanel : BasePanel
+    /// <summary>
+    /// IF => InputField
+    /// </summary>
+    public TMP_InputField m_UserIF;
+    public TMP_InputField m_PwdIF;
+    public Button m_Login;
+    public Button m_Close;
+    public Button m_Regiester;
+
+    public static LoginPanel _instance;
+
+    public override async void Awake()
     {
-        /// <summary>
-        /// IF => InputField
-        /// </summary>
-        public TMP_InputField m_UserIF;
-        public TMP_InputField m_PwdIF;
-        public Button m_Login;
-        public Button m_Close;
-        public Button m_Regiester;
+        _instance = this;
 
-        public static LoginPanel _instance;
-
-        private async void Awake()
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
         {
-            _instance = this;
-            await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
-            {
-                GlobalData.IP = content;
-                GlobalData.SetUrl(content, "8096");
-            });
-
-            if (m_Login != null)
-            {
-                m_Login.onClick.AddListener(LoginRequest);
-            }
-
-            if (m_Close != null)
-            {
-                m_Close.onClick.AddListener(UITools.Quit);
-            }
-
-            m_Regiester?.onClick.AddListener(() => 
-            {
-                TCP.SendAsync("[]", EventType.ClassEvent, OperateType.GET);
-                RegisterPanel._instance.Active(true);
-                Active(false);
-            });
+            GlobalData.IP = content;
+            GlobalData.SetUrl(content, "8096");
+        });
+#endif
+        if (m_Login != null)
+        {
+            m_Login.onClick.AddListener(LoginRequest);
         }
 
-        void Update()
+        if (m_Close != null)
         {
-
+            m_Close.onClick.AddListener(UITools.Quit);
         }
 
-        /// <summary>
-        /// 登录请求
-        /// </summary>
-        private void LoginRequest()
+        m_Regiester?.onClick.AddListener(() => 
         {
-            if (UITools.InputFieldCheck(m_UserIF.text, "用户名不能为空")) { return; }
-            if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
-            
-            // 客户端请求登录
-            Client.Instance.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
-        }
+            TCP.SendAsync("[]", EventType.ClassEvent, OperateType.GET);
+            RegisterPanel._instance.Active(true);
+            Active(false);
+        });
+
+#if UNITY_WEBGL
+        m_Regiester.gameObject.SetActive(false);
+#endif
+    }
+
+    void Update()
+    {
+
+    }
+
+    /// <summary>
+    /// 登录请求
+    /// </summary>
+    private void LoginRequest()
+    {
+        if (UITools.InputFieldCheck(m_UserIF.text, "用户名不能为空")) { return; }
+        if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
+        
+        // 客户端请求登录
+        Client.Instance.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
     }
 }

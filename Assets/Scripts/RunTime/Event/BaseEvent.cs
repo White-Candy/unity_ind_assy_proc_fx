@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System;
 using UnityEngine;
 
@@ -51,7 +51,6 @@ public class BaseEvent
 
     public virtual void SwitchSceneAccName(string module_name)
     {
-        //Debug.Log("SwitchSceneAccName: " + module_name);
         GlobalData.currModuleName = module_name;
         UITools.Loading("Main", module_name);
     }

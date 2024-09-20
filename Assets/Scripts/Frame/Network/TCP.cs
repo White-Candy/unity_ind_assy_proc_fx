@@ -1,6 +1,5 @@
-using Cysharp.Threading.Tasks;
+
 using LitJson;
-using sugar;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -80,6 +78,7 @@ public class TCP
     /// <param name="event_type">事件类型</param>
     public static void SendAsync(string mess, EventType event_type, OperateType operateType)
     {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         string front = FrontPackage(mess, event_type, operateType);
         string totalInfoPkg = $"|{front}#{mess}@";
         long totalLength = totalInfoPkg.Count();
@@ -88,6 +87,7 @@ public class TCP
 
         var outputBuffer = Encoding.Default.GetBytes(finalPkg);
         m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
+#endif
     }
 
     /// <summary>

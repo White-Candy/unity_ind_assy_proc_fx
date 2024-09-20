@@ -2,7 +2,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using LitJson;
 using System.Collections.Generic;
-using sugar;
+
 
 
 public class ClassEvent : BaseEvent

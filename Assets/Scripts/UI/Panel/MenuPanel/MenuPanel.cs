@@ -1,5 +1,5 @@
 using LitJson;
-using sugar;
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -62,10 +62,8 @@ public class MenuPanel : BasePanel
         m_SearchButton.onClick.AddListener(() =>
         {
             string course = m_SearchInputField.text;
-            Debug.Log("m_SearchButton on Clcked! InputField content: " + course);
             if (string.IsNullOrEmpty(course)) return;
 
-            Debug.Log($"GlobalData.CurrModeMenuList.Count: {GlobalData.CurrModeMenuList.Count}");
             foreach (var pair in GlobalData.CurrModeMenuList)
             {
                 if (pair.Value.FindIndex(x => x == course) != -1)
@@ -80,17 +78,23 @@ public class MenuPanel : BasePanel
 
     private async void BuildMenuList()
     {
-        await UniTask.WaitUntil(() => 
-        {
-            // Debug.Log($"wait at a time: {GlobalData.Projs.Count}");
-            return GlobalData.Projs.Count != 0;
-        });
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        await UniTask.WaitUntil(() => { return GlobalData.Projs.Count != 0; });
         if (GlobalData.currModuleName != "考核") NormalBuildMenu();
         else ExamineBuildMenu();
 #elif UNITY_WEBGL
-        var proj = GlobalData.Projs[0];
-        BuildMenuItem(proj.targets);
+        await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", (text) => 
+        {
+            string[] split = text.Split("|");
+            Proj project = new Proj()
+            {
+                Columns = split[0],
+                Courses = new List<string>{split[1]}
+            };
+
+            var proj = project;
+            NormalBuildMenu();
+        });
 #endif
     }
 
@@ -99,6 +103,7 @@ public class MenuPanel : BasePanel
     /// </summary>
     public void NormalBuildMenu()
     {
+#if UNITY_EDITOR_WIN && UNITY_STANDALONE_WIN
         GlobalData.CurrModeMenuList.Clear();
         foreach (var proj in GlobalData.Projs)
         {
@@ -117,7 +122,12 @@ public class MenuPanel : BasePanel
             else GlobalData.CurrModeMenuList.Add(menuItem, new List<string>(proj.Courses));
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
-        }        
+        }
+#endif
+
+#if UNITY_WEBGL
+        // TODO...WEBGL平台直接显示左侧菜单窗口
+#endif
     }
 
     /// <summary>

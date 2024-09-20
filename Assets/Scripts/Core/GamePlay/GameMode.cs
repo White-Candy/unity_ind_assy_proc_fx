@@ -1,12 +1,8 @@
 using Cysharp.Threading.Tasks;
-using sugar;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum GameMethod
 {
@@ -27,9 +23,7 @@ public class GameMode : Singleton<GameMode>
     public GameObject m_Arrow; // 箭头[用来识别工具是否正确的]
     private List<GameObject> m_arrowTrans = new List<GameObject>(); // 箭头不同步骤的位置
     public List<AudioClip> m_AudioClip = new List<AudioClip>(); // 每个步骤前的语音提示
-
     private bool m_Prepare;
-
     private GameMethod m_Method; // 该步骤的游戏方法
     private GameState m_State;
 
@@ -45,7 +39,7 @@ public class GameMode : Singleton<GameMode>
 
     [HideInInspector]
     public float oneStepScore; // 考核模式一个步骤的分数
-    
+
     [HideInInspector]
     public float totalScore; // 用户作答实训考试总成绩
 
@@ -189,7 +183,6 @@ public class GameMode : Singleton<GameMode>
 
     public bool checkToolInThisStep()
     {
-        // Debug.Log("checkToolInThisStep: " + m_Tools.Find(x => x == currToolName));
         return m_Tools.Find(x => x == currToolName) == currToolName;
     }
 

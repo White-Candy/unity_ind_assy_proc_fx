@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-using sugar;
+
 using UnityEngine;
 
 public class UserLoginEvent : BaseEvent
