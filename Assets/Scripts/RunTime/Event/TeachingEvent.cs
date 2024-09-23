@@ -11,7 +11,7 @@ public class TeachingEvent : BaseEvent
     {
         base.OnEvent(args);
         //Debug.Log("Teaching Event!");
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
 #endif
         SwitchSceneAccName(m_Name);

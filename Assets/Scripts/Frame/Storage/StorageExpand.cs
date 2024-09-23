@@ -20,7 +20,7 @@ public class StorageExpand
                 m_storage = Resources.Load("Storage/Clump") as StorageObject;
             }
     
-            if (File.Exists(Application.persistentDataPath + "\\CliStorage.json") && !m_Init)
+            if (File.Exists(Application.streamingAssetsPath + "\\Data\\CliStorage.json") && !m_Init)
             {
                 //Debug.Log("Init  " + Application.persistentDataPath + "\\CliStorage.json");
                 string s_json = File.ReadAllText(Application.persistentDataPath + "\\CliStorage.json");
@@ -96,6 +96,6 @@ public class StorageExpand
     {
         await UniTask.SwitchToMainThread();
         string s_json = JsonMapper.ToJson(Storage);
-        File.WriteAllText(Application.persistentDataPath + "/CliStorage.json", s_json);
+        File.WriteAllText(Application.streamingAssetsPath + "\\Data\\CliStorage.json", s_json);
     }
 }

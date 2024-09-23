@@ -46,6 +46,8 @@ public class MenuPanel : BasePanel
 
     public static MenuPanel _instance;
 
+    private MenuGridPanel m_MenuGridPanel;
+
     public override void Awake()
     {
         base.Awake();
@@ -56,6 +58,7 @@ public class MenuPanel : BasePanel
     {
         m_SearchInputField = SearchObj.GetComponentInChildren<TMP_InputField>();
         m_SearchButton = SearchObj.GetComponentInChildren<Button>();
+        m_MenuGridPanel = UIConsole.FindPanel<MenuGridPanel>();
 
         BuildMenuList();
 
@@ -78,7 +81,7 @@ public class MenuPanel : BasePanel
 
     private async void BuildMenuList()
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         await UniTask.WaitUntil(() => { return GlobalData.Projs.Count != 0; });
         if (GlobalData.currModuleName != "考核") NormalBuildMenu();
         else ExamineBuildMenu();
@@ -91,9 +94,10 @@ public class MenuPanel : BasePanel
                 Columns = split[0],
                 Courses = new List<string>{split[1]}
             };
+            GlobalData.columnsName = split[0];
+            GlobalData.courseName = split[1];
 
-            var proj = project;
-            NormalBuildMenu();
+            m_MenuGridPanel.Active(true);
         });
 #endif
     }
@@ -103,7 +107,6 @@ public class MenuPanel : BasePanel
     /// </summary>
     public void NormalBuildMenu()
     {
-#if UNITY_EDITOR_WIN && UNITY_STANDALONE_WIN
         GlobalData.CurrModeMenuList.Clear();
         foreach (var proj in GlobalData.Projs)
         {
@@ -123,11 +126,6 @@ public class MenuPanel : BasePanel
             m_Menus.Add(menuItem);
             m_Menulist.Add(list);
         }
-#endif
-
-#if UNITY_WEBGL
-        // TODO...WEBGL平台直接显示左侧菜单窗口
-#endif
     }
 
     /// <summary>
@@ -172,30 +170,9 @@ public class MenuPanel : BasePanel
 
     private void BuildMenuItem(List<ExamineInfo> examinees = null, string colName = "", List<string> courses = null, GameObject list = null)
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         if (GlobalData.currModuleName != "考核") NormalBuildItem(courses, list: list);
         else ExamsBuildItem(examinees, colName, list: list);
-#elif UNITY_WEBGL
-        // 单模块模式
-        if (targets.Count > 0)
-        {
-            var tar = targets[0];
-            GlobalData.ModelTarget = tar;
-            GlobalData.currModuleCode = tar.modelCode.ToString();
-            if (GlobalData.isLoadModel)
-            {
-                await Tools.LoadSceneModel();
-                SetActiveMenuList(false);
-                TitlePanel._instance.SetTitle(tar.menuName);
-                Active(false);
-            }
-            else
-            {
-                // 左侧子模块菜单
-                Active(true);                
-                Debug.Log("GlobalData.currModuleCode: " + GlobalData.currModuleCode);
-            }
-        }
 #endif
     }
 
@@ -284,7 +261,7 @@ public class MenuPanel : BasePanel
         {
             // 左侧子模块菜单
             Active(true);
-            MenuGridPanel._instance.Active(true);
+            m_MenuGridPanel.Active(true);
         }
         SetActiveMenuItem(obj, false);
     }

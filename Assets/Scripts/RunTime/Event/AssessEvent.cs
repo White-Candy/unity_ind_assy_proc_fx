@@ -48,7 +48,7 @@ public class AssessEvent : BaseEvent
         });*/
 
         GlobalData.mode = Mode.Examination;
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
         TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
         TCPHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);

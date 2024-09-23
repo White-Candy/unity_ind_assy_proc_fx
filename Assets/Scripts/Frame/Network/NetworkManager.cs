@@ -14,25 +14,21 @@ public class NetworkManager : MonoBehaviour
         _Instance = this;
         DontDestroyOnLoad(this);
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
+        await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
         {
             // 与局服务器连接请求
             TCP.Connect(ip, 5800);
         });
-#endif
     }
 
     public void Update()
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         if (TCP.m_MessQueue.Count > 0)
         {
             MessPackage pkg = TCP.m_MessQueue.Dequeue();
             BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
             @event.OnEvent(pkg);
         }
-#endif
     }
 
     /// <summary>

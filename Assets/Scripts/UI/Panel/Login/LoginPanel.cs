@@ -43,13 +43,12 @@ public class LoginPanel : BasePanel
     {
         _instance = this;
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
         {
             GlobalData.IP = content;
             GlobalData.SetUrl(content, "8096");
         });
-#endif
+
         if (m_Login != null)
         {
             m_Login.onClick.AddListener(LoginRequest);
@@ -66,15 +65,6 @@ public class LoginPanel : BasePanel
             RegisterPanel._instance.Active(true);
             Active(false);
         });
-
-#if UNITY_WEBGL
-        m_Regiester.gameObject.SetActive(false);
-#endif
-    }
-
-    void Update()
-    {
-
     }
 
     /// <summary>
@@ -86,6 +76,6 @@ public class LoginPanel : BasePanel
         if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
         
         // 客户端请求登录
-        Client.Instance.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
+        Client.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
     }
 }

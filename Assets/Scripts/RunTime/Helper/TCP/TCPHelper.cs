@@ -127,16 +127,13 @@ public class TCPHelper
     /// ÓÃ»§µÇÂ¼ÇëÇó
     /// </summary>
     /// <returns></returns>
-    public async static UniTask UserLoginReq(string account, string pwd)
+    public static void UserLoginReq(string account, string pwd)
     {
-        await UniTask.RunOnThreadPool(() =>
-        {
-            UserInfo inf = new UserInfo();
-            inf.userName = account;
-            inf.password = pwd;
+        UserInfo inf = new UserInfo();
+        inf.userName = account;
+        inf.password = pwd;
 
-            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
-        });
+        TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
     }
 
     /// <summary>

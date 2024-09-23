@@ -6,14 +6,13 @@ using UnityEngine;
 //    public string password;
 //}
 
-public class Client : Singleton<Client>
+public class Client : MonoBehaviour
 {
     [HideInInspector]
     public Server m_Server;
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         DontDestroyOnLoad(this.gameObject);
         m_Server = GetComponent<Server>();
     }
@@ -24,14 +23,8 @@ public class Client : Singleton<Client>
     /// <param name="path"></param>
     /// <param name="username"></param>
     /// <param name="password"></param>
-    public async void Login(string path, string username, string password)
+    public static void Login(string path, string username, string password)
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        await TCPHelper.UserLoginReq(username, password);
-#endif
-
-#if UNITY_WEBGL
-// TODO... ?????????
-#endif
+        TCPHelper.UserLoginReq(username, password);
     }
 }

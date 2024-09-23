@@ -29,11 +29,11 @@ public class MenuGridPanel : BasePanel
         _instance = this;
     }
 
-    void Start()
+    public async void Start()
     {
         BuildItem();
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         Active(false);
 #elif UNITY_WEBGL
         Active(true);
