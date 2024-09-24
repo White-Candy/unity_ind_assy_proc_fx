@@ -1,3 +1,4 @@
+using LitJson;
 using UnityEngine;
 
 //public class LoginData
@@ -9,7 +10,7 @@ using UnityEngine;
 public class Client : MonoBehaviour
 {
     [HideInInspector]
-    public Server m_Server;
+    public static Server m_Server;
 
     public void Awake()
     {
@@ -25,6 +26,7 @@ public class Client : MonoBehaviour
     /// <param name="password"></param>
     public static void Login(string path, string username, string password)
     {
-        TCPHelper.UserLoginReq(username, password);
+        NetHelper.UserLoginReq(username, password);
+        //TODO..
     }
 }

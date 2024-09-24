@@ -17,7 +17,7 @@ public class NetworkManager : MonoBehaviour
         await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
         {
             // 与局服务器连接请求
-            TCP.Connect(ip, 5800);
+            // TCP.Connect(ip, 5800);
         });
     }
 

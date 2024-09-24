@@ -76,6 +76,11 @@ public class MenuPanel : BasePanel
                 }
             }
         });
+
+#if UNITY_WEBGL
+        m_SearchInputField.gameObject.SetActive(false);
+        m_SearchButton.gameObject.SetActive(false);
+#endif
         //Init();
     }
 
@@ -86,7 +91,7 @@ public class MenuPanel : BasePanel
         if (GlobalData.currModuleName != "考核") NormalBuildMenu();
         else ExamineBuildMenu();
 #elif UNITY_WEBGL
-        await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", (text) => 
+        await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", async (text) => 
         {
             string[] split = text.Split("|");
             Proj project = new Proj()
@@ -96,8 +101,37 @@ public class MenuPanel : BasePanel
             };
             GlobalData.columnsName = split[0];
             GlobalData.courseName = split[1];
-
-            m_MenuGridPanel.Active(true);
+            if (GlobalData.currModuleName == "教学") 
+            {
+                m_MenuGridPanel.Active(true); 
+            }
+            else if (GlobalData.currModuleName == "考核")
+            {
+                await UniTask.WaitUntil(() => GlobalData.ExamineesInfo.Count > 0);
+                List<ExamineInfo> examinesInfo = GlobalData.ExamineesInfo.FindAll(x => x.ColumnsName == GlobalData.columnsName && x.CourseName == GlobalData.courseName);
+                examinesInfo.Sort((ExamineInfo a, ExamineInfo b) => 
+                {
+                    string[] aSplit = a.RegisterTime.Split("/");
+                    string[] bSplit = b.RegisterTime.Split("/");
+                    if (aSplit[0] != bSplit[0]) return int.Parse(aSplit[0]) > int.Parse(bSplit[0]) ? -1 : 1;
+                    else if (aSplit[1] != bSplit[1]) return int.Parse(aSplit[1]) > int.Parse(bSplit[1]) ? -1 : 1;
+                    else return int.Parse(aSplit[2]) > int.Parse(bSplit[2]) ? -1 : 1;
+                });
+                
+                if (examinesInfo.Count > 0) 
+                {
+                    GlobalData.currExamsInfo = examinesInfo[0];
+                    m_MenuGridPanel.Active(true); 
+                }
+                else UITools.OpenDialog("", "该模块没有考题。", () => { }, true);
+            }
+            else
+            {
+                Active(false);
+                SetActiveMenuList(false);
+                await Tools.LoadSceneModel();
+                TitlePanel._instance.SetTitle(split[1]);
+            }
         });
 #endif
     }
@@ -216,16 +250,16 @@ public class MenuPanel : BasePanel
             {
                 string name = itemBtn.transform.Find("Name").GetComponent<TextMeshProUGUI>().text;
                 string[] split = name.Split("\n");
-                GlobalData.currModuleName = split[0];
-                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == split[1] && x.CourseName == GlobalData.currModuleName).Clone();
-                int scoreIdx = GlobalData.scoresInfo.FindIndex(x => x.className == GlobalData.usrInfo.className && x.userName == GlobalData.usrInfo.userName
+                // GlobalData.currModuleName = split[0];
+                GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == split[1] && x.CourseName == split[0]).Clone();
+                int scoreIdx = GlobalData.scoresInfo.FindIndex(x => x.className == GlobalData.usrInfo.UnitName && x.userName == GlobalData.usrInfo.userName
                             && x.registerTime == GlobalData.currExamsInfo.RegisterTime && x.columnsName == GlobalData.currExamsInfo.ColumnsName 
                             && x.courseName == GlobalData.currExamsInfo.CourseName);
                 if (scoreIdx == -1)
                 {
                     ScoreInfo inf = new ScoreInfo()
                     {
-                        className = GlobalData.usrInfo.className,
+                        className = GlobalData.usrInfo.UnitName,
                         columnsName = GlobalData.currExamsInfo.ColumnsName,
                         courseName = GlobalData.currExamsInfo.CourseName,
                         registerTime = GlobalData.currExamsInfo.RegisterTime,

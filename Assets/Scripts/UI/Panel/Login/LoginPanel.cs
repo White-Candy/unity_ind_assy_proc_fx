@@ -20,7 +20,7 @@ public class UserInfo
     public string Identity;
     public string idCoder;
     public string Contact;
-    public string className;
+    public string UnitName;
     public bool login = false;
     public string hint = "";
 }
@@ -46,7 +46,7 @@ public class LoginPanel : BasePanel
         await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "/IP.txt", (content) =>
         {
             GlobalData.IP = content;
-            GlobalData.SetUrl(content, "8096");
+            GlobalData.SetUrl(content, "5800");
         });
 
         if (m_Login != null)

@@ -48,15 +48,9 @@ public class AssessEvent : BaseEvent
         });*/
 
         GlobalData.mode = Mode.Examination;
-#if UNITY_STANDALONE_WIN
         TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
-        TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
-        TCPHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
-#endif
-
-#if UNITY_WEBGL
-        // TODO..WebGL平台开发
-#endif
+        NetHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
+        NetHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
 
         SwitchSceneAccName(m_Name);
 

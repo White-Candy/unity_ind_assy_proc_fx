@@ -13,7 +13,6 @@ using UnityEngine;
 public class TCP
 {
     public static Socket m_Socket;
-
     private static IPEndPoint m_Ipend;
 
     private static int buf_length = 1024000;
@@ -86,6 +85,16 @@ public class TCP
 
         var outputBuffer = Encoding.Default.GetBytes(finalPkg);
         m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);
+    }
+
+    public static string GetFinalBody(string mess, EventType event_type, OperateType operateType)
+    {
+        string front = FrontPackage(mess, event_type, operateType);
+        string totalInfoPkg = $"|{front}#{mess}@";
+        long totalLength = totalInfoPkg.Count();
+        string finalPkg = totalLength.ToString() + totalInfoPkg;
+
+        return finalPkg;
     }
 
     /// <summary>
@@ -214,7 +223,7 @@ public class TCP
     {
         var outputBuffer = Encoding.Default.GetBytes("Close");
         m_Socket.BeginSend(outputBuffer, 0, outputBuffer.Length, SocketFlags.None, SendAsyncCbk, null);    
-        // m_Socket.Close();    
+        m_Socket.Close();    
     }
 }
 

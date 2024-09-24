@@ -32,7 +32,7 @@ public class PDFAction : BaseAction
         {
             var paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
 
-            paths = await TCPHelper.RsCkAndDLReq(paths, name);
+            await NetHelper.RsCkAndDLReq(paths, name);
             m_Panel = UIConsole.FindAssetPanel<PDFPanel>();
 
             paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");

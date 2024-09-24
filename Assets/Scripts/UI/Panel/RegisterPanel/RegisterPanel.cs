@@ -40,7 +40,7 @@ public class RegisterPanel : BasePanel
         {
             string strClassName = "";
             if (className.options.Count > 0) strClassName = className.options[className.value].text;
-            TCPHelper.Register(account?.text, password?.text, verify?.text, Name?.text, strClassName);
+            NetHelper.Register(account?.text, password?.text, verify?.text, Name?.text, strClassName);
         });
 
         quit?.onClick.AddListener(UITools.Quit);

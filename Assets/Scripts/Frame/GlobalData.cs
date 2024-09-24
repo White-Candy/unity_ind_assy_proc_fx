@@ -14,7 +14,7 @@ public enum Mode
 public static class GlobalData
 {
     public static string IP = "127.0.0.1";
-    public static string Port = "8096";
+    public static string Port = "5800";
     public static string Url = $"http://{IP}:{Port}";
 
     public static void SetUrl(string _ip, string _port)

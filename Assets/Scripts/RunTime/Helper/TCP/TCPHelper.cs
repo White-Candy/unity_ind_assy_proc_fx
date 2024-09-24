@@ -2,11 +2,9 @@ using Cysharp.Threading.Tasks;
 using LitJson;
 
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class TCPHelper
+public class NetHelper
 {
     /// <summary>
     /// 文件下载请求
@@ -87,7 +85,7 @@ public class TCPHelper
     /// </summary>
     /// <param name="paths"> 文件路径 </param>
     /// <param name="name"> 模块名字 </param>
-    public async static UniTask<List<string>> RsCkAndDLReq(List<string> paths, string name)
+    public async static UniTask RsCkAndDLReq(List<string> paths, string name)
     {
         List<string> newPaths = new List<string>(paths);
 
@@ -95,8 +93,8 @@ public class TCPHelper
         await CkResourceReqOfList(newPaths, name);
 
         // 文件列表下载到内存中请求
-        if (DownLoadPanel._instance == null) Debug.Log("instance is null");
-        if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
+        // if (DownLoadPanel._instance == null) Debug.Log("instance is null");
+        // if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
         Debug.Log($"DownLoadPanel._instance.m_NeedDL.Count : {DownLoadPanel._instance.m_NeedDL.Count}");
@@ -108,19 +106,19 @@ public class TCPHelper
             // 文件从内存写入硬盘
             await Tools.WtMem2DiskOfFileList(DownLoadPanel._instance.m_NeedWt);
             
-            foreach (var fp in DownLoadPanel._instance.m_NeedWt)
-            {
-                string path = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
-                int i = newPaths.FindIndex(x => x == path);
-                if (i == -1)
-                    newPaths.Add(path);
-            }
+            // foreach (var fp in DownLoadPanel._instance.m_NeedWt)
+            // {
+            //     string path = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+            //     int i = newPaths.FindIndex(x => x == path);
+            //     if (i == -1)
+            //         newPaths.Add(path);
+            // }
 
             await UniTask.WaitUntil(() => DownLoadPanel._instance.m_Finished == true);
 
             DownLoadPanel._instance.Clear();
         }
-        return newPaths;
+        //return newPaths;
     }
 
     /// <summary>
@@ -157,7 +155,7 @@ public class TCPHelper
                 userName = account,
                 password = pwd,
                 Name = name,
-                className = _className,
+                UnitName = _className,
                 Identity = "学生"
             };
 
@@ -181,4 +179,9 @@ public class TCPHelper
         string body = JsonMapper.ToJson(inf);
         TCP.SendAsync(body, type, OperateType.GET);
     }    
+
+    public static string GetFinalBody(string mess, EventType event_type, OperateType operateType)
+    {
+        return TCP.GetFinalBody(mess, event_type, operateType);
+    }
 }

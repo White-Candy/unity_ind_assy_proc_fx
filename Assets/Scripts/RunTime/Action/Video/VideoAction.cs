@@ -27,8 +27,10 @@ public class VideoAction : BaseAction
         {
             var paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
 
-            paths = await TCPHelper.RsCkAndDLReq(paths, name); 
-               
+            await NetHelper.RsCkAndDLReq(paths, name); 
+
+            paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
+
             if (paths.Count == 0)
             {
                 UITools.ShowMessage("当前模块没有Video资源");

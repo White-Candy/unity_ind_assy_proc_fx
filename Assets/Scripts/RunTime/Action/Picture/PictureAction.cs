@@ -49,10 +49,11 @@ public class PictureAction : BaseAction
     {
         var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 
-        paths = await TCPHelper.RsCkAndDLReq(paths, name);
+        await NetHelper.RsCkAndDLReq(paths, name);
 
         List<Sprite> sprites = new List<Sprite>();
 
+        paths = NetworkManager._Instance.DownLoadAaset(name, "png");
         if (paths.Count == 0)
             UITools.ShowMessage("当前模块没有图片资源");
 
