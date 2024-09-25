@@ -76,6 +76,6 @@ public class LoginPanel : BasePanel
         if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
         
         // 客户端请求登录
-        Client.Login(URL.URL_LOGIN, m_UserIF.text, m_PwdIF.text);
+        Client.Login("http://192.168.3.34:5800/", m_UserIF.text, m_PwdIF.text);
     }
 }

@@ -275,6 +275,7 @@ public static class Tools
     /// <returns></returns>
     public static string GetIPForTypeIPV4()
     {
+#if UNITY_STANDALONE_WIN
         string ipv4_ip = "127.0.0.1";
         foreach (var item in NetworkInterface.GetAllNetworkInterfaces())
         {
@@ -293,6 +294,8 @@ public static class Tools
             }
         }
         return ipv4_ip;
+#endif
+        return "127.0.0.1";
     }
 
     /// <summary>

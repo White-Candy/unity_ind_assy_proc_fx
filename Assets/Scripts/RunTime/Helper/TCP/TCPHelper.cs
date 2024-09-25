@@ -175,7 +175,7 @@ public class NetHelper
         // TCPBaseHelper helper = new T();
         // helper.GetInfReq();
 
-        List<T> inf = new List<T>();       
+        List<T> inf = new List<T>();
         string body = JsonMapper.ToJson(inf);
         TCP.SendAsync(body, type, OperateType.GET);
     }    

@@ -93,6 +93,6 @@ public class NetworkManager : MonoBehaviour
     public void OnDestroy()
     {
         StorageExpand.SaveToDisk();
-        TCP.Close();
+        //TCP.Close();
     }
 }

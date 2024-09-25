@@ -1,13 +1,9 @@
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using LitJson;
 using Cysharp.Threading.Tasks;
-using System.Threading.Tasks;
 
 public class Server : MonoBehaviour
 {
@@ -48,27 +44,28 @@ public class Server : MonoBehaviour
                     await UniTask.Yield();
                 }
 
-                JsonData data = JsonMapper.ToObject(req.downloadHandler.text);
+                Debug.Log(req.downloadHandler.text);
+                //JsonData data = JsonMapper.ToObject(req.downloadHandler.text);
                 //Debug.Log("Return Body: " + req.downloadHandler.text);
 
-                if (Tools.CheckMessageSuccess(int.Parse(data["code"].ToString())))
-                {
-                    if(callback != null && req.error == null)
-                    {
-                        callback(req.downloadHandler.text);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        UITools.ShowMessage(data["msg"].ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log(e);
-                    }
-                }
+                // if (Tools.CheckMessageSuccess(int.Parse(data["code"].ToString())))
+                // {
+                //     if(callback != null && req.error == null)
+                //     {
+                //         callback(req.downloadHandler.text);
+                //     }
+                // }
+                // else
+                // {
+                //     try
+                //     {
+                //         UITools.ShowMessage(data["msg"].ToString());
+                //     }
+                //     catch (Exception e)
+                //     {
+                //         Debug.Log(e);
+                //     }
+                // }
             }
             else
             {
