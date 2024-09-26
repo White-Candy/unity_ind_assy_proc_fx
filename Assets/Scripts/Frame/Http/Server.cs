@@ -17,7 +17,7 @@ public class Server : MonoBehaviour
     /// <returns></returns>
     public async UniTask Post(string url, string body, Action<string> callback)
     {
-        //Debug.Log("Body: " + body);
+        // Debug.Log("Body: " + body);
         byte[] bytes = null;
         if (body != null)
         {
@@ -43,8 +43,9 @@ public class Server : MonoBehaviour
                 {
                     await UniTask.Yield();
                 }
-
-                Debug.Log(req.downloadHandler.text);
+                // Debug.Log(req.downloadHandler.text);
+                callback(req.downloadHandler.text);
+                req.Dispose();
                 //JsonData data = JsonMapper.ToObject(req.downloadHandler.text);
                 //Debug.Log("Return Body: " + req.downloadHandler.text);
 

@@ -120,7 +120,7 @@ public class TheoryExaminePanel : BasePanel
         float _theoryScore = Submit(m_info); 
         GlobalData.currScoreInfo.theoryScore = _theoryScore.ToString();
         GlobalData.currScoreInfo.theoryFinished = true;
-        TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         // Debug.Log($"Submit Finish! User Name: {GlobalData.usrInfo.userName}, | Theory Score: {_theoryScore}, | This Examins Register Time: {m_info.RegisterTime}");
         Close();
     }

@@ -23,7 +23,7 @@ public class StorageExpand
             if (File.Exists(Application.streamingAssetsPath + "\\Data\\CliStorage.json") && !m_Init)
             {
                 //Debug.Log("Init  " + Application.persistentDataPath + "\\CliStorage.json");
-                string s_json = File.ReadAllText(Application.persistentDataPath + "\\CliStorage.json");
+                string s_json = File.ReadAllText(Application.streamingAssetsPath + "\\Data\\CliStorage.json");
                 JsonUtility.FromJsonOverwrite(s_json, m_storage);
                 m_Init = true;
             }            
@@ -49,7 +49,6 @@ public class StorageExpand
             info = new ResourcesInfo() { relaPath = relative, version_code = Tools.SpawnRandomCode() };
             Storage.rsCheck.Add(info);
         }
-
         return info;
     }
 

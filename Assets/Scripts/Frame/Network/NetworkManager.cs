@@ -13,9 +13,10 @@ public class NetworkManager : MonoBehaviour
     {
         _Instance = this;
         DontDestroyOnLoad(this);
-
         await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
         {
+            URL.IP = $"http://{ip}/";
+
             // 与局服务器连接请求
             // TCP.Connect(ip, 5800);
         });
@@ -23,9 +24,9 @@ public class NetworkManager : MonoBehaviour
 
     public void Update()
     {
-        if (TCP.m_MessQueue.Count > 0)
+        if (HTTPConsole.m_MessQueue.Count > 0)
         {
-            MessPackage pkg = TCP.m_MessQueue.Dequeue();
+            MessPackage pkg = HTTPConsole.m_MessQueue.Dequeue();
             BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
             @event.OnEvent(pkg);
         }

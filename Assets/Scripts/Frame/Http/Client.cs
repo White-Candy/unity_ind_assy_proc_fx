@@ -21,27 +21,13 @@ public class Client : MonoBehaviour
     }
 
     /// <summary>
-    /// Client µÇÂ¼ÇëÇó
+    /// Client 
     /// </summary>
     /// <param name="path"></param>
     /// <param name="username"></param>
     /// <param name="password"></param>
-    public static async void Login(string path, string username, string password)
-    {
-        //NetHelper.UserLoginReq(username, password);
-
-        //TODO.. HTTP
-        UserInfo inf = new UserInfo();
-        inf.userName = username;
-        inf.password = password;
-
-        string finalBody = NetHelper.GetFinalBody(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
-        Debug.Log(finalBody);
-        await m_Server.Post(path, finalBody, (text) => 
-        {
-            Debug.Log(text);
-        });
-
+    // public static async void Login(string path, string username, string password)
+    // {
         // var req = UnityWebRequest.Post("http://192.168.3.34:5800/", finalBody);
         // await req.SendWebRequest();
         // if (req.error == null) 
@@ -79,5 +65,5 @@ public class Client : MonoBehaviour
             // Debug.Log("??????????");
         //    UITools.ShowMessage("???????????????????");
         //}
-    }
+    //}
 }

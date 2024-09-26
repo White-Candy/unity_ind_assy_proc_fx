@@ -48,7 +48,7 @@ public class AssessEvent : BaseEvent
         });*/
 
         GlobalData.mode = Mode.Examination;
-        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
+        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
         NetHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
         NetHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
 

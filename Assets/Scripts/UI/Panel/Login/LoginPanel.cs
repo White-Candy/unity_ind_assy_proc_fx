@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using LitJson;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -61,7 +62,7 @@ public class LoginPanel : BasePanel
 
         m_Regiester?.onClick.AddListener(() => 
         {
-            TCP.SendAsync("[]", EventType.ClassEvent, OperateType.GET);
+            HTTPConsole.SendAsyncPost("[]", EventType.ClassEvent, OperateType.GET);
             RegisterPanel._instance.Active(true);
             Active(false);
         });
@@ -76,6 +77,11 @@ public class LoginPanel : BasePanel
         if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
         
         // 客户端请求登录
-        Client.Login("http://192.168.3.34:5800/", m_UserIF.text, m_PwdIF.text);
+        UserInfo inf = new UserInfo()
+        {
+            userName = m_UserIF.text,
+            password = m_PwdIF.text
+        };
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
     }
 }

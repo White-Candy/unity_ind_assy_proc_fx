@@ -9,6 +9,8 @@ using UnityEngine;
 /// </summary>
 public class URL
 {
+    public static string IP = "127.0.0.1:8080";
+
     public static string ROOT_API
     {
         get { return GlobalData.Url + "/prod-api/application/u3dApp/"; }

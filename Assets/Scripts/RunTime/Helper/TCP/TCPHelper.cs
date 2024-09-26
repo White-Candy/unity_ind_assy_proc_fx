@@ -15,7 +15,7 @@ public class NetHelper
         JsonData js = new JsonData();
         js["relaPath"] = relative;
         GlobalData.currEventType = EventType.DownLoadEvent;
-        TCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -49,12 +49,12 @@ public class NetHelper
     {     
         foreach (var path in filesPath)
         {
-            var Rsinfo = StorageExpand.FindRsInfo(path);
+            ResourcesInfo Rsinfo = StorageExpand.FindRsInfo(path);
             up.filesInfo.Add(Rsinfo);
         }
+        
         string body = await JsonHelper.AsyncToJson(up);
-
-        TCP.SendAsync(body, EventType.CheckEvent, OperateType.NONE);
+        HTTPConsole.SendAsyncPost(body, EventType.CheckEvent, OperateType.NONE);
     }
 
     /// 请求检查文件更新
@@ -131,7 +131,7 @@ public class NetHelper
         inf.userName = account;
         inf.password = pwd;
 
-        TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public class NetHelper
                 Identity = "学生"
             };
 
-            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
+            HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
         }
         else
         {
@@ -177,11 +177,6 @@ public class NetHelper
 
         List<T> inf = new List<T>();
         string body = JsonMapper.ToJson(inf);
-        TCP.SendAsync(body, type, OperateType.GET);
+        HTTPConsole.SendAsyncPost(body, type, OperateType.GET);
     }    
-
-    public static string GetFinalBody(string mess, EventType event_type, OperateType operateType)
-    {
-        return TCP.GetFinalBody(mess, event_type, operateType);
-    }
 }

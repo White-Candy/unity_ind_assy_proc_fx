@@ -150,7 +150,7 @@ public class InfoPanel : BasePanel
         GlobalData.currScoreInfo.trainingScore = trainingScore.ToString();
         GlobalData.currScoreInfo.trainingFinished = true;            
         // Debug.Log("training Score total: " + trainingScore);
-        TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         Utilly.ExitModeSceneAction();
     }
 
