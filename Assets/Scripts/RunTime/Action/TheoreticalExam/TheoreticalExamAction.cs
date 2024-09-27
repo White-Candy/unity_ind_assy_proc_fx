@@ -30,6 +30,25 @@ public class TheoreticalExamAction : BaseAction
             return;
         }
 
+        GlobalData.currExamsInfo = GlobalData.ExamineesInfo.Find(x => x.RegisterTime == GlobalData.currExamsInfo.RegisterTime && x.CourseName == GlobalData.currExamsInfo.CourseName).Clone();
+        int scoreIdx = GlobalData.scoresInfo.FindIndex(x => x.className == GlobalData.usrInfo.UnitName && x.userName == GlobalData.usrInfo.userName
+                    && x.registerTime == GlobalData.currExamsInfo.RegisterTime && x.columnsName == GlobalData.currExamsInfo.ColumnsName 
+                    && x.courseName == GlobalData.currExamsInfo.CourseName);
+        if (scoreIdx == -1)
+        {
+            ScoreInfo inf0 = new ScoreInfo()
+            {
+                className = GlobalData.usrInfo.UnitName,
+                columnsName = GlobalData.currExamsInfo.ColumnsName,
+                courseName = GlobalData.currExamsInfo.CourseName,
+                registerTime = GlobalData.currExamsInfo.RegisterTime,
+                userName = GlobalData.usrInfo.userName,
+                Name = GlobalData.usrInfo.Name,
+            };
+            GlobalData.currScoreInfo = inf0.Clone();
+        }
+        else GlobalData.currScoreInfo = GlobalData.scoresInfo[scoreIdx].Clone(); 
+
         if (GlobalData.mode == Mode.Examination)
         {
             m_Panel = UIConsole.FindAssetPanel<TheoryExaminePanel>();

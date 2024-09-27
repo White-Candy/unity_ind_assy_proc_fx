@@ -20,7 +20,11 @@ public class TOFPanel : BasePanel
     /// <param name="tofList"></param>
     public void Init(List<TOFChoice> tofList)
     {
-        m_tofList = new List<TOFChoice>(tofList);
+        // m_tofList = new List<TOFChoice>(tofList);
+        foreach (var tof in tofList)
+        {
+            m_tofList.Add(tof.Clone());
+        }
         List<string> nameList = new List<string>();
         for (int i = 0; i < m_tofList.Count; ++i)
         {
@@ -58,7 +62,7 @@ public class TOFPanel : BasePanel
         {
             item.Clear();
             item.gameObject.SetActive(false);
-            Destroy(item);
+            //Destroy(item);
         }
         m_itemList.Clear();
         m_tofList.Clear();

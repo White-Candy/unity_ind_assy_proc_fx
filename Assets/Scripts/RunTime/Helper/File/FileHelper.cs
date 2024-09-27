@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Cysharp.Threading.Tasks;
 
 public class FileHelper
 {
@@ -42,7 +43,27 @@ public class FileHelper
         sw.WriteLine(str_info);//以行为单位写入字符串  
         sw.Close ();  
         sw.Dispose ();//文件流释放  
-    } 
+    }
+
+    /// <summary>
+    /// Webgl平台Config文件
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="configPath"></param>
+    /// <returns></returns>
+    public async static UniTask<List<string>> DownLoadConfig(string name, string configPath, string suffix)
+    {
+        List<string> paths = new List<string>();
+        await Utilly.DownLoadTextFromServer(configPath, (text) => 
+        {
+            string[] strs = text.Split('_');
+            for (int i = 0; i < strs.Length; i++)
+            {
+                paths.Add(FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name) + "/" + strs[i] + suffix);
+            }    
+        });
+        return paths;
+    }
 }
 
 /// <summary>

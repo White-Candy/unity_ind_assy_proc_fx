@@ -49,12 +49,13 @@ public class TheoryExaminePanel : BasePanel
 
     public void Start()
     {
-        m_singlePanel = UIConsole.FindPanel<SinglePanel>();
-        m_mulitPanel = UIConsole.FindPanel<MulitPanel>();
-        m_tofPanel = UIConsole.FindPanel<TOFPanel>();
+        // m_singlePanel = UIConsole.FindPanel<SinglePanel>();
+        // m_mulitPanel = UIConsole.FindPanel<MulitPanel>();
+        // m_tofPanel = UIConsole.FindPanel<TOFPanel>();
 
         queType.onValueChanged.AddListener((i) => 
         {
+            Debug.Log("queType value changed!");
             m_singlePanel.Active(i == 0 ? true : false);
             m_mulitPanel.Active(i == 1 ? true : false);
             m_tofPanel.Active(i == 2 ? true : false);
@@ -120,8 +121,8 @@ public class TheoryExaminePanel : BasePanel
         float _theoryScore = Submit(m_info); 
         GlobalData.currScoreInfo.theoryScore = _theoryScore.ToString();
         GlobalData.currScoreInfo.theoryFinished = true;
-        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
-        // Debug.Log($"Submit Finish! User Name: {GlobalData.usrInfo.userName}, | Theory Score: {_theoryScore}, | This Examins Register Time: {m_info.RegisterTime}");
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.ADD);
+        Debug.Log($"Submit Finish! User Name: {GlobalData.currScoreInfo.userName}, | Theory Score: {_theoryScore}, | This Examins Register Time: {GlobalData.currScoreInfo.registerTime}");
         Close();
     }
 

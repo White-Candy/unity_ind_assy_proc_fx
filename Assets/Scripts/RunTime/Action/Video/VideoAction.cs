@@ -25,12 +25,16 @@ public class VideoAction : BaseAction
     {
         if (!m_initList.ContainsKey(name))
         {
+            List<string> paths = new List<string>();
+#if UNITY_STANDALONE_WIN
             var paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
-
             await NetHelper.RsCkAndDLReq(paths, name); 
-
             paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
-
+#elif UNITY_WEBGL
+            string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
+            Debug.Log("video an config path: "  + configPath);
+            paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".mp4");
+#endif
             if (paths.Count == 0)
             {
                 UITools.ShowMessage("当前模块没有Video资源");

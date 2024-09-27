@@ -26,16 +26,20 @@ public class PDFAction : BaseAction
 
     public override async UniTask AsyncShow(string name)
     {
-
-
         if (!m_initList.ContainsKey(name))
         {
-            var paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
-
+            List<string> paths = new List<string>();
+#if UNITY_STANDALONE_WIN
+            paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
             await NetHelper.RsCkAndDLReq(paths, name);
+            paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
+#elif UNITY_WEBGL
+            string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
+            Debug.Log("jiao an config path: "  + configPath);
+            paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".pdf");
+#endif
             m_Panel = UIConsole.FindAssetPanel<PDFPanel>();
 
-            paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
             m_Panel.Init(paths, name);
             m_initList.Add(name, paths);
             m_init = true;

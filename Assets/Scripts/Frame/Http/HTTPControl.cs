@@ -50,7 +50,7 @@ public class HTTPConsole
     /// </summary>
     /// <param name="mess"></param>
     /// <param name="event_type"></param>
-    public static string FrontPackage(string mess, EventType event_type, OperateType operateType)
+    static string FrontPackage(string mess, EventType event_type, OperateType operateType)
     {
         FrontMp mpinfo = new FrontMp()
         {
