@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using LitJson;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
@@ -66,6 +68,58 @@ public class LoginPanel : BasePanel
             RegisterPanel._instance.Active(true);
             Active(false);
         });
+
+        // StartCoroutine(conect());
+    }
+
+    //IEnumerator conect()
+    //{
+    //    byte[] bytes = null;
+    //    string body = "pppooo";
+    //    if (body != null)
+    //    {
+    //        string str = System.Text.RegularExpressions.Regex.Unescape(body);
+    //        bytes = Encoding.UTF8.GetBytes(str);
+    //    }
+
+    //    using (UnityWebRequest req = new UnityWebRequest(@"http://182.43.46.225:5800/", UnityWebRequest.kHttpVerbPOST))
+    //    {
+    //        yield return new WaitForSeconds(1);
+    //        req.downloadHandler = new DownloadHandlerBuffer();
+    //        req.uploadHandler = new UploadHandlerRaw(bytes);
+    //        req.SetRequestHeader("Content-Type", "application/json;charset=utf8");
+
+    //        yield return req.SendWebRequest();
+    //        Debug.Log("99999");
+    //        if (req.error == null)
+    //        {
+    //            Debug.Log("服务器链接成功");
+    //            if (req.isDone)
+    //            {
+    //                Debug.Log("-----------");
+    //                Debug.Log(req.downloadHandler.text);
+    //                yield break;
+    //            }
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("无法与服务器建立连接" + req.error);
+    //            UITools.ShowMessage("无法与服务器建立连接，请联系后台管理员");
+    //        }
+    //    }
+    //}
+
+    public async void Start()
+    {
+
+    //     await Client.m_Server.Post(URL.IP, "", (text) => 
+    //     {
+    //         Debug.Log("Post Return: " + text);
+    // #if UNITY_EDITOR
+    //         FileHelper.WriteFileByLine(Application.streamingAssetsPath, "HTTPLog.txt", text);
+    // #endif
+    //         // HttpFieldProcessing(text);
+    //     });      
     }
 
     /// <summary>

@@ -27,7 +27,7 @@ public class VideoAction : BaseAction
         {
             List<string> paths = new List<string>();
 #if UNITY_STANDALONE_WIN
-            var paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
+            paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
             await NetHelper.RsCkAndDLReq(paths, name); 
             paths = NetworkManager._Instance.DownLoadAaset(name, "mp4");
 #elif UNITY_WEBGL

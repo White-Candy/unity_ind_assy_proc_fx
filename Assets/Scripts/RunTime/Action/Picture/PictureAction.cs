@@ -49,7 +49,7 @@ public class PictureAction : BaseAction
     {
         List<string> paths = new List<string>();
 #if UNITY_STANDALONE_WIN
-        var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
+        paths = NetworkManager._Instance.DownLoadAaset(name, "png");
         await NetHelper.RsCkAndDLReq(paths, name);
         paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 #elif UNITY_WEBGL
