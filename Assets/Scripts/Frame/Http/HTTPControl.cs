@@ -37,8 +37,8 @@ public class HTTPConsole
         Debug.Log($"{totalLength} | {finalPkg}");
         await Client.m_Server.Post(URL.IP, finalPkg, (text) => 
         {
-            Debug.Log("Post Return: " + text);
 #if UNITY_EDITOR
+            Debug.Log("Post Return: " + text);
             FileHelper.WriteFileByLine(Application.streamingAssetsPath, "HTTPLog.txt", text);
 #endif
             HttpFieldProcessing(text);

@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // 点击训练按钮触发的事件
 public class TrainEvent : BaseEvent
@@ -16,7 +17,8 @@ public class TrainEvent : BaseEvent
         HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
 #endif
         GlobalData.mode = Mode.Practice;
-        SwitchSceneAccName(m_Name);
+        // SwitchSceneAccName(m_Name);
+        await SceneManager.LoadSceneAsync("Main");
         await UniTask.Yield();
     }
 }

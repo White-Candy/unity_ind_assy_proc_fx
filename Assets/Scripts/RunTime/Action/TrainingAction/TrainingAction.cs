@@ -32,21 +32,6 @@ public class TrainingAction : BaseAction
         InfoPanel._instance.TrainingModeUIClose();
         MenuPanel._instance.Active(false);
         GlobalData.mode = Mode.Examination;
-
-        // TODO...因为服务器的变更，这一部分的代码都要重新写 TAT..
-        /*GlobalData.codeVSidDic.Clear();
-        foreach (var child in GlobalData.examData.data.softwareInfoVo.child)
-        {
-            // Debug.Log("当前的CODE = " + child.code + "       当前资源ID为 = " + child.softwareId + "       当前的资源名称为 = " + child.softwareName);
-            GlobalData.codeVSidDic.Add(child.code, child.softwareId);
-        }
-        
-        try
-        {
-            await UniTask.WaitUntil(() => isFinsh == true);
-            //Debug.Log("await finish");
-        }
-        catch { }*/
     }
 
     public override void Exit(Action callback)

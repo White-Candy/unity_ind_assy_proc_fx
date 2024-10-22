@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -160,10 +161,24 @@ public static class Tools
     private static async UniTask LoadModelAsync()
     {
         // 模型场景异步加载
-        AsyncOperationHandle<GameObject> model_async = Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName + "-Scene");
-        await UniTask.WaitUntil(() => model_async.IsDone == true);
+        LoadingPanel loadPanel = UIConsole.FindAssetPanel<LoadingPanel>();
+        AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(GlobalData.ProjGroupName + "-Scene");
+        await UniTask.WaitUntil(() =>
+        {
+            // Debug.Log($"Parcent: {(float)(handle.GetDownloadStatus().Percent * 1.0f)}");
+            float loadModelPercent = handle.GetDownloadStatus().Percent * 1.0f;
+            loadPanel.SetPercentUI(loadModelPercent);
+            return handle.IsDone == true;
+        });
 
-        GlobalData.SceneModel = UnityEngine.Object.Instantiate(model_async.Result);
+        await UniTask.WaitUntil(() => 
+        {
+            // Debug.Log($"loadPanel.m_UiPercent: {loadPanel.m_UiPercent}");
+            return loadPanel.m_UiPercent >= 1.0f;
+        });
+        loadPanel.Close();
+
+        GlobalData.SceneModel = UnityEngine.Object.Instantiate(handle.Result);
         await AnalysisStepFile();
         await AnalysisEquFile();
     }

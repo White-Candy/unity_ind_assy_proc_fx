@@ -137,63 +137,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 08c6c4adcc74ef94daee9253c7678071
-    m_Address: "\u4E0D\u9508\u94A2\u7ACB\u67F1"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7861768cdfdb3c148881dd1cdc8614eb
-    m_Address: "\u5185\u89D2\u6273\u624B"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 64406f06ed034ea49bf89c1bc1e88b6b
-    m_Address: "\u538B\u5C01\u6761"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4b8eec4554f848c4a90bea537276b48b
-    m_Address: "\u5438\u5C18\u5668"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0ef80c50038a7f1498d0423db757eff4
-    m_Address: "\u5438\u76D8"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fba96ee3576bb0344aa757d03ecad26f
-    m_Address: "\u5782\u76F4\u68C0\u6D4B\u5C3A"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 1d5c4568a36a0b049bdc3bec81bb5058
-    m_Address: "\u4E0D\u9508\u94A2\u6276\u624B"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0a8dbbb2b1ddb364d9f4f48172270345
-    m_Address: "\u62B9\u5E03"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b92425992e8453b4581330a61fa7c764
-    m_Address: "\u6A61\u80F6\u57AB\u7247"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 208a0d97c13599f4bb2a0378cb214dac
-    m_Address: "\u6C29\u5F27\u710A"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e4669e51a0a8c441a90af65d0a4c6f9
     m_Address: "\u73BB\u7483\u680F\u677F"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa93ee4bccbed4546b735739b87ff732
-    m_Address: "\u7845\u916E\u80F6"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
