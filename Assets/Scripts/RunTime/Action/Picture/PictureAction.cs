@@ -51,7 +51,7 @@ public class PictureAction : BaseAction
     {
 #if UNITY_STANDALONE_WIN
         m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
-        await NetHelper.RsCkAndDLReq(paths, name);
+        await NetHelper.RsCkAndDLReq(m_Paths, name);
         m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 #elif UNITY_WEBGL
         string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);

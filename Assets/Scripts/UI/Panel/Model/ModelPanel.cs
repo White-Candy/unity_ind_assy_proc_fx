@@ -60,13 +60,13 @@ public class ModelPanel : BasePanel
             GameObject go = GameObject.Instantiate(m_EquiItem, m_EquiItemParent);
             go.gameObject.SetActive(true);
 
-            Sprite spr = Resources.Load<Sprite>($"Textures/Tools/{GlobalData.courseName}\\{item}");
-            if (null == spr)
+            Sprite sprite = Resources.Load<Sprite>($"Textures/Tools/{GlobalData.courseName}\\{item}");
+            if (null == sprite)
             {
-                spr = Resources.Load<Sprite>("Textures/NotFoundTips/NotFoundImage");
+                sprite = Resources.Load<Sprite>("Textures/NotFoundTips/NotFoundImage");
             }
 
-            go.GetComponent<Image>().sprite = spr;
+            go.transform.Find("Icon").GetComponent<Image>().sprite = sprite;
             go.GetComponentInChildren<TextMeshProUGUI>().text = item;
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
