@@ -1,8 +1,9 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // 点击训练按钮触发的事件
 public class TrainEvent : BaseEvent
@@ -12,8 +13,12 @@ public class TrainEvent : BaseEvent
         base.OnEvent(args);
         //Debug.Log("Train Event!");
 
-        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
-        SwitchSceneAccName(m_Name);
+#if UNITY_STANDALONE_WIN
+        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
+#endif
+        GlobalData.mode = Mode.Practice;
+        // SwitchSceneAccName(m_Name);
+        await SceneManager.LoadSceneAsync("Main");
         await UniTask.Yield();
     }
 }

@@ -1,12 +1,10 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-using sugar;
+
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class TCPHelper
+public class NetHelper
 {
     /// <summary>
     /// 文件下载请求
@@ -17,7 +15,7 @@ public class TCPHelper
         JsonData js = new JsonData();
         js["relaPath"] = relative;
         GlobalData.currEventType = EventType.DownLoadEvent;
-        TCP.SendAsync(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(js), EventType.DownLoadEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -51,12 +49,12 @@ public class TCPHelper
     {     
         foreach (var path in filesPath)
         {
-            var Rsinfo = StorageExpand.FindRsInfo(path);
+            ResourcesInfo Rsinfo = StorageExpand.FindRsInfo(path);
             up.filesInfo.Add(Rsinfo);
         }
+        
         string body = await JsonHelper.AsyncToJson(up);
-
-        TCP.SendAsync(body, EventType.CheckEvent, OperateType.NONE);
+        HTTPConsole.SendAsyncPost(body, EventType.CheckEvent, OperateType.NONE);
     }
 
     /// 请求检查文件更新
@@ -87,7 +85,7 @@ public class TCPHelper
     /// </summary>
     /// <param name="paths"> 文件路径 </param>
     /// <param name="name"> 模块名字 </param>
-    public async static UniTask<List<string>> RsCkAndDLReq(List<string> paths, string name)
+    public async static UniTask RsCkAndDLReq(List<string> paths, string name)
     {
         List<string> newPaths = new List<string>(paths);
 
@@ -95,8 +93,8 @@ public class TCPHelper
         await CkResourceReqOfList(newPaths, name);
 
         // 文件列表下载到内存中请求
-        if (DownLoadPanel._instance == null) Debug.Log("instance is null");
-        if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
+        // if (DownLoadPanel._instance == null) Debug.Log("instance is null");
+        // if (DownLoadPanel._instance.m_NeedDL == null) Debug.Log("DownLoadPanel._instance.m_NeedDL is null");
         await DLResourcesReqOfList(DownLoadPanel._instance.m_NeedDL);
 
         Debug.Log($"DownLoadPanel._instance.m_NeedDL.Count : {DownLoadPanel._instance.m_NeedDL.Count}");
@@ -108,35 +106,32 @@ public class TCPHelper
             // 文件从内存写入硬盘
             await Tools.WtMem2DiskOfFileList(DownLoadPanel._instance.m_NeedWt);
             
-            foreach (var fp in DownLoadPanel._instance.m_NeedWt)
-            {
-                string path = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
-                int i = newPaths.FindIndex(x => x == path);
-                if (i == -1)
-                    newPaths.Add(path);
-            }
+            // foreach (var fp in DownLoadPanel._instance.m_NeedWt)
+            // {
+            //     string path = Application.streamingAssetsPath + "\\Data\\" + fp.relativePath;
+            //     int i = newPaths.FindIndex(x => x == path);
+            //     if (i == -1)
+            //         newPaths.Add(path);
+            // }
 
             await UniTask.WaitUntil(() => DownLoadPanel._instance.m_Finished == true);
 
             DownLoadPanel._instance.Clear();
         }
-        return newPaths;
+        //return newPaths;
     }
 
     /// <summary>
     /// 用户登录请求
     /// </summary>
     /// <returns></returns>
-    public async static UniTask UserLoginReq(string account, string pwd)
+    public static void UserLoginReq(string account, string pwd)
     {
-        await UniTask.RunOnThreadPool(() =>
-        {
-            UserInfo inf = new UserInfo();
-            inf.userName = account;
-            inf.password = pwd;
+        UserInfo inf = new UserInfo();
+        inf.userName = account;
+        inf.password = pwd;
 
-            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
-        });
+        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
     }
 
     /// <summary>
@@ -160,11 +155,11 @@ public class TCPHelper
                 userName = account,
                 password = pwd,
                 Name = name,
-                className = _className,
+                UnitName = _className,
                 Identity = "学生"
             };
 
-            TCP.SendAsync(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
+            HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.RegisterEvent, OperateType.NONE);
         }
         else
         {
@@ -180,8 +175,8 @@ public class TCPHelper
         // TCPBaseHelper helper = new T();
         // helper.GetInfReq();
 
-        List<T> inf = new List<T>();       
+        List<T> inf = new List<T>();
         string body = JsonMapper.ToJson(inf);
-        TCP.SendAsync(body, type, OperateType.GET);
+        HTTPConsole.SendAsyncPost(body, type, OperateType.GET);
     }    
 }

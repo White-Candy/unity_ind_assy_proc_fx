@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ public class TrainingAction : BaseAction
     public override async UniTask AsyncShow(string name)
     {
         // Debug.Log("进入实训考核！");
-        var inf = GlobalData.scoresInfo.Find(x => x.className == GlobalData.usrInfo.className && x.userName == GlobalData.usrInfo.userName 
+        var inf = GlobalData.scoresInfo.Find(x => x.className == GlobalData.usrInfo.UnitName && x.userName == GlobalData.usrInfo.userName 
                                              && x.courseName == GlobalData.currExamsInfo.CourseName && x.registerTime == GlobalData.currExamsInfo.RegisterTime);
         // Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
         if (inf != null && inf.trainingFinished)
@@ -32,21 +32,6 @@ public class TrainingAction : BaseAction
         InfoPanel._instance.TrainingModeUIClose();
         MenuPanel._instance.Active(false);
         GlobalData.mode = Mode.Examination;
-
-        // TODO...因为服务器的变更，这一部分的代码都要重新写 TAT..
-        /*GlobalData.codeVSidDic.Clear();
-        foreach (var child in GlobalData.examData.data.softwareInfoVo.child)
-        {
-            // Debug.Log("当前的CODE = " + child.code + "       当前资源ID为 = " + child.softwareId + "       当前的资源名称为 = " + child.softwareName);
-            GlobalData.codeVSidDic.Add(child.code, child.softwareId);
-        }
-        
-        try
-        {
-            await UniTask.WaitUntil(() => isFinsh == true);
-            //Debug.Log("await finish");
-        }
-        catch { }*/
     }
 
     public override void Exit(Action callback)

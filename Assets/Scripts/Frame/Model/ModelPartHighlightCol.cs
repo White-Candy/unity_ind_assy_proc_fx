@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using EPOOutline;
 using UnityEngine;
 using DG.Tweening;
@@ -26,11 +23,11 @@ public class ModelPartHighlightCol : MonoBehaviour
     public void OnHighlight()
     { 
         m_Outlinable.enabled = true;
-        m_Outlinable.OutlineParameters.DOColor(Color.red, .5f).SetLoops(3, LoopType.Yoyo).onComplete += () =>
-        {
-            m_Outlinable.enabled = false;
-            m_Outlinable.OutlineParameters.Color = m_OutlinableInitColor;
-        };
+        //m_Outlinable.OutlineParameters.DOColor(Color.red, .5f).SetLoops(3, LoopType.Yoyo).onComplete += () =>
+        //{
+        //    m_Outlinable.enabled = false;
+        //    m_Outlinable.OutlineParameters.Color = m_OutlinableInitColor;
+        //};
     }
 
     /// <summary>
@@ -39,13 +36,13 @@ public class ModelPartHighlightCol : MonoBehaviour
     public void OffHighlight()
     { 
         m_Outlinable.enabled = false;
-        /*int a = */m_Outlinable.OutlineParameters.DOKill(true);
+       // /*int a = */m_Outlinable.OutlineParameters.DOKill(true);
         //Debug.Log(a);
         m_Outlinable.OutlineParameters.Color = m_OutlinableInitColor;
     }
 
     private void OnDestroy()
     {
-        m_Outlinable.OutlineParameters.DOKill(true);
+      // m_Outlinable.OutlineParameters.DOKill(true);
     }
 }

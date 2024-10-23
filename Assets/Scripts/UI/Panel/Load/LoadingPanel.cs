@@ -1,4 +1,4 @@
-using sugar;
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +16,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
 {
     public Slider m_ProgressSlider; // 進度條
     public TextMeshProUGUI m_ProgressPercent; // 顯示進度條百分比
+    public float m_UiPercent = 0.0f;
 
     public override void Awake()
     {
@@ -29,10 +30,22 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     }
 
     // 場景加載
-    public void LoadScene(string scene, string model_name)
+    public void LoadScene(string scene)
     {
         //StartCoroutine(UnRealLoad(scene, model_name));
-        LoadAsync(scene, model_name);
+        LoadAsync(scene);
+    }
+
+    public async void SetPercentUI(float percent)
+    {
+        while (m_UiPercent < percent)
+        {
+            m_UiPercent += 0.05f;
+            m_ProgressSlider.value = m_UiPercent;
+            await UniTask.WaitForSeconds(0.05f);
+        }
+
+        // OnLoaded();
     }
 
     private IEnumerator RealLoad(string name)
@@ -93,8 +106,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
         OnLoaded();
     }
 
-
-    private async void LoadAsync(string name, string model_name)
+    private async void LoadAsync(string name)
     {
         // Unity场景加载
         AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);
@@ -119,6 +131,12 @@ public class LoadingPanel : BasePanel, IGlobalPanel
         }
         scene_async.allowSceneActivation = true; // 後臺加載完畢後，在顯示到前臺去
         OnLoaded();
+    }
+
+    public void Close()
+    {
+        m_UiPercent = 0.0f;
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>

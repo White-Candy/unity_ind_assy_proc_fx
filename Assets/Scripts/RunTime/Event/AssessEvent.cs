@@ -1,15 +1,5 @@
 using Cysharp.Threading.Tasks;
-using LitJson;
-using sugar;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 
 // 点击考核按钮的事件
 public class AssessEvent : BaseEvent
@@ -58,9 +48,12 @@ public class AssessEvent : BaseEvent
         });*/
 
         GlobalData.mode = Mode.Examination;
-        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
-        TCPHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
-        TCPHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
+#if UNITY_STANDALONE_WIN
+        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
+#endif
+        NetHelper.GetInfoReq<ExamineInfo>(EventType.ExamineEvent);
+        NetHelper.GetInfoReq<ScoreInfo>(EventType.ScoreEvent);
+
         SwitchSceneAccName(m_Name);
 
         await UniTask.Yield();

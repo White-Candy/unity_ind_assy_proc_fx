@@ -20,7 +20,11 @@ public class MulitPanel : BasePanel
     /// <param name="mulitList"></param>
     public void Init(List<MulitChoice> mulitList)
     {
-        m_mulitList = new List<MulitChoice>(mulitList);
+        // m_mulitList = new List<MulitChoice>(mulitList);
+        foreach (var mulit in mulitList)
+        {
+            m_mulitList.Add(mulit.Clone());
+        }
         List<string> nameList = new List<string>();
         for (int i = 0; i < m_mulitList.Count; ++i)
         {
@@ -60,7 +64,7 @@ public class MulitPanel : BasePanel
         {
             item.Clear();
             item.gameObject.SetActive(false);
-            Destroy(item);
+            //Destroy(item);
         }
         m_itemList.Clear();
         m_mulitList.Clear();

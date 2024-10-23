@@ -22,7 +22,12 @@ public class SinglePanel : BasePanel
     /// <param name="singleList"></param>
     public void Init(List<SingleChoice> singleList)
     {
-        m_singleList = new List<SingleChoice>(singleList);
+        // m_singleList = new List<SingleChoice>(singleList);
+        foreach (var single in singleList)
+        {
+            m_singleList.Add(single.Clone());
+        }
+
         List<string> list = new List<string>();
         for (int i = 0; i < m_singleList.Count; ++i)
         {
@@ -64,7 +69,7 @@ public class SinglePanel : BasePanel
         {
             item.Clear();
             item.gameObject.SetActive(false);
-            Destroy(item);
+            //Destroy(item);
         }
         m_itemList.Clear();
         m_singleList.Clear();

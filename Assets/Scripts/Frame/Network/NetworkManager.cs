@@ -1,13 +1,7 @@
 using Cysharp.Threading.Tasks;
-using DG.Tweening.Plugins;
-using sugar;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,19 +13,20 @@ public class NetworkManager : MonoBehaviour
     {
         _Instance = this;
         DontDestroyOnLoad(this);
-
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
+        await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
         {
+            URL.IP = $"http://{ip}/";
+
             // 与局服务器连接请求
-            TCP.Connect(ip, 5800);
+            // TCP.Connect(ip, 5800);
         });
     }
 
     public void Update()
     {
-        if (TCP.m_MessQueue.Count > 0)
+        if (HTTPConsole.m_MessQueue.Count > 0)
         {
-            MessPackage pkg = TCP.m_MessQueue.Dequeue();
+            MessPackage pkg = HTTPConsole.m_MessQueue.Dequeue();
             BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
             @event.OnEvent(pkg);
         }
@@ -99,6 +94,6 @@ public class NetworkManager : MonoBehaviour
     public void OnDestroy()
     {
         StorageExpand.SaveToDisk();
-        TCP.Close();
+        //TCP.Close();
     }
 }

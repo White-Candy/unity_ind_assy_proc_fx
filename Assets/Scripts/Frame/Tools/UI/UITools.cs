@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,10 +26,10 @@ public class UITools
     /// <param name="scene"> 需要顯示的場景 </param>
     /// <param name="real"> 如果real為True異步加載模型場景，否在異步加載UI場景 </param>
     /// <param name="model_name"></param>
-    public static void Loading(string scene, string model_name = "")
+    public static void Loading(string scene)
     {
         LoadingPanel load_panel = UIConsole.FindAssetPanel<LoadingPanel>();
-        load_panel.LoadScene(scene, model_name);
+        load_panel.LoadScene(scene);
     }
 
     /// <summary>
@@ -79,11 +79,11 @@ public class UITools
     {
         await UniTask.WaitUntil(() => 
         {
-            Debug.Log($"TCP.percent: {GlobalData.DownloadParcent}");
+            // Debug.Log($"TCP.percent: {GlobalData.DownloadParcent}");
             if (GlobalData.DownloadParcent == old_Percent) return false; 
             old_Percent = GlobalData.DownloadParcent;
             DownLoadPanel._instance.SetDLPercent(GlobalData.DownloadParcent);
-            Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
+            // Debug.Log("========================= DownLoadPrepare: " +  old_Percent + " | " + fileCount);
             if (old_Percent == 100.0f) 
             {
                 old_Percent = 0.0f;

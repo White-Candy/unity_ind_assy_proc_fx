@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using LitJson;
 using Unity.Mathematics;
 using System.Linq;
+using System.Text;
 
 public class JsonHelper
 {
@@ -15,9 +16,11 @@ public class JsonHelper
     public async static UniTask<string> AsyncToJson(object obj)
     {
         string result = "";
-        await UniTask.RunOnThreadPool(() => 
+
+        await UniTask.WaitUntil(() => 
         {
             result = JsonMapper.ToJson(obj);
+            return result.Count() != 0;
         });
         return result;
     }

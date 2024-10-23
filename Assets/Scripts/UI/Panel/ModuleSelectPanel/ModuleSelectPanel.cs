@@ -1,4 +1,4 @@
-using sugar;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -10,10 +10,10 @@ public class ModuleSelectPanel : BasePanel
 {
     public GameObject m_Item; // 模式選擇的Item按鈕
 
-    public Button m_Exit; // 退出按鈕
+    public Button exitButton; // 退出按鈕
 
     // public GameObject m_TaskListPanel; // 考核任務列表窗口
-    public Button m_CloseTask; // 考核窗口關閉按鈕
+    public Button closeButton; // 考核窗口關閉按鈕
     public Transform m_ParentTrans; // 考核列表中的按鈕依附的Parent
     // public Button m_Task; // 考核列表中的按鈕
 
@@ -23,8 +23,8 @@ public class ModuleSelectPanel : BasePanel
     {
         base.Awake();
 
-        m_Exit.onClick.AddListener(UITools.Quit);
-        m_CloseTask.onClick.AddListener(CloseTaskPanel);
+        closeButton.onClick.AddListener(CloseTaskPanel);
+        // exitButton.onClick.AddListener(UITools.Quit);
 
         // GlobalData.TaskListPanel = m_TaskListPanel;
         // GlobalData.Task = m_Task;
@@ -50,6 +50,7 @@ public class ModuleSelectPanel : BasePanel
         {
             m_ParentTrans.GetChild(i).gameObject.SetActive(false);
         }
+        UITools.Loading("Login");
         // m_TaskListPanel.SetActive(false);
     }
 
@@ -62,10 +63,10 @@ public class ModuleSelectPanel : BasePanel
             // 利用UI中已经有的Item来clone多个不同名字的Item
             GameObject item_clone = Instantiate(m_Item, m_Item.transform.parent);
             item_clone.gameObject.SetActive(true);
-            item_clone.transform.Find("Title").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/UI/Title/{item.moduleName}");
+            item_clone.transform.Find("Title").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/Title/{item.moduleName}");
 
             Button button = item_clone.GetComponentInChildren<Button>();
-            button.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/UI/{item.moduleName}");
+            button.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{item.moduleName}");
 
             button.onClick.AddListener(() =>
             {

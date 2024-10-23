@@ -1,7 +1,7 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using LitJson;
-using sugar;
+
 using UnityEngine;
 public class CheckEvent : BaseEvent
 {

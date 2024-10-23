@@ -442,6 +442,7 @@ MonoBehaviour:
   m_MenuItem: {fileID: 5404535783605321963}
   m_Item: {fileID: 7972533860533591958}
   menuItemParent: {fileID: 5404535783448149820}
+  SearchObj: {fileID: 0}
   m_Menus: []
 --- !u!1 &5404535784603957901
 GameObject:
@@ -650,6 +651,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5404535785078739855}
     m_Modifications:
+    - target: {fileID: 977130011803114566, guid: becf6a44cea9f2e4199b326106eee906, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000015258789
+      objectReference: {fileID: 0}
     - target: {fileID: 1791811969842149578, guid: becf6a44cea9f2e4199b326106eee906, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

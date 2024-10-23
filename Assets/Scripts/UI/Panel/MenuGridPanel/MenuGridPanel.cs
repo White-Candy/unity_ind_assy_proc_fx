@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-using sugar;
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -29,11 +29,11 @@ public class MenuGridPanel : BasePanel
         _instance = this;
     }
 
-    void Start()
+    public async void Start()
     {
         BuildItem();
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
         Active(false);
 #elif UNITY_WEBGL
         Active(true);
@@ -62,7 +62,7 @@ public class MenuGridPanel : BasePanel
                     GameObject go = Instantiate(m_Item, m_Parent);
 
                     Button menuBtn = go.transform.GetChild(0).GetComponent<Button>();
-                    menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = item.subMenuName;
+                    menuBtn.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{item.subMenuName}");
                     menuBtn.onClick.AddListener(() =>
                     {                       
                         MenuItemClick(item.subMenuName);

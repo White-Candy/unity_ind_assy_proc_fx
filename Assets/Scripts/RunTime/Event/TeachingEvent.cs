@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +11,9 @@ public class TeachingEvent : BaseEvent
     {
         base.OnEvent(args);
         //Debug.Log("Teaching Event!");
-
-        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
+#if UNITY_STANDALONE_WIN
+        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
+#endif
         SwitchSceneAccName(m_Name);
         await UniTask.Yield();
     }

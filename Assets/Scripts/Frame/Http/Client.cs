@@ -1,8 +1,7 @@
+using Cysharp.Threading.Tasks;
 using LitJson;
-using sugar;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 //public class LoginData
 //{
@@ -10,26 +9,14 @@ using UnityEngine;
 //    public string password;
 //}
 
-public class Client : Singleton<Client>
+public class Client : MonoBehaviour
 {
     [HideInInspector]
-    public Server m_Server;
+    public static Server m_Server;
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         DontDestroyOnLoad(this.gameObject);
         m_Server = GetComponent<Server>();
-    }
-
-    /// <summary>
-    /// Client µÇÂ¼ÇëÇó
-    /// </summary>
-    /// <param name="path"></param>
-    /// <param name="username"></param>
-    /// <param name="password"></param>
-    public async void Login(string path, string username, string password)
-    {
-        await TCPHelper.UserLoginReq(username, password);
     }
 }

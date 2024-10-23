@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using sugar;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +14,8 @@ public class PictureAction : BaseAction
 
     private PicturePanel m_Panel;
 
+    private List<string> m_Paths = new List<string>();
+
     public PictureAction()
     {
         m_Token = new CancellationTokenSource();
@@ -27,7 +29,7 @@ public class PictureAction : BaseAction
             List<Sprite> sprites = await LoadPictureAsync(name);
 
             m_Panel = UIConsole.FindAssetPanel<PicturePanel>();
-            m_Panel.Init(sprites);
+            m_Panel.Init(sprites, m_Paths);
             m_Init = true;
         }
 
@@ -47,16 +49,21 @@ public class PictureAction : BaseAction
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
     {
-        var paths = NetworkManager._Instance.DownLoadAaset(name, "png");
-
-        paths = await TCPHelper.RsCkAndDLReq(paths, name);
-
+#if UNITY_STANDALONE_WIN
+        m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
+        await NetHelper.RsCkAndDLReq(paths, name);
+        m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
+#elif UNITY_WEBGL
+        string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
+            Debug.Log("tupian an config path: "  + configPath);
+        m_Paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".png");
+#endif
         List<Sprite> sprites = new List<Sprite>();
 
-        if (paths.Count == 0)
+        if (m_Paths.Count == 0)
             UITools.ShowMessage("当前模块没有图片资源");
 
-        AsyncResult result = await AssetConsole.Instance.LoadTexObject(paths.ToArray());
+        AsyncResult result = await AssetConsole.Instance.LoadTexObject(m_Paths.ToArray());
 
         await UniTask.WaitUntil(() => result.isLoad == true);
 
