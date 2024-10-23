@@ -62,7 +62,7 @@ public class MenuGridPanel : BasePanel
                     GameObject go = Instantiate(m_Item, m_Parent);
 
                     Button menuBtn = go.transform.GetChild(0).GetComponent<Button>();
-                    menuBtn.GetComponentInChildren<TextMeshProUGUI>().text = item.subMenuName;
+                    menuBtn.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{item.subMenuName}");
                     menuBtn.onClick.AddListener(() =>
                     {                       
                         MenuItemClick(item.subMenuName);

@@ -52,7 +52,7 @@ public class BaseEvent
     public virtual void SwitchSceneAccName(string module_name)
     {
         GlobalData.currModuleName = module_name;
-        UITools.Loading("Main", module_name);
+        UITools.Loading("Main");
     }
 }
 

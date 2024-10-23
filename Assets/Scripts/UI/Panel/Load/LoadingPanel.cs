@@ -30,10 +30,10 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     }
 
     // ˆö¾°¼ÓÝd
-    public void LoadScene(string scene, string model_name)
+    public void LoadScene(string scene)
     {
         //StartCoroutine(UnRealLoad(scene, model_name));
-        LoadAsync(scene, model_name);
+        LoadAsync(scene);
     }
 
     public async void SetPercentUI(float percent)
@@ -106,7 +106,7 @@ public class LoadingPanel : BasePanel, IGlobalPanel
         OnLoaded();
     }
 
-    private async void LoadAsync(string name, string model_name)
+    private async void LoadAsync(string name)
     {
         // Unity³¡¾°¼ÓÔØ
         AsyncOperation scene_async = SceneManager.LoadSceneAsync(name);

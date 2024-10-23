@@ -1,11 +1,14 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.TMP_Dropdown;
+using static UnityEditor.Progress;
 
 public class RegisterPanel : BasePanel
 {
@@ -20,6 +23,9 @@ public class RegisterPanel : BasePanel
     public Button quit;
 
     public static RegisterPanel _instance;
+
+    // private static Vector3 m_ItemNormalCol = new Vector3(255.0f, 255.0f, 255.0f); // item默认颜色
+    // private static Vector3 m_ItemSelectedCol = new Vector3(0.0f, 125.0f, 255.0f); // item选中颜色
 
     public override void Awake()
     {
@@ -41,6 +47,13 @@ public class RegisterPanel : BasePanel
             string strClassName = "";
             if (className.options.Count > 0) strClassName = className.options[className.value].text;
             NetHelper.Register(account?.text, password?.text, verify?.text, Name?.text, strClassName);
+        });
+
+        className?.onValueChanged.AddListener((int i) => 
+        {
+            Debug.Log("onValueChange: " + i);
+
+            // var Options = className.options[0];
         });
 
         quit?.onClick.AddListener(UITools.Quit);

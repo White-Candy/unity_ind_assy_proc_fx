@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +15,7 @@ public class PicturePanel : BasePanel
 
     //private List<GameObject> m_Items = new List<GameObject>();
 
-    public void Init(List<Sprite> list)
+    public void Init(List<Sprite> list, List<string> nameList)
     {
         //foreach (var item in m_Items)
         //{
@@ -22,14 +24,23 @@ public class PicturePanel : BasePanel
         //}
         //m_Items.Clear();
 
-        foreach (var sprite in list)
+        for (int i = 0; i < list.Count && i < nameList.Count; ++i)
         {
-            //Debug.Log(sprite.name);
+            Sprite sprite = list[i];
+
+            string[] filesName = nameList[i].Split("/");
+            string fileName = filesName[filesName.Count() - 1];
+            Debug.Log(fileName);
+
             GameObject obj = Instantiate(m_Item, m_ItemParent.transform);
             obj.SetActive(true);
-            Button btn = obj.GetComponentInChildren<Button>();
+            Button btn = obj.transform.Find("Button").gameObject.GetComponent<Button>();
             btn.GetComponent<Image>().sprite = sprite;
             btn.onClick.AddListener(() => { OnItemBtnClicked(sprite); });
+
+            Button pictureNameButton = obj.transform.Find("PictureName").gameObject.GetComponent<Button>();
+            TextMeshProUGUI nameText = pictureNameButton.GetComponentInChildren<TextMeshProUGUI>();
+            nameText.text = fileName;
             //m_Items.Add(obj);
         }
     }

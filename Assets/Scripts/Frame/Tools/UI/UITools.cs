@@ -26,10 +26,10 @@ public class UITools
     /// <param name="scene"> 需要顯示的場景 </param>
     /// <param name="real"> 如果real為True異步加載模型場景，否在異步加載UI場景 </param>
     /// <param name="model_name"></param>
-    public static void Loading(string scene, string model_name = "")
+    public static void Loading(string scene)
     {
         LoadingPanel load_panel = UIConsole.FindAssetPanel<LoadingPanel>();
-        load_panel.LoadScene(scene, model_name);
+        load_panel.LoadScene(scene);
     }
 
     /// <summary>
