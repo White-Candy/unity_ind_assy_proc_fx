@@ -12,17 +12,16 @@ public class SubMenuGrid : MonoBehaviour
     {
         if (m_DragItem == null)
         {
-            m_DragItem = transform.GetChild(1).GetComponent<SubMenuDragItem>();
+            m_DragItem = transform.GetChild(0).GetComponent<SubMenuDragItem>();
         }
 
         // 每個工具欄中Item的實例創建，SubMenus就是需要用到的工具信息
         foreach (var item in equs)
         {       
-            SubMenuDragItem drag_item = Instantiate(m_DragItem, this.transform);
-            drag_item.gameObject.GetComponent<Image>().sprite =
-                Resources.Load<Sprite>("Textures/Tools/" + item);
-            drag_item.gameObject.SetActive(true);
-            drag_item.Init(item);
+            SubMenuDragItem dragItem = Instantiate(m_DragItem, this.transform);
+            dragItem.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/Tools/" + item);
+            dragItem.gameObject.SetActive(true);
+            dragItem.Init(item);
         }
     }
 }

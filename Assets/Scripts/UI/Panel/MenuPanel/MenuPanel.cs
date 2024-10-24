@@ -91,7 +91,7 @@ public class MenuPanel : BasePanel
         if (GlobalData.currModuleName != "¿¼ºË") NormalBuildMenu();
         else ExamineBuildMenu();
 #elif UNITY_WEBGL
-        Debug.Log("BuildMenuList");
+        // Debug.Log("BuildMenuList");
         await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", async (text) => 
         {
             string[] split = text.Split("|");

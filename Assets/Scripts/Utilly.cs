@@ -31,6 +31,7 @@ public static class Utilly
     /// </summary>
     public static void ExitModeSceneAction()
     {
+        Debug.Log("Exit Scenen Action...");
         CameraControl.SetMain();
 
         InfoPanel._instance.Active(false);
