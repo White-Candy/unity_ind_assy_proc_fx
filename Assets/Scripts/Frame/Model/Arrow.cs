@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Arrow : MonoBehaviour
 {
-    public TextMeshProUGUI m_Count;
+    public TextMeshProUGUI countText;
 
     void Start()
     {
@@ -14,7 +15,7 @@ public class Arrow : MonoBehaviour
 
     void Update()
     {
-        m_Count.text = GameMode.Instance.NumberOfToolsRemaining();
+        countText.text = GameMode.Instance.NumberOfToolsRemaining();
         transform.LookAt(CameraControl.target.transform);
     }
 }

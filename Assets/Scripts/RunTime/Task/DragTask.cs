@@ -55,8 +55,8 @@ public class DragTask
 
     private void SubMenuGridInit(string name, List<string> list, out SubMenuGrid grid, GameObject obj)
     {
-        grid = obj.gameObject.transform.Find($"{name}").GetComponentInChildren<SubMenuGrid>();
-        grid.gameObject.transform.parent.SetSiblingIndex(1);
+        grid = obj.transform.Find($"{name}").GetComponentInChildren<SubMenuGrid>();
+        grid.transform.parent.SetSiblingIndex(1);
         grid.Init(list);
     }
 

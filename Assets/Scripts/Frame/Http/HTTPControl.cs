@@ -34,7 +34,7 @@ public class HTTPConsole
         long totalLength = totalInfoPkg.Count();
         string finalPkg = totalLength.ToString() + totalInfoPkg;
 
-        Debug.Log($"{totalLength} | {finalPkg}");
+        // Debug.Log($"{totalLength} | {finalPkg}");
         await Client.m_Server.Post(URL.IP, finalPkg, (text) => 
         {
 #if UNITY_EDITOR

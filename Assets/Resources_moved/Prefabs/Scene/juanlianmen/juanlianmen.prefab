@@ -4471,7 +4471,8 @@ MonoBehaviour:
   m_Arrow: {fileID: 2618411854657356939}
   m_AudioClip: []
   m_Tools: []
-  m_Score: 0
+  oneStepScore: 0
+  totalScore: 0
 --- !u!1 &1883165276718693399
 GameObject:
   m_ObjectHideFlags: 0
@@ -22246,15 +22247,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2541865773767521018, guid: 24eab57a882d960499bc611468297468, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -960
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2541865773767521018, guid: 24eab57a882d960499bc611468297468, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -538.63
+      value: 2.92
       objectReference: {fileID: 0}
     - target: {fileID: 2541865773767521018, guid: 24eab57a882d960499bc611468297468, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.74
+      value: 6.26
       objectReference: {fileID: 0}
     - target: {fileID: 2541865773767521018, guid: 24eab57a882d960499bc611468297468, type: 3}
       propertyPath: m_LocalRotation.w

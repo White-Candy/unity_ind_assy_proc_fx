@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class TitlePanel : BasePanel
 {
-    public Button m_Exit;
+    public Button exitButton;
 
     public TextMeshProUGUI m_Title;
 
@@ -20,11 +20,12 @@ public class TitlePanel : BasePanel
         base.Awake();
         _instance = this;
         m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.currModuleName}";
-        m_Exit.onClick.AddListener(OnExitBtnClicked);
+        exitButton.onClick.AddListener(OnExitBtnClicked);
     }
 
     private void OnExitBtnClicked()
     {
+        Debug.Log("Exit Game");
         //CameraControl.SetMain();
         if (GlobalData.SceneModel != null)
         {
