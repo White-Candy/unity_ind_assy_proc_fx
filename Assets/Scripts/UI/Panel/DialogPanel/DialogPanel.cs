@@ -32,6 +32,10 @@ public class DialogPanel : BasePanel
     // ±³¾°
     public Image m_BG;
 
+    public TMP_Text titleText;
+
+    public Button closeButton;
+
     // List
     List<Tween> m_TweenList = new List<Tween>();
 
@@ -41,6 +45,14 @@ public class DialogPanel : BasePanel
         DontDestroyOnLoad(this);
 
         m_Pool.AddListener(OnInstanceItem);
+    }
+
+    public void Start()
+    {
+        closeButton.onClick.AddListener(() => 
+        {
+            Active(false);
+        });
     }
 
     /// <summary>
