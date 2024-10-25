@@ -102,7 +102,7 @@ public class InfoPanel : BasePanel
     // 考核模式成绩提交
     private void SubmitScore()
     {
-        UITools.OpenDialog("", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
+        UITools.OpenDialog("考核提交", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
         {
             ExamineSubmit();
         });
@@ -125,7 +125,7 @@ public class InfoPanel : BasePanel
 
         if (time <= 0)
         {
-            UITools.OpenDialog("", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
+            UITools.OpenDialog("时间超时", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
         }
     }
 

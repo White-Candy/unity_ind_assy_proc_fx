@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class FileHelper
 {
@@ -63,6 +64,19 @@ public class FileHelper
             }    
         });
         return paths;
+    }
+
+    /// <summary>
+    /// WebGLTargetMode文件读取
+    /// </summary>
+    public async static void ReadTargetFileOnWebGL()
+    {
+        await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", (text) =>
+        {
+            string[] split = text.Split("|");
+            GlobalData.columnsName = split[0];
+            GlobalData.courseName = split[1];
+        });
     }
 }
 

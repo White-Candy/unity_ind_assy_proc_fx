@@ -23,7 +23,7 @@ public class TrainingAction : BaseAction
         // Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
         if (inf != null && inf.trainingFinished)
         {
-            UITools.OpenDialog("", "已完成实训考核。", () => { }, true);
+            UITools.OpenDialog("考核完成", "已完成实训考核。", () => { }, true);
             return;
         }
 

@@ -125,14 +125,14 @@ public class MenuPanel : BasePanel
                     GlobalData.currExamsInfo = examinesInfo[0];
                     m_MenuGridPanel.Active(true); 
                 }
-                else UITools.OpenDialog("", "该模块没有考题。", () => { }, true);
+                else UITools.OpenDialog("理论考题", "该模块没有考题。", () => { }, true);
             }
             else
             {
                 Active(false);
                 SetActiveMenuList(false);
                 await Tools.LoadSceneModel();
-                TitlePanel._instance.SetTitle(split[1]);
+                TitlePanel._instance.SetTitle(GlobalData.currModuleName);
             }
         });
 #endif
@@ -290,7 +290,7 @@ public class MenuPanel : BasePanel
         {
             await Tools.LoadSceneModel();
             SetActiveMenuList(false);
-            TitlePanel._instance.SetTitle(course);
+            TitlePanel._instance.SetTitle(GlobalData.currModuleName);
             Active(false);
         }
         else

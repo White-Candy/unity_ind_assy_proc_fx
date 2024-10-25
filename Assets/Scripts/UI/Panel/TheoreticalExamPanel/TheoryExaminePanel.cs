@@ -113,7 +113,7 @@ public class TheoryExaminePanel : BasePanel
     /// </summary>
     public void FinishAction()
     {
-        UITools.OpenDialog("", "是否提交本次理论考核？", () => { ExamineSubmit(); });
+        UITools.OpenDialog("成绩提交", "是否提交本次理论考核？", () => { ExamineSubmit(); });
     }
 
     public void ExamineSubmit()
@@ -142,7 +142,7 @@ public class TheoryExaminePanel : BasePanel
 
         if (time <= 0)
         {
-            UITools.OpenDialog("", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
+            UITools.OpenDialog("时间超时", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
         }
     }
     

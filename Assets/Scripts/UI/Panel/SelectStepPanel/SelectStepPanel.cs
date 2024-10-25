@@ -15,6 +15,8 @@ public class SelectStepPanel : BasePanel
 
     public static SelectStepPanel _instance;
 
+    private bool isSpawnItem = false;
+
     public override void Awake()
     {
         base.Awake();
@@ -30,7 +32,17 @@ public class SelectStepPanel : BasePanel
 
     private void Update()
     {
-        if(GlobalData.stepStructs.Count > 0 && GlobalData.canClone)
+        if (isSpawnItem)
+        {
+            foreach (var item in m_items)
+            {
+                bool highlight = RectTransformUtility.RectangleContainsScreenPoint(item.GetComponent<RectTransform>(), Input.mousePosition);
+                if (highlight)
+                    Debug.Log($"{item.name} hightLight");
+            }
+        }
+
+        if (GlobalData.stepStructs.Count > 0 && GlobalData.canClone)
         {
             SpawnStepItem();
             GlobalData.canClone = false;
@@ -61,6 +73,7 @@ public class SelectStepPanel : BasePanel
 
             clone.gameObject.SetActive(true);
         }
+        isSpawnItem = true;
     }
 
     private bool check(string txt)

@@ -17,26 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4c0e86ca3ccce5d4386fbcba3657a0d0
   m_SerializeEntries:
-  - m_GUID: 7f23a3ab435e5dd458e8c4ee0e73a8ca
-    m_Address: "\u5377\u5E18\u95E8"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3c966641b5be9a841911fbd3b03931b3
-    m_Address: "\u5377\u5E18\u95E8\u6EDA\u7B52"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 604324ef37383a34189e856e8eff0a04
-    m_Address: "\u5377\u7B52"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ff3473aaaa7896c488d7f5402ed7c5ff
-    m_Address: "\u5377\u7B52\u652F\u67B6"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a4fd715083e578040b611157d99faa5f
     m_Address: "\u56FA\u5B9A\u652F\u67B6"
     m_ReadOnly: 0
@@ -139,11 +119,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7e4669e51a0a8c441a90af65d0a4c6f9
     m_Address: "\u73BB\u7483\u680F\u677F"
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b84f668ae06844445a10fe5c6ba5858e
-    m_Address: "\u7EBF\u7EF3"
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

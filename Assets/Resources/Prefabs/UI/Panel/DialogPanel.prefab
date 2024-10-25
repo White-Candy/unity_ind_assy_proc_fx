@@ -436,9 +436,8 @@ MonoBehaviour:
   m_List: []
   m_DialogItem: {fileID: 937621224674313777}
   m_ItemParent: {fileID: 937100116330144995}
-  m_Title: {fileID: 937903070568595427}
   m_Info: {fileID: 937903071926635787}
-  m_BG: {fileID: 906011999198360433}
+  bg: {fileID: 0}
   titleText: {fileID: 8252952011358832348}
   closeButton: {fileID: 5142311707956269514}
 --- !u!1 &936915834323895709
@@ -508,8 +507,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 503c81c86ab03114690c0c3d2fd02ce6, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 8fa71ba95f2d78a4babef3d3cf4ed53e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
