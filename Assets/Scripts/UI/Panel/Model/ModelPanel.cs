@@ -56,11 +56,11 @@ public class ModelPanel : BasePanel
     {
         foreach (var item in items)
         {
-            //Debug.Log("====================SpawnItem: " + item);
+            Debug.Log($"====================SpawnItem: {GlobalData.courseName}\\{item}");
             GameObject go = GameObject.Instantiate(m_EquiItem, m_EquiItemParent);
             go.gameObject.SetActive(true);
 
-            Sprite sprite = Resources.Load<Sprite>($"Textures/Tools/{GlobalData.courseName}\\{item}");
+            Sprite sprite = Resources.Load<Sprite>($"Textures/Tools\\{item}");
             if (null == sprite)
             {
                 sprite = Resources.Load<Sprite>("Textures/NotFoundTips/NotFoundImage");

@@ -23,17 +23,19 @@ public class DialogPanel : BasePanel
     // Item 的父物体(Item应该Clone在那个物体的里面)
     public GameObject m_ItemParent;
 
-    // 标题
-    public TextMeshProUGUI m_Title;
-
     // 信息展示
     public TextMeshProUGUI m_Info;
 
     // 背景
-    public Image m_BG;
+    public Image bg;
+
+    // 标题
+    public TMP_Text titleText;
+
+    public Button closeButton;
 
     // List
-    List<Tween> m_TweenList = new List<Tween>();
+    // List<Tween> m_TweenList = new List<Tween>();
 
     public override void Awake()
     {
@@ -41,6 +43,14 @@ public class DialogPanel : BasePanel
         DontDestroyOnLoad(this);
 
         m_Pool.AddListener(OnInstanceItem);
+    }
+
+    public void Start()
+    {
+        closeButton.onClick.AddListener(() => 
+        {
+            Active(false);
+        });
     }
 
     /// <summary>
@@ -65,7 +75,7 @@ public class DialogPanel : BasePanel
     /// <param name="list"></param>
     public void UpdateData(string title, string info, params ButtonData[] list)
     {
-        m_Title.text = title;
+        titleText.text = title;
         m_Info.text = info;
         Clear();
 
@@ -97,48 +107,20 @@ public class DialogPanel : BasePanel
     /// <param name="b"></param>
     public override void Active(bool b)
     {
-        foreach (var item in m_TweenList)
-        {
-            // 如果item動畫在運行，停止他
-            if (item.IsPlaying())
-            {
-                item.Kill();
-            }
-        }
-        m_TweenList.Clear(); //清空
+        //foreach (var item in m_TweenList)
+        //{
+        //    如果item動畫在運行，停止他
+        //    if (item.IsPlaying())
+        //    {
+        //        item.Kill();
+        //    }
+        //}
+        //m_TweenList.Clear(); //清空
 
         RectTransform rect = m_Content.transform as RectTransform;
-        if (b) // 顯示時，背景動畫漸變顯示
-        {
-            Tween tween0 = DOTween.To(() => 0, (a) => m_BG.color = new Color(0, 0, 0, a), 0.75f, 0.2f).OnStart(() =>
-            {
-                m_BG.gameObject.SetActive(true);
-            });
-
-            Tween tween1 = DOTween.To(() => Vector3.zero, (a) => rect.localScale = a, Vector3.one, 0.2f).OnStart(() =>
-            {
-                base.Active(b);
-            });
-
-            m_TweenList.Add(tween0);
-            m_TweenList.Add(tween1);
-        }
-        else // 關閉時，背景動畫漸變消失
-        {
-            Tween tween0 = DOTween.To(() => 0.75f, (a) => m_BG.color = new Color(0, 0, 0, a), 0, 0.2f).OnComplete(() =>
-            {
-                m_BG.gameObject.SetActive(false);
-            });
-
-            Tween tween1 = DOTween.To(() => Vector3.one, (a) => rect.localScale = a, Vector3.zero, 0.2f).OnComplete(() =>
-            {
-                base.Active(b);
-                Clear();
-            });
-
-            m_TweenList.Add(tween0);
-            m_TweenList.Add(tween1);
-        }
+        base.Active(b);
+        if (!b)
+            Clear();
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using LitJson;
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class TitlePanel : BasePanel
     {
         base.Awake();
         _instance = this;
-        m_Title.text = $"Ä£ÄâÑÝÁ·-{GlobalData.currModuleName}";
+        m_Title.text = $"{GlobalData.currModuleName}-{GlobalData.courseName}";
         exitButton.onClick.AddListener(OnExitBtnClicked);
     }
 
@@ -46,6 +47,6 @@ public class TitlePanel : BasePanel
 
     public void SetTitle(string title)
     {
-        m_Title.text = $"Ä£ÄâÑÝÁ·-{title}";
+        m_Title.text = $"{title}-{GlobalData.courseName}";
     }
 }

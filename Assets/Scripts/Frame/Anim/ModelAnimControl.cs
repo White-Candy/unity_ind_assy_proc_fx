@@ -3,6 +3,7 @@ using LitJson;
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Unity.XR.Oculus.Input;
@@ -127,6 +128,15 @@ public class ModelAnimControl : MonoBehaviour
         // InfoPanel._instance.gameObject.SetActive(true);
         canvas.gameObject.SetActive(true);
         // Debug.Log("Over canvas active: " + canvas.gameObject.activeSelf);
+
+        // 步骤窗口按钮更新
+        if (GlobalData.stepStructs[GlobalData.StepIdx].stepName.Count() > 0)
+        {
+            int stepIdx = SelectStepPanel._instance.stepNameList.FindIndex(x => x == GlobalData.stepStructs[GlobalData.StepIdx].stepName);
+            if (stepIdx >= 0)
+                SelectStepPanel._instance.SetStepStatus(stepIdx, SelectStepPanel.EStepStatus.Finish);
+        }
+
         GameMode.Instance.NextStep(); // 播放结束 开始下一步
     }
 

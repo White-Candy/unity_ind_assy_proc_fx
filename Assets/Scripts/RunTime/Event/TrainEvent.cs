@@ -18,6 +18,7 @@ public class TrainEvent : BaseEvent
 #endif
         GlobalData.mode = Mode.Practice;
         // SwitchSceneAccName(m_Name);
+        GlobalData.currModuleName = m_Name;
         await SceneManager.LoadSceneAsync("Main");
         await UniTask.Yield();
     }

@@ -28,6 +28,8 @@ public class InfoPanel : BasePanel
 
     public Button m_Submit; // 提交按钮
 
+    public Button intrCloseButton; // 介绍面板关闭按钮
+
     public static InfoPanel _instance;
 
     private CancellationTokenSource m_cts = new CancellationTokenSource();
@@ -53,6 +55,8 @@ public class InfoPanel : BasePanel
         {
             // ActiveStepPanel();
         });
+
+        intrCloseButton.onClick.AddListener(() => { m_Introduce?.gameObject.SetActive(false); });
 
         // 点击提交成绩按钮
         m_Submit.onClick.AddListener(SubmitScore);
@@ -102,7 +106,7 @@ public class InfoPanel : BasePanel
     // 考核模式成绩提交
     private void SubmitScore()
     {
-        UITools.OpenDialog("", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
+        UITools.OpenDialog("考核提交", $"是否提交{GlobalData.ProjGroupName}的实训成绩？", () =>
         {
             ExamineSubmit();
         });
@@ -125,7 +129,7 @@ public class InfoPanel : BasePanel
 
         if (time <= 0)
         {
-            UITools.OpenDialog("", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
+            UITools.OpenDialog("时间超时", "时间到，已自动交卷。", () => { ExamineSubmit(); }, true);
         }
     }
 
