@@ -10,12 +10,15 @@ public class SelectStepPanel : BasePanel
 {
     public Button m_Item;
     public Transform m_Parent;
-
-    private List<Button> m_items = new List<Button>();
-
+    public GameObject stepName;
     public static SelectStepPanel _instance;
 
+    private List<Button> m_Items = new List<Button>();
+
     private bool isSpawnItem = false;
+
+    public List<EStepStatus> stepsStatus = new List<EStepStatus>();
+    public List<string> stepNameList = new List<string>();
 
     public override void Awake()
     {
@@ -28,20 +31,12 @@ public class SelectStepPanel : BasePanel
     {
         // this.gameObject.SetActive(false);
         //m_Parent = transform.Find("Content");
+        stepName.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (isSpawnItem)
-        {
-            foreach (var item in m_items)
-            {
-                bool highlight = RectTransformUtility.RectangleContainsScreenPoint(item.GetComponent<RectTransform>(), Input.mousePosition);
-                if (highlight)
-                    Debug.Log($"{item.name} hightLight");
-            }
-        }
-
+        ShowStepName();
         if (GlobalData.stepStructs.Count > 0 && GlobalData.canClone)
         {
             SpawnStepItem();
@@ -51,33 +46,100 @@ public class SelectStepPanel : BasePanel
 
     public void SpawnStepItem()
     {
-        foreach (var item in m_items)
+        foreach (var item in m_Items)
         {
             Destroy(item.gameObject);
         }
-        m_items.Clear();
+        m_Items.Clear();
 
         for (int i = 0; i < GlobalData.stepStructs.Count; ++i)
         {
             if (!check(GlobalData.stepStructs[i].stepName)) continue;
 
             Button clone = Instantiate(m_Item, m_Parent);
+
+            stepsStatus.Add(EStepStatus.UnChecked);
+            stepNameList.Add(GlobalData.stepStructs[i].stepName);
             clone.GetComponentInChildren<TextMeshProUGUI>().text = GlobalData.stepStructs[i].stepName;
+
             int id = i;
             clone.onClick.AddListener(() =>
             {
-                // Debug.Log("id : " + id);
                 GameMode.Instance.SetStep(id);
             });
-            m_items.Add(clone);
+            m_Items.Add(clone);
 
             clone.gameObject.SetActive(true);
         }
         isSpawnItem = true;
     }
 
+    /// <summary>
+    /// 展示步骤名字
+    /// </summary>
+    public void ShowStepName()
+    {
+        if (isSpawnItem)
+        {
+            bool allNoHightlight = false;
+            for (int i = 0; i < m_Items.Count(); ++i)
+            {
+                var item = m_Items[i];
+                bool highlight = RectTransformUtility.RectangleContainsScreenPoint(item.GetComponent<RectTransform>(), Input.mousePosition);
+                if (highlight)
+                {
+                    Vector3 itemPostion = item.transform.position;
+                    stepName.transform.position = new Vector3(itemPostion.x, stepName.transform.position.y, stepName.transform.position.z);
+                    stepName.GetComponentInChildren<TextMeshProUGUI>().text = stepNameList[i];
+                    stepName.gameObject.SetActive(true);
+                }
+                allNoHightlight |= highlight;
+            }
+
+            if (!allNoHightlight)
+                stepName.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetStepButtonStyle(int i, EStepStatus stepStatus)
+    {
+        Debug.Log($"{i} | {stepStatus}");
+        Sprite stepImage = null;
+        string trainingPath = "Textures/NewUI/Training";
+
+        if (stepStatus == EStepStatus.Doing)
+            stepImage = Resources.Load<Sprite>($"{trainingPath}/StepDoing");
+        else if (stepStatus == EStepStatus.Finish)
+            stepImage = Resources.Load<Sprite>($"{trainingPath}/StepFinish");
+        else
+            stepImage = Resources.Load<Sprite>($"{trainingPath}/StepUnselected");
+
+        m_Items[i].GetComponent<Image>().sprite = stepImage;
+    }
+
+    public void UpdateStepsButton()
+    {
+        for (int i = 0; i < stepsStatus.Count && i < m_Items.Count; i++)
+            SetStepButtonStyle(i, stepsStatus[i]);
+    }
+
+    public void SetStepStatus(int i, EStepStatus stepStatus)
+    {
+        stepsStatus[i] = stepStatus;
+        UpdateStepsButton();
+    }
+
     private bool check(string txt)
     {
         return !string.IsNullOrEmpty(txt) && txt.Count() > 0;
     }
+
+    public enum EStepStatus
+    {
+        None,
+        UnChecked,
+        Doing,
+        Finish
+    }
+
 }

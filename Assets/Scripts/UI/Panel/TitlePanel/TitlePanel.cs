@@ -47,6 +47,6 @@ public class TitlePanel : BasePanel
 
     public void SetTitle(string title)
     {
-        m_Title.text = $"{GlobalData.courseName}-{title}";
+        m_Title.text = $"{title}-{GlobalData.courseName}";
     }
 }

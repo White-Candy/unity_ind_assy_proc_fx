@@ -10,7 +10,7 @@ public class PDFPanel : BasePanel
 {
     private List<string> m_PDFPaths;
 
-    public GameObject m_PDFItem;
+    public GameObject pdfItem;
     public GameObject m_PDFItemParent;
     public PDFViewer m_PDFViewer;
 
@@ -28,13 +28,14 @@ public class PDFPanel : BasePanel
     {
         foreach (var path in m_PDFPaths)
         {
-            GameObject itemObj = GameObject.Instantiate(m_PDFItem, m_PDFItemParent.transform);
+            GameObject itemObj = GameObject.Instantiate(pdfItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
-            Button itemBtn = itemObj.GetComponentInChildren<Button>();
+            TextMeshProUGUI nameText = itemObj.transform.Find("PDFName").GetComponentInChildren<TextMeshProUGUI>();
+            Button pdfButton = itemObj.GetComponentInChildren<Button>();
 
-            string pdfName = Path.GetFileNameWithoutExtension(path);
-            itemBtn.GetComponentInChildren<TextMeshProUGUI>().text = pdfName;
-            itemBtn.onClick.AddListener(() => { OnPDFBtnClicked(path); });
+            nameText.text = name;
+            // pdfButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Teaching/Video");
+            pdfButton.onClick.AddListener(() => { OnPDFBtnClicked(path); });
             m_Items.Add(itemObj);
         }
     }

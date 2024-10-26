@@ -62,9 +62,11 @@ public class MenuGridPanel : BasePanel
                     GameObject go = Instantiate(m_Item, m_Parent);
 
                     Button menuBtn = go.transform.GetChild(0).GetComponent<Button>();
-                    menuBtn.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{item.subMenuName}");
+                    menuBtn.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{item.subMenuName}Unchecked");
+                    menuBtn.name = item.subMenuName;
                     menuBtn.onClick.AddListener(() =>
-                    {                       
+                    {
+                        ChangeItemStyle(item.subMenuName);
                         MenuItemClick(item.subMenuName);
                     });
                     m_Items.Add(go);
@@ -82,6 +84,23 @@ public class MenuGridPanel : BasePanel
             Destroy(item.gameObject);
         }
         m_Items.Clear();
+    }
+
+    /// <summary>
+    /// 修改菜单按钮的样式
+    /// </summary>
+    /// <param name="targetName"></param>
+    public void ChangeItemStyle(string targetName)
+    {
+        foreach (var item in m_Items)
+        {
+            Button menuBtn = item.transform.GetChild(0).GetComponent<Button>();
+            string buttonName = menuBtn.name;
+            if (buttonName == targetName)
+                menuBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{buttonName}");
+            else
+                menuBtn.GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/NewUI/Menu/{buttonName}UnChecked");
+        }
     }
 
     public async void MenuItemClick(string name)
