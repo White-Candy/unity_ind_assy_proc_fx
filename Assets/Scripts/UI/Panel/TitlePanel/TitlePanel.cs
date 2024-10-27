@@ -16,6 +16,8 @@ public class TitlePanel : BasePanel
 
     public static TitlePanel _instance;
 
+    public GameObject titlePanel;
+
     public override void Awake()
     {
         base.Awake();
@@ -35,7 +37,8 @@ public class TitlePanel : BasePanel
 #if UNITY_WEBGL
             GlobalData.currModuleName = "";
             UITools.Loading("Menu");
-#endif            
+            SetTitlePanelActive(true);
+#endif
         }
         else
         {
@@ -43,6 +46,11 @@ public class TitlePanel : BasePanel
             UITools.Loading("Menu");
         }
 
+    }
+
+    public void SetTitlePanelActive(bool b)
+    {
+        titlePanel.SetActive(b);
     }
 
     public void SetTitle(string title)

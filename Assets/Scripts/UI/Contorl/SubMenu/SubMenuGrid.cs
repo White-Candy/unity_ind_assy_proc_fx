@@ -19,7 +19,9 @@ public class SubMenuGrid : MonoBehaviour
         foreach (var item in equs)
         {       
             SubMenuDragItem dragItem = Instantiate(m_DragItem, this.transform);
-            dragItem.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/Tools/" + item);
+            // dragItem.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Textures/Tools/{item}");
+            Image img = dragItem.transform.Find("Icon").GetComponent<Image>();
+            UITools.SetImage(ref img, $"Textures/Tools/{item}");
             dragItem.gameObject.SetActive(true);
             dragItem.Init(item);
         }

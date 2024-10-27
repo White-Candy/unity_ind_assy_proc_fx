@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Content: {fileID: 8308452236202814002}
   exitButton: {fileID: 0}
   m_Title: {fileID: 8308452234858693188}
+  titlePanel: {fileID: 8308452235095247395}
 --- !u!1 &8308452236202814002
 GameObject:
   m_ObjectHideFlags: 0

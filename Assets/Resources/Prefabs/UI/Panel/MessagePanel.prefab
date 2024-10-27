@@ -209,8 +209,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD9\u662F\u4E00\u4E2A\u6D4B\u8BD5\u6587\u672C\uFF0C\u8FD9\u662F\u4E00\u4E2A\u6D4B\u8BD5\u6587\u672C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 061a00547a00c3e459c1d298043041ce, type: 2}
-  m_sharedMaterial: {fileID: -86810614298320187, guid: 061a00547a00c3e459c1d298043041ce, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e972c87c04f90e64a9616a8519c64353, type: 2}
+  m_sharedMaterial: {fileID: -5258286446403028382, guid: e972c87c04f90e64a9616a8519c64353, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
