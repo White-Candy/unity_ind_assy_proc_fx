@@ -96,5 +96,15 @@ public class UITools
         GlobalData.Downloaded = false;
         //Debug.Log("break! " + fileCount);
     }
+
+    /// <summary>
+    /// ÐÞ¸Äui¿Ø¼þimg
+    /// </summary>
+    /// <param name="img"></param>
+    /// <param name="imagePath"></param>
+    public static void SetImage(ref Image img, string imagePath)
+    {
+        img.sprite = Resources.Load<Sprite>(imagePath);
+    }
 }
 

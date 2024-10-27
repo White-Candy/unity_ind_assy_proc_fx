@@ -20,6 +20,8 @@ public class TrainEvent : BaseEvent
         // SwitchSceneAccName(m_Name);
         GlobalData.currModuleName = m_Name;
         await SceneManager.LoadSceneAsync("Main");
+        TitlePanel._instance.SetTitlePanelActive(false);
+
         await UniTask.Yield();
     }
 }

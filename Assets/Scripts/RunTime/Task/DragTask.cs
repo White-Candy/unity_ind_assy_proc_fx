@@ -48,14 +48,17 @@ public class DragTask
     /// </summary>
     protected virtual void SpawnSubMenus()
     {
-        GameObject obj = Object.Instantiate(Resources.Load<GameObject>("Prefabs/UI/Control/SubMenuDragGrid"), m_SubMenuGridParent);
-        SubMenuGridInit("ToolScrolView", m_Tools, out m_ToolSubMenuGrid, obj);
-        SubMenuGridInit("MaterialScrolView", m_Materials, out m_MaterialSubMenuGrid, obj);
+        SubMenuDragGrid subMenuDragGrid = Object.Instantiate(Resources.Load<SubMenuDragGrid>("Prefabs/UI/Control/SubMenuDragGrid"), m_SubMenuGridParent);
+        SubMenuGridInit("ToolScrolView", m_Tools, out m_ToolSubMenuGrid, subMenuDragGrid);
+        SubMenuGridInit("MaterialScrolView", m_Materials, out m_MaterialSubMenuGrid, subMenuDragGrid);
     }
 
-    private void SubMenuGridInit(string name, List<string> list, out SubMenuGrid grid, GameObject obj)
+    private void SubMenuGridInit(string name, List<string> list, out SubMenuGrid grid, SubMenuDragGrid subMenuDragGrid)
     {
-        grid = obj.transform.Find($"{name}").GetComponentInChildren<SubMenuGrid>();
+        if (name == "ToolScrolView")
+            grid = subMenuDragGrid.toolSubMenu;
+        else
+            grid = subMenuDragGrid.materialSubMenu;
         grid.transform.parent.SetSiblingIndex(1);
         grid.Init(list);
     }

@@ -20,6 +20,10 @@ public class SelectStepPanel : BasePanel
     public List<EStepStatus> stepsStatus = new List<EStepStatus>();
     public List<string> stepNameList = new List<string>();
 
+    public Button leftButton;
+    public Button rightButton;
+    public Scrollbar scrollBar;
+
     public override void Awake()
     {
         base.Awake();
@@ -32,6 +36,8 @@ public class SelectStepPanel : BasePanel
         // this.gameObject.SetActive(false);
         //m_Parent = transform.Find("Content");
         stepName.gameObject.SetActive(false);
+        leftButton.onClick.AddListener(() => { scrollBar.value -= 0.05f;});
+        rightButton.onClick.AddListener(() => { scrollBar.value += 0.05f; });
     }
 
     private void Update()

@@ -36,6 +36,8 @@ public class InfoPanel : BasePanel
 
     // public bool m_showMap = true; // 是否展示小地图
 
+    private bool m_OpenAudio = false;
+
     public override void Awake()
     {
         base.Awake();
@@ -56,7 +58,9 @@ public class InfoPanel : BasePanel
             // ActiveStepPanel();
         });
 
-        intrCloseButton.onClick.AddListener(() => { m_Introduce?.gameObject.SetActive(false); });
+        intrCloseButton.onClick.AddListener(() => { ActiveConstructionPanel(); });
+
+        m_Audio.onClick.AddListener(() => { AudioButtonClicked(); });
 
         // 点击提交成绩按钮
         m_Submit.onClick.AddListener(SubmitScore);
@@ -85,14 +89,29 @@ public class InfoPanel : BasePanel
         if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < ModelAnimControl._Instance.m_ConPtStep.Count)
         {
             m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
-            m_IntroduceText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
+            m_IntroduceText.text = "     " + ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
         }
+    }
+
+    private void AudioButtonClicked()
+    {
+        if (m_OpenAudio)
+            m_Audio.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Training/Audio");
+        else
+            m_Audio.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Training/AudioOpen");
+
+        m_OpenAudio = !m_OpenAudio;
     }
 
     private void ActiveConstructionPanel()
     {
         bool b = m_Introduce.gameObject.activeSelf;
         m_Introduce.gameObject.SetActive(!b);
+        Image img = m_View.GetComponent<Image>();
+        if (b)
+            UITools.SetImage(ref img, "Textures/NewUI/Training/View");
+        else
+            UITools.SetImage(ref img, "Textures/NewUI/Training/ViewOpen");
     }
 
     // 实训模式隐藏一些窗口
