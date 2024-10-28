@@ -26,7 +26,7 @@ public class TheoreticalExamAction : BaseAction
         //Debug.Log($"{GlobalData.usrInfo.UnitName} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
         if (inf != null && inf.theoryFinished)
         {
-            UITools.OpenDialog("考核完成", "已完成理论考核。", () => { }, true);
+            UITools.OpenDialog("考核完成", "已完成理论考核。", new ButtonData("确定", FPath.DialogBlue, () => { }));
             return;
         }
 

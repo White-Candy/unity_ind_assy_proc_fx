@@ -41,9 +41,9 @@ public class UITools
         return UIConsole.FindAssetPanel<DownLoadPanel>();
     }
 
-    public static void OpenDialog(string title, string info, Action callback, bool single = false)
+    public static void OpenDialog(string title, string info, params ButtonData[] buttonsData)
     {
-        DialogPanel.OpenDialog(title, info, callback, single);
+        DialogPanel.OpenDialog(title, info, buttonsData);
     }
 
     /// <summary>

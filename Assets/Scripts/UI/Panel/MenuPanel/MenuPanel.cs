@@ -125,7 +125,7 @@ public class MenuPanel : BasePanel
                     GlobalData.currExamsInfo = examinesInfo[0];
                     m_MenuGridPanel.Active(true); 
                 }
-                else UITools.OpenDialog("理论考题", "该模块没有考题。", () => { }, true);
+                else UITools.OpenDialog("理论考题", "该模块没有考题。", new ButtonData("确定", FPath.DialogBlue, () => { }));
             }
             else
             {

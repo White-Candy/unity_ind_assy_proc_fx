@@ -23,7 +23,7 @@ public class TrainingAction : BaseAction
         // Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
         if (inf != null && inf.trainingFinished)
         {
-            UITools.OpenDialog("考核完成", "已完成实训考核。", () => { }, true);
+            UITools.OpenDialog("考核完成", "已完成实训考核。", new ButtonData("确定", FPath.DialogBlue, () => { }));
             return;
         }
 
@@ -32,6 +32,7 @@ public class TrainingAction : BaseAction
         InfoPanel._instance.TrainingModeUIClose();
         MenuPanel._instance.Active(false);
         GlobalData.mode = Mode.Examination;
+        TitlePanel._instance.SetTitlePanelActive(false);
     }
 
     public override void Exit(Action callback)
