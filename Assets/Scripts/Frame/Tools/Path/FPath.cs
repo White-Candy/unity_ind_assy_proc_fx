@@ -30,4 +30,6 @@ public class FPath
     public static string AnimSuffix { get { return $"\\Animation"; } }
     public static string VideoSuffix { get { return $"\\Video"; } }
     public static string ModelSuffix { get { return $"\\Model\\Config.txt"; } }
+    public static string DialogBlue { get { return $"Textures/NewUI/Examine/DialogBlueButton"; } }
+    public static string DialogWhite { get { return $"Textures/NewUI/Examine/DialogWhiteButton"; } }
 }

@@ -67,38 +67,36 @@ public class DialogPanel : BasePanel
         return item;
     }
 
+    public void Init(string title, string info)
+    {
+        titleText.text = title;
+        m_Info.text = info;
+        Clear();
+    }
+
     /// <summary>
     /// 更新数据
     /// </summary>
     /// <param name="title"></param>
     /// <param name="info"></param>
     /// <param name="list"></param>
-    public void UpdateData(string title, string info, params ButtonData[] list)
+    public void AddItem(ButtonData data)
     {
-        titleText.text = title;
-        m_Info.text = info;
-        Clear();
-
-        foreach (ButtonData d in list)
+        DialogPanelItem item = m_Pool.Create("Btn-" + data.text);
+        item.transform.SetAsLastSibling();
+        item.UpdateData(data.text, data.imgPath);
+        if (data.isClose)
         {
-            DialogPanelItem item = m_Pool.Create("Btn-" + d.text);
-            item.transform.SetAsLastSibling();
-            item.UpdateData(d.text);
-            if (d.isClose)
+            item.AddListener(() =>
             {
-                item.AddListener(() =>
-                {
-                    this.Active(false);
-                    d.method();
-                });
-            }
-            else
-            {
-                item.AddListener(d.method);
-            }
-
-            m_List.Add(item);
+                data.method();
+                this.Active(false);
+            });
         }
+        else
+            item.AddListener(data.method);
+
+        m_List.Add(item);
     }
 
     /// <summary>
@@ -142,33 +140,19 @@ public class DialogPanel : BasePanel
     /// <param name="title"></param>
     /// <param name="info"></param>
     /// <param name="callback"></param>
-    public static void OpenDialog(string title, string info, Action callback, bool single)
+    public static void OpenDialog(string title, string info, params ButtonData[] buttonsData)
     {        
         DialogPanel panel = UIConsole.FindAssetPanel<DialogPanel>();
-        Action action = () => 
-        {
-            callback();
-            Destroy(panel.gameObject);
-        };
 
-        if (panel != null && !single)
+        if (panel != null)
         {
-            panel.UpdateData(title, info, new ButtonData("确定", action), new ButtonData("取消", () => 
+            panel.Init(title, info);
+            foreach (var data in buttonsData)
             {
-                panel.Active(false); 
-                Destroy(panel.gameObject);
-            }));
-            panel.Active(true);
+                panel.AddItem(data);
+            }
         }
-        else if (panel != null && single)
-        { 
-            panel.UpdateData(title, info, new ButtonData("确定", action));
-            panel.Active(true);
-        }
-        else
-        {
-            Debug.LogError("对话框面板不存在");
-        }
+        panel.Active(true);
     }
 }
 
@@ -176,6 +160,9 @@ public class ButtonData
 {
     // 文本显示
     public string text;
+
+    // 背景图片
+    public string imgPath;
 
     // 函数
     public Action method;
@@ -195,11 +182,19 @@ public class ButtonData
     /// </summary>
     /// <param name="txt"></param>
     /// <param name="m"></param>
-    public ButtonData(string txt, Action m, bool close = true)
+    //public ButtonData(string txt, Action m, bool close = true)
+    //{
+    //    this.text = txt;
+    //    this.method = m;
+    //    this.isClose = close;
+    //}
+
+    public ButtonData(string txt, string imgPath, Action m, bool close = true)
     {
         this.text = txt;
         this.method = m;
         this.isClose = close;
+        this.imgPath = imgPath;
     }
 
     /// <summary>
