@@ -14,7 +14,7 @@ public class TrainEvent : BaseEvent
         //Debug.Log("Train Event!");
 
 #if UNITY_STANDALONE_WIN
-        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
+        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
 #endif
         GlobalData.mode = Mode.Practice;
         // SwitchSceneAccName(m_Name);

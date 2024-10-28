@@ -12,7 +12,7 @@ public class TeachingEvent : BaseEvent
         base.OnEvent(args);
         //Debug.Log("Teaching Event!");
 #if UNITY_STANDALONE_WIN
-        HTTPConsole.SendAsyncPost("[]", EventType.GetProjInfo, OperateType.NONE);
+        TCP.SendAsync("[]", EventType.GetProjInfo, OperateType.NONE);
 #endif
         SwitchSceneAccName(m_Name);
         await UniTask.Yield();

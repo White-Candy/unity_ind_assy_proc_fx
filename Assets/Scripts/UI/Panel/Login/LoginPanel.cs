@@ -64,7 +64,7 @@ public class LoginPanel : BasePanel
 
         m_Regiester?.onClick.AddListener(() => 
         {
-            HTTPConsole.SendAsyncPost("[]", EventType.ClassEvent, OperateType.GET);
+            TCP.SendAsync("[]", EventType.ClassEvent, OperateType.GET);
             RegisterPanel._instance.Active(true);
             Active(false);
         });
@@ -91,6 +91,6 @@ public class LoginPanel : BasePanel
             userName = m_UserIF.text,
             password = m_PwdIF.text
         };
-        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
+        TCP.SendAsync(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
     }
 }

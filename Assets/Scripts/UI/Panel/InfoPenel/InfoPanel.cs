@@ -172,9 +172,9 @@ public class InfoPanel : BasePanel
         // GlobalData.currModuleName = "";
         float trainingScore = GameMode.Instance.totalScore;
         GlobalData.currScoreInfo.trainingScore = trainingScore.ToString();
-        GlobalData.currScoreInfo.trainingFinished = true;            
+        GlobalData.currScoreInfo.trainingFinished = true;
         // Debug.Log("training Score total: " + trainingScore);
-        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
+        TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         Utilly.ExitModeSceneAction();
     }
 
