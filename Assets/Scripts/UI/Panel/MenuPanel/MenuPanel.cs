@@ -11,14 +11,14 @@ using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using System.Linq;
 
-public struct StepStruct
+public class StepStruct
 {
-    public string method; // 方法[拖拽 or 点击]
-    public List<string> tools; // 工具
-    public string stepName; // 步骤名称
-    public List<string> animLimite; // 该步骤的动画帧数范围
-    public Transform arrowTrans; // 箭头预制体每个步骤的位置
-    public AudioClip clip; // 每个步骤的声音提示
+    public string method = ""; // 方法[拖拽 or 点击]
+    public List<string> tools = new List<string>(); // 工具
+    public string stepName = ""; // 步骤名称
+    public List<string> animLimite = new List<string>(); // 该步骤的动画帧数范围
+    public Transform arrowTrans = default; // 箭头预制体每个步骤的位置
+    public AudioClip clip = default; // 每个步骤的声音提示
 }
 
 

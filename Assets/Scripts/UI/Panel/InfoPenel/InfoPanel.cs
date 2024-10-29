@@ -176,6 +176,7 @@ public class InfoPanel : BasePanel
         // Debug.Log("training Score total: " + trainingScore);
         HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         Utilly.ExitModeSceneAction();
+        TitlePanel._instance.SetTitlePanelActive(true);
     }
 
     public void SetActiveOfExamUI(bool b)

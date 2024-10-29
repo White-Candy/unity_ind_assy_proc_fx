@@ -81,7 +81,7 @@ public class DisplayAction : BaseAction
         }
 
         m_currModel = GameObject.Instantiate(m_ModelHandles[name]);
-        m_currModel.transform.localScale = new Vector3(10.0f, 10.0f, 10.0f);
+        //m_currModel.transform.localScale = new Vector3(10.0f, 10.0f, 10.0f);
 
         CameraMovementController.Instance.UpdateData(m_currModel.transform);
     }

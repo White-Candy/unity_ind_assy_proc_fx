@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using Paroxe.PdfRenderer;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,8 +19,12 @@ public class PDFPanel : BasePanel
     // PDF文件item实例列表
     private List<GameObject> m_Items = new List<GameObject>();
 
+    private string m_Name;
+
     public void Init(List<string> paths, string name)
     {
+        Debug.Log($"PDFName: {name}");
+        m_Name = name;
         SetPDFActive(false);
         m_PDFPaths = paths;
         SpawnPDFItem();
@@ -30,10 +36,16 @@ public class PDFPanel : BasePanel
         {
             GameObject itemObj = GameObject.Instantiate(pdfItem, m_PDFItemParent.transform);
             itemObj.gameObject.SetActive(true);
-            TextMeshProUGUI nameText = itemObj.transform.Find("PDFName").GetComponentInChildren<TextMeshProUGUI>();
             Button pdfButton = itemObj.GetComponentInChildren<Button>();
+            Image Icon = pdfButton.GetComponent<Image>();
+            TextMeshProUGUI nameText = itemObj.transform.Find("PDFName").GetComponentInChildren<TextMeshProUGUI>();
+            UITools.SetImage(ref Icon, $"{FPath.TeachingRoot}/{m_Name}");
 
-            nameText.text = name;
+            string[] filesName = path.Split("/");
+            string fileName = filesName[filesName.Count() - 1];
+
+            string[] split = fileName.Split(".");
+            nameText.text = split[0];
             // pdfButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Teaching/Video");
             pdfButton.onClick.AddListener(() => { OnPDFBtnClicked(path); });
             m_Items.Add(itemObj);

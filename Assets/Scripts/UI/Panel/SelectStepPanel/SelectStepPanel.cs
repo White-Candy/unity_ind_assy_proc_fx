@@ -109,7 +109,6 @@ public class SelectStepPanel : BasePanel
 
     public void SetStepButtonStyle(int i, EStepStatus stepStatus)
     {
-        Debug.Log($"{i} | {stepStatus}");
         Sprite stepImage = null;
         string trainingPath = "Textures/NewUI/Training";
 

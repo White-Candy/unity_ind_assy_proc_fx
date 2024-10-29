@@ -32,4 +32,5 @@ public class FPath
     public static string ModelSuffix { get { return $"\\Model\\Config.txt"; } }
     public static string DialogBlue { get { return $"Textures/NewUI/Examine/DialogBlueButton"; } }
     public static string DialogWhite { get { return $"Textures/NewUI/Examine/DialogWhiteButton"; } }
+    public static string TeachingRoot { get { return $"Textures/NewUI/Teaching"; } }
 }
