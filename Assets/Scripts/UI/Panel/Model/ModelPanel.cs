@@ -56,7 +56,7 @@ public class ModelPanel : BasePanel
     {
         foreach (var item in items)
         {
-            Debug.Log($"====================SpawnItem: {GlobalData.courseName}\\{item}");
+            // Debug.Log($"====================SpawnItem: {GlobalData.courseName}\\{item}");
             GameObject go = GameObject.Instantiate(m_EquiItem, m_EquiItemParent);
             go.gameObject.SetActive(true);
 
