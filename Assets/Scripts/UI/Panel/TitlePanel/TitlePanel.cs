@@ -21,11 +21,11 @@ public class TitlePanel : BasePanel
     public override void Awake()
     {
         base.Awake();
+        _instance = this;
     }
 
-    public void Start()
+    public override void Start()
     {
-        _instance = this;
         m_Title.text = $"{GlobalData.currModuleName}-{GlobalData.courseName}";
         exitButton.onClick.AddListener(OnExitBtnClicked);
     }

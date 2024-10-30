@@ -29,7 +29,7 @@ public class MenuGridPanel : BasePanel
         _instance = this;
     }
 
-    public async void Start()
+    public override async void Start()
     {
         BuildItem();
 

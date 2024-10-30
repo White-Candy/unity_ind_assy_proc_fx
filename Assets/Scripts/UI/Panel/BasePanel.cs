@@ -20,7 +20,7 @@ public class BasePanel : MonoBehaviour, IBasePanel
         m_Visible = m_Content == null ? false : m_Content.activeSelf;
     }
 
-    public void Start()
+    public virtual void Start()
     {
 
     }

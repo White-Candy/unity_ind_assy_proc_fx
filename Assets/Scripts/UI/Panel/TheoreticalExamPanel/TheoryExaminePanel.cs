@@ -47,7 +47,7 @@ public class TheoryExaminePanel : BasePanel
 
     private CancellationTokenSource m_cts = new CancellationTokenSource();
 
-    public void Start()
+    public override void Start()
     {
         // m_singlePanel = UIConsole.FindPanel<SinglePanel>();
         // m_mulitPanel = UIConsole.FindPanel<MulitPanel>();
