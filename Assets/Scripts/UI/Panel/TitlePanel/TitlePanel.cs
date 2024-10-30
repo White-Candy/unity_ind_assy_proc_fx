@@ -21,6 +21,10 @@ public class TitlePanel : BasePanel
     public override void Awake()
     {
         base.Awake();
+    }
+
+    public void Start()
+    {
         _instance = this;
         m_Title.text = $"{GlobalData.currModuleName}-{GlobalData.courseName}";
         exitButton.onClick.AddListener(OnExitBtnClicked);

@@ -31,9 +31,13 @@ public class DownLoadPanel : BasePanel
     {
         base.Awake();
         // Debug.Log("DownLoadPanel Awake");
+    }
+
+    public void Start()
+    {
         _instance = this;
         m_Finished = false;
-        m_Finish.onClick.AddListener(() => 
+        m_Finish.onClick.AddListener(() =>
         {
             // Debug.Log("Go Finish~");
             Active(false);
@@ -44,10 +48,7 @@ public class DownLoadPanel : BasePanel
             Clear();
             m_Finished = true;
         });
-    }
 
-    public void Start()
-    {
         Active(false);
         m_Finish.enabled = false;
     }

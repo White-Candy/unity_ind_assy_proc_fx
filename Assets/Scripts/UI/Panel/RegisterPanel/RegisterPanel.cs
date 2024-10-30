@@ -24,12 +24,14 @@ public class RegisterPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        Active(false);
-        _instance = this;
+
     }
 
     public async void Start()
     {
+        Active(false);
+        _instance = this;
+
         comeback?.onClick.AddListener(() =>
         {
             LoginPanel._instance.Active(true);

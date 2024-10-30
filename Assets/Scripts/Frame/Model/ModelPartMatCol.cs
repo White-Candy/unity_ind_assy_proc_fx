@@ -14,11 +14,15 @@ public class ModelPartMatCol : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+
+    public void Start()
+    {
         m_MeshRender = this.GetComponent<MeshRenderer>();
         m_DefultMat = m_MeshRender.materials;
         m_TransparentMat = Resources.Load<Material>("Material/TransparentMat");
     }
-
 
     /// <summary>
     /// 模型半透明

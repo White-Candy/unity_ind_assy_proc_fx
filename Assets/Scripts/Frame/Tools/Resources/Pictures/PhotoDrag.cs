@@ -18,16 +18,15 @@ public class PhotoDrag : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHa
 
     private void Awake()
     {
-        rt = this.transform.GetComponent<RectTransform>(); 
+
+    }
+
+    public void Start()
+    {
+        rt = this.transform.GetComponent<RectTransform>();
         m_ImageTransform = this.transform;
         //初始化当前图片大小
         m_ImageTransform.localScale = Vector3.one;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     private void OnEnable()

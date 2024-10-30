@@ -22,6 +22,11 @@ public class GlobalCanvas : MonoBehaviour
 
     public void Awake()
     {
+
+    }
+
+    public void Start()
+    {
         m_instance = this;
         DontDestroyOnLoad(gameObject);
     }
