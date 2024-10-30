@@ -9,6 +9,11 @@ public class UIConsole : MonoBehaviour
 
     public void Awake()
     {
+
+    }
+
+    public void Start()
+    {
         DontDestroyOnLoad(gameObject);
     }
 

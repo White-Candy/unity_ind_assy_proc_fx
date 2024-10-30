@@ -16,12 +16,11 @@ public class MessagePanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        timer = TimerConsole.Instance.CreateTimer();
     }
 
     void Start()
     {
-
+        timer = TimerConsole.Instance.CreateTimer();
     }
 
     void Update()

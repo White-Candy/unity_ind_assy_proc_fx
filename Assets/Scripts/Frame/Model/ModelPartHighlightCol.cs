@@ -11,9 +11,14 @@ public class ModelPartHighlightCol : MonoBehaviour
     
     private void Awake()
     {
-        m_Outlinable = GetComponent<Outlinable>();    
+
+    }
+
+    public void Start()
+    {
+        m_Outlinable = GetComponent<Outlinable>();
         m_Outlinable.enabled = false;
-        
+
         m_OutlinableInitColor = m_Outlinable.OutlineParameters.Color;
     }
 

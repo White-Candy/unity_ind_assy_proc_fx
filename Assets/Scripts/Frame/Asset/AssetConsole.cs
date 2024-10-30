@@ -11,7 +11,6 @@ public class AssetConsole : Singleton<AssetConsole>
     public override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -21,6 +20,8 @@ public class AssetConsole : Singleton<AssetConsole>
     /// <param name="reslut"></param>
     private void CheckAssetLoadInMemory(string[] paths, AsyncResult result)
     {
+        DontDestroyOnLoad(gameObject);
+
         bool is_load = false;
         foreach (string path in paths)
         {

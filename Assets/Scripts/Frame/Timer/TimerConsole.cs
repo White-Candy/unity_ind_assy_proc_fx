@@ -18,12 +18,17 @@ public class TimerConsole : Singleton<TimerConsole>
     public override void Awake()
     {
         base.Awake();
+
+    }
+
+    public void Start()
+    {
         m_Root = new GameObject("TimerList");
         m_Pool.AddListener(Instance);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnUnSceneLoaded;
-        
+
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(m_Root);
     }

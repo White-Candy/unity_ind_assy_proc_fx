@@ -41,12 +41,13 @@ public class InfoPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        _instance = this;
-        Active(false);
     }
 
     private void Start()
     {
+        _instance = this;
+        Active(false);
+
         //Debug.Log("m_IntroduceText: " + m_IntroduceText.text);
         m_View.onClick.AddListener(() =>
         {

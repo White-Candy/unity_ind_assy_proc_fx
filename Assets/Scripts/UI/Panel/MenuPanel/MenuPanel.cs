@@ -51,11 +51,12 @@ public class MenuPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        _instance = this;
     }
 
     private void Start()
     {
+        _instance = this;
+
         m_SearchInputField = SearchObj.GetComponentInChildren<TMP_InputField>();
         m_SearchButton = SearchObj.GetComponentInChildren<Button>();
         m_MenuGridPanel = UIConsole.FindPanel<MenuGridPanel>();

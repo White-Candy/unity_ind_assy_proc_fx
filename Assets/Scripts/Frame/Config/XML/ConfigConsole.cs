@@ -17,6 +17,10 @@ public class ConfigConsole : Singleton<ConfigConsole>
     public override void Awake()
     {
         base.Awake();
+    }
+
+    public void Start()
+    {
         DontDestroyOnLoad(this);
 
         if (!m_Loaded)
