@@ -24,7 +24,6 @@ public class RegisterPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-
     }
 
     public async void Start()
