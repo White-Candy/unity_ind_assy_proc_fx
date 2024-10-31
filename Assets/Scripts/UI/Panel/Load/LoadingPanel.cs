@@ -21,8 +21,11 @@ public class LoadingPanel : BasePanel, IGlobalPanel
     public override void Awake()
     {
         base.Awake();
+    }
 
-        m_ProgressSlider.onValueChanged.AddListener( (value) => 
+    public void Start()
+    {
+        m_ProgressSlider.onValueChanged.AddListener((value) =>
         {
             float progress = (float)value;
             m_ProgressPercent.text = progress.ToString("0.00%");

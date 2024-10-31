@@ -20,6 +20,11 @@ public class BasePanel : MonoBehaviour, IBasePanel
         m_Visible = m_Content == null ? false : m_Content.activeSelf;
     }
 
+    public virtual void Start()
+    {
+
+    }
+
     /// <summary>
     /// 面板的显示控制
     /// </summary>

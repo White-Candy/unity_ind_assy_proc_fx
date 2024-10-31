@@ -41,12 +41,13 @@ public class InfoPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        _instance = this;
-        Active(false);
     }
 
     private void Start()
     {
+        _instance = this;
+        Active(false);
+
         //Debug.Log("m_IntroduceText: " + m_IntroduceText.text);
         m_View.onClick.AddListener(() =>
         {
@@ -176,6 +177,7 @@ public class InfoPanel : BasePanel
         // Debug.Log("training Score total: " + trainingScore);
         TCP.SendAsync(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         Utilly.ExitModeSceneAction();
+        TitlePanel._instance.SetTitlePanelActive(true);
     }
 
     public void SetActiveOfExamUI(bool b)

@@ -43,13 +43,17 @@ public class ModelAnimControl : MonoBehaviour
     private async void Awake()
     {
         _Instance = this;
-        DontDestroyOnLoad(_Instance);
+    
+    }
 
+    private async void Start()
+    {
+        DontDestroyOnLoad(_Instance);
         m_Animtor = GetComponent<Animator>();
 
         ModelName = GlobalData.ProjGroupName;
         // 获取 xxx.json 中的 当前步骤_施工要点
-        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName  + "\\TXT.json", (str) =>
+        await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName + "\\TXT.json", (str) =>
         {
             // Debug.Log(str);
             JsonData js_data = JsonMapper.ToObject<JsonData>(str);
@@ -61,14 +65,10 @@ public class ModelAnimControl : MonoBehaviour
                 ConstrPtStep step = new ConstrPtStep();
                 step.step = fields[0];
                 step.constrPt = fields[1];
-
                 m_ConPtStep.Add(step);
             }
         });
-    }
 
-    private async void Start()
-    {
         CameraControl.player = m_player;
         CameraControl.animation = m_animCamera;
         CameraControl.SetPlayer();

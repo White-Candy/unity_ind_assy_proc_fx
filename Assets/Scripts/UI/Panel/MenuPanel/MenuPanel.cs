@@ -11,14 +11,14 @@ using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using System.Linq;
 
-public struct StepStruct
+public class StepStruct
 {
-    public string method; // 方法[拖拽 or 点击]
-    public List<string> tools; // 工具
-    public string stepName; // 步骤名称
-    public List<string> animLimite; // 该步骤的动画帧数范围
-    public Transform arrowTrans; // 箭头预制体每个步骤的位置
-    public AudioClip clip; // 每个步骤的声音提示
+    public string method = ""; // 方法[拖拽 or 点击]
+    public List<string> tools = new List<string>(); // 工具
+    public string stepName = ""; // 步骤名称
+    public List<string> animLimite = new List<string>(); // 该步骤的动画帧数范围
+    public Transform arrowTrans = default; // 箭头预制体每个步骤的位置
+    public AudioClip clip = default; // 每个步骤的声音提示
 }
 
 
@@ -52,14 +52,14 @@ public class MenuPanel : BasePanel
     {
         base.Awake();
         _instance = this;
-    }
-
-    private void Start()
-    {
         m_SearchInputField = SearchObj.GetComponentInChildren<TMP_InputField>();
         m_SearchButton = SearchObj.GetComponentInChildren<Button>();
         m_MenuGridPanel = UIConsole.FindPanel<MenuGridPanel>();
 
+    }
+
+    public override void Start()
+    {
         BuildMenuList();
 
         m_SearchButton.onClick.AddListener(() =>
@@ -123,6 +123,8 @@ public class MenuPanel : BasePanel
                 if (examinesInfo.Count > 0) 
                 {
                     GlobalData.currExamsInfo = examinesInfo[0];
+                    if (m_MenuGridPanel) Debug.Log("m_MenuGridPanel is vaild!");
+                    else Debug.Log("m_MenuGridPanel is not vaild!");
                     m_MenuGridPanel.Active(true); 
                 }
                 else UITools.OpenDialog("理论考题", "该模块没有考题。", new ButtonData("确定", FPath.DialogBlue, () => { }));

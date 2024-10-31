@@ -10,6 +10,11 @@ public class PDFExpansion : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+
+    public void Start()
+    {
         exp_Close = GameObject.Find("Close").gameObject.GetComponent<Button>();
 
         if (exp_Close != null)

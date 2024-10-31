@@ -27,14 +27,14 @@ public class SelectStepPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        _instance = this;
-        Active(false);
     }
 
     private void Start()
     {
         // this.gameObject.SetActive(false);
         //m_Parent = transform.Find("Content");
+        _instance = this;
+        Active(false);
         stepName.gameObject.SetActive(false);
         leftButton.onClick.AddListener(() => { scrollBar.value -= 0.05f;});
         rightButton.onClick.AddListener(() => { scrollBar.value += 0.05f; });
@@ -109,7 +109,6 @@ public class SelectStepPanel : BasePanel
 
     public void SetStepButtonStyle(int i, EStepStatus stepStatus)
     {
-        Debug.Log($"{i} | {stepStatus}");
         Sprite stepImage = null;
         string trainingPath = "Textures/NewUI/Training";
 

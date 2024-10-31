@@ -16,6 +16,11 @@ public class Client : MonoBehaviour
 
     public void Awake()
     {
+
+    }
+
+    public void Start()
+    {
         DontDestroyOnLoad(this.gameObject);
         m_Server = GetComponent<Server>();
     }

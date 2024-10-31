@@ -11,9 +11,14 @@ public class NetworkManager : MonoBehaviour
 
     private async void Awake()
     {
+
+    }
+
+    public async void Start()
+    {
         _Instance = this;
         DontDestroyOnLoad(this);
-        await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) => 
+        await DownLoadTextFromServer(Application.streamingAssetsPath + "\\IP.txt", (ip) =>
         {
             URL.IP = $"http://{ip}/";
 

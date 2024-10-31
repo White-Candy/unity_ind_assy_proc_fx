@@ -51,6 +51,10 @@ public class CameraMovementController : Singleton<CameraMovementController>
     public override void Awake()
     {
         base.Awake();
+    }
+
+    public void Start()
+    {
         m_Camera = this.GetComponent<Camera>();
         m_Camera.fieldOfView = m_CameraFov;
 

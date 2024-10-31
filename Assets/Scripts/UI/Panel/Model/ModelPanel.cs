@@ -34,6 +34,8 @@ public class ModelPanel : BasePanel
 
     public DisPlayType m_type = DisPlayType.NONE;
 
+    private GameObject bgObject;
+
     // 工具面板的Item存储
     private List<GameObject> m_list = new List<GameObject>();
 
@@ -50,13 +52,16 @@ public class ModelPanel : BasePanel
             m_RevertBtn.gameObject.SetActive(true);
             m_RevertBtn.onClick.AddListener(() => { onClickRevert?.Invoke(); });
         }
+
+        bgObject = GameObject.Find("3DCanvas/BG/Image");
+        bgObject.SetActive(true);
     }
 
     public void SpawnItem(List<string> items)
     {
         foreach (var item in items)
         {
-            Debug.Log($"====================SpawnItem: {GlobalData.courseName}\\{item}");
+            // Debug.Log($"====================SpawnItem: {GlobalData.courseName}\\{item}");
             GameObject go = GameObject.Instantiate(m_EquiItem, m_EquiItemParent);
             go.gameObject.SetActive(true);
 
@@ -99,7 +104,8 @@ public class ModelPanel : BasePanel
             {
                 item?.SetActive(false);
                 Destroy(item);
-            }
+            }      
+            bgObject.SetActive(false);
             m_list.Clear();
             m_list = new List<GameObject>();
         }

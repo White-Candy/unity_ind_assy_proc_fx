@@ -22,7 +22,10 @@ public class TitlePanel : BasePanel
     {
         base.Awake();
         _instance = this;
-#if UNITY_WEBGL
+    }
+
+    public override void Start()
+    {
         m_Title.text = $"{GlobalData.currModuleName}-{GlobalData.courseName}";
 #elif UNITY_STANDALONE_WIN
         m_Title.text = $"{GlobalData.currModuleName}";

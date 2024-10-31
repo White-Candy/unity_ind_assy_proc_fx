@@ -21,13 +21,13 @@ public class MinMap : BasePanel
     {
         base.Awake();
         canshow = false;
-
-        _instance = this;
-        Active(false);
     }
 
     void Start()
     {
+        _instance = this;
+        Active(false);
+
         Addressables.LoadAssetAsync<Texture2D>("map").Completed += (obj) => 
         {
             Texture2D tex = obj.Result;
