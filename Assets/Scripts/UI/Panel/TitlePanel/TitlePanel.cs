@@ -26,6 +26,7 @@ public class TitlePanel : BasePanel
 
     public override void Start()
     {
+#if UNITY_WEBGL
         m_Title.text = $"{GlobalData.currModuleName}-{GlobalData.courseName}";
 #elif UNITY_STANDALONE_WIN
         m_Title.text = $"{GlobalData.currModuleName}";

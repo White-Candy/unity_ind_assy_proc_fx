@@ -30,13 +30,12 @@ public class DownLoadPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
-        // Debug.Log("DownLoadPanel Awake");
-    }
-
-    public void Start()
-    {
         _instance = this;
         m_Finished = false;
+    }
+
+    public override void Start()
+    {
         m_Finish.onClick.AddListener(() =>
         {
             // Debug.Log("Go Finish~");
