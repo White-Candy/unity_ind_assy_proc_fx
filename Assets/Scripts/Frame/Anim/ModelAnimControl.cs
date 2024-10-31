@@ -169,8 +169,8 @@ public class ModelAnimControl : MonoBehaviour
     public async UniTask Slice(float f_start, float f_end)
     {
         // Debug.Log("In Slice!");
-        float start = f_start * (1 / 24.0f);
-        float end = f_end * (1 / 24.0f);
+        float start = f_start * (1 / 30.0f);
+        float end = f_end * (1 / 30.0f);
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
 
         Play();
