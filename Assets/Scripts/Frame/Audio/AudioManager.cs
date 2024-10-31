@@ -11,10 +11,7 @@ public class AudioManager : Singleton<AudioManager>
     public override void Awake()
     {
         base.Awake();
-    }
 
-    public void Start()
-    {
         if (m_AudioSource == null)
         {
             gameObject.TryGetComponent(out m_AudioSource);
@@ -25,6 +22,11 @@ public class AudioManager : Singleton<AudioManager>
                 m_AudioSource.playOnAwake = false;
             }
         }
+    }
+
+    public void Start()
+    {
+
     }
 
     /// <summary>
