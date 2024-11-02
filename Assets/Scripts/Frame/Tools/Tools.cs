@@ -191,6 +191,7 @@ public static class Tools
     {
         await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "\\ModelExplain\\" + GlobalData.ProjGroupName + "\\Step.txt", (dataStr) =>
         {
+            //Debug.Log(dataStr);
             List<StepStruct> list = new List<StepStruct>();
             JsonData js_data = JsonMapper.ToObject(dataStr);
             JsonData step = js_data["child"];
@@ -200,6 +201,7 @@ public static class Tools
                 string[] field = step[i].ToString().Split("_");
                 if (field.Length == 3)
                 {
+                    // Debug.Log($"{field[0]} | {field[1]} | {field[2]}");
                     // step_st.method = field[0];
                     step_st.tools = new List<string>(field[0].Split("|"));
                     step_st.stepName = field[1];
@@ -207,6 +209,7 @@ public static class Tools
                 }
                 else
                 {
+                    // Debug.Log($"{field[0]} | {field[1]}");
                     step_st.tools = new List<string>(field[0].Split("|"));
                     // step_st.stepName = field[1];
                     step_st.animLimite = new List<string>(field[1].Split("~"));
@@ -220,7 +223,7 @@ public static class Tools
             //Debug.Log("GlobalData.stepStructs Count: " + GlobalData.stepStructs.Count);
             GlobalData.canClone = true;
             GameMode.Instance.Prepare(); // Step录入完成后，游戏准备
-
+            // Debug.Log($"GlobalData.currExamsInfo.TrainingScore: {GlobalData.currExamsInfo.TrainingScore}");
             if (GlobalData.mode == Mode.Examination)
                 GameMode.Instance.oneStepScore = float.Parse(GlobalData.currExamsInfo.TrainingScore) / GlobalData.stepStructs.Count;
             

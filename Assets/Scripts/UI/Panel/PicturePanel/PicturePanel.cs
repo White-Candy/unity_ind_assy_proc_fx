@@ -30,7 +30,7 @@ public class PicturePanel : BasePanel
 
             string[] filesName = nameList[i].Split("/");
             string fileName = filesName[filesName.Count() - 1];
-            Debug.Log(fileName);
+            // Debug.Log(fileName);
 
             GameObject obj = Instantiate(m_Item, m_ItemParent.transform);
             obj.SetActive(true);

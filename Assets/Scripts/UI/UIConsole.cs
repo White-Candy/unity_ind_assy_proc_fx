@@ -9,12 +9,12 @@ public class UIConsole : MonoBehaviour
 
     public void Awake()
     {
-
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Start()
     {
-        DontDestroyOnLoad(gameObject);
+
     }
 
     public static T FindPanel<T>() where T : class, IBasePanel
@@ -50,7 +50,7 @@ public class UIConsole : MonoBehaviour
         if (t == null)
         {
             string path = "Prefabs/UI/Panel/" + typeof(T).ToString();
-            GameObject go = UnityEngine.Object.Instantiate(Resources.Load<GameObject>(path));
+            GameObject go = Instantiate(Resources.Load<GameObject>(path));
             if (go != null)
             {
                 t = go.GetComponent<T>();

@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviour
 
     }
 
-    public async void tart()
+    public async void Start()
     {
         _Instance = this;
         DontDestroyOnLoad(this);

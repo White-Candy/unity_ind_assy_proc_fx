@@ -174,6 +174,7 @@ public class GameMode : Singleton<GameMode>
             if (m_Tools.Count == 0)
             {   
                 if (GlobalData.mode == Mode.Examination) totalScore += oneStepScore;
+                //Debug.Log($"name : {GlobalData.stepStructs[GlobalData.StepIdx].stepName}, {GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]} | {GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]}");
                 float start = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[0]);
                 float end = float.Parse(GlobalData.stepStructs[GlobalData.StepIdx].animLimite[1]);
                 await ModelAnimControl._Instance.PlayAnim(start, end); // 播放这次流程步骤的动画

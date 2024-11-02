@@ -24,7 +24,7 @@ public class ModelPanel : BasePanel
 
     public Transform m_EquiItemParent; // 父组件
 
-    public TextMeshProUGUI m_DescriptionText; // 图标
+    public TextMeshProUGUI m_DescriptionText; // 介绍
 
     public Button m_RevertBtn; // 重置按钮
 
@@ -88,7 +88,7 @@ public class ModelPanel : BasePanel
         TextAsset textAsset = Resources.Load<TextAsset>($"Word/Tools/{name}");
         if (null == textAsset)
         {
-            m_DescriptionText.text = "描述文件丢失，请联系后台管理员";
+            m_DescriptionText.text = "";
         }
         else
         {
@@ -104,7 +104,8 @@ public class ModelPanel : BasePanel
             {
                 item?.SetActive(false);
                 Destroy(item);
-            }      
+            }
+            m_DescriptionText.text = "";
             bgObject.SetActive(false);
             m_list.Clear();
             m_list = new List<GameObject>();

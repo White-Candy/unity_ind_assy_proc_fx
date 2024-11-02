@@ -43,15 +43,15 @@ public class ModelAnimControl : MonoBehaviour
     private async void Awake()
     {
         _Instance = this;
-    
-    }
 
-    private async void Start()
-    {
         DontDestroyOnLoad(_Instance);
         m_Animtor = GetComponent<Animator>();
 
         ModelName = GlobalData.ProjGroupName;
+    }
+
+    private async void Start()
+    {
         // 获取 xxx.json 中的 当前步骤_施工要点
         await NetworkManager._Instance.DownLoadTextFromServer(Application.streamingAssetsPath + "/ModelExplain/" + GlobalData.ProjGroupName + "\\TXT.json", (str) =>
         {
@@ -169,14 +169,14 @@ public class ModelAnimControl : MonoBehaviour
     public async UniTask Slice(float f_start, float f_end)
     {
         // Debug.Log("In Slice!");
-        float start = f_start * (1 / 24.0f);
-        float end = f_end * (1 / 24.0f);
+        float start = 1.0f * f_start / 30.0f;
+        float end = 1.0f * f_end / 30.0f;
         float animTime = (end - start); // f_start 和 f_end 两个帧时间间隔
 
         Play();
         await UniTask.WaitForSeconds(0.1f);
-
-        m_Animtor.PlayInFixedTime("Play", 0, start); // 从 start时间开始播放动画
+        // Debug.Log($"Slice: {start}");
+        m_Animtor.PlayInFixedTime("Play", -1, start); // 从 start时间开始播放动画
         GoOn();
 
         await Delay(animTime);
@@ -197,15 +197,16 @@ public class ModelAnimControl : MonoBehaviour
     /// <returns></returns>
     private async UniTask Delay(float time)
     {
-        while (time > 0)
-        {
-            if (m_Animtor.speed != 0)
-            {
-                time -= 0.11f;
-            }
-            // Debug.Log(time);
-            await UniTask.Delay(100);
-        }
+        //while (time > 0)
+        //{
+        //    if (m_Animtor.speed != 0)
+        //    {
+        //        time -= 0.1f;
+        //    }
+        //    // Debug.Log(time);
+        //    await UniTask.Delay(100);
+        //}
+        await UniTask.WaitForSeconds(time);
     }
 
     /// <summary>

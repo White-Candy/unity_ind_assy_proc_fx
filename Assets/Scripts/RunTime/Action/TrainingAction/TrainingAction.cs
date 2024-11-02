@@ -21,7 +21,7 @@ public class TrainingAction : BaseAction
         var inf = GlobalData.scoresInfo.Find(x => x.className == GlobalData.usrInfo.UnitName && x.userName == GlobalData.usrInfo.userName 
                                              && x.courseName == GlobalData.currExamsInfo.CourseName && x.registerTime == GlobalData.currExamsInfo.RegisterTime);
         // Debug.Log($"{GlobalData.usrInfo.className} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
-        if (inf != null && inf.trainingFinished)
+        if (inf != null && inf.trainingFinished || GlobalData.practSubmit)
         {
             UITools.OpenDialog("考核完成", "已完成实训考核。", new ButtonData("确定", FPath.DialogBlue, () => { }));
             return;

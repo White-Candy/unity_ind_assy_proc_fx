@@ -15,14 +15,14 @@ public class BasePanel : MonoBehaviour, IBasePanel
 
     public virtual void Awake()
     {
-
-    }
-
-    public void Start()
-    {
         m_NameP = this.GetType().ToString();
         UIConsole.AddPanel(m_NameP, this);
         m_Visible = m_Content == null ? false : m_Content.activeSelf;
+    }
+
+    public virtual void Start()
+    {
+
     }
 
     /// <summary>

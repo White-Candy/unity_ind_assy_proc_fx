@@ -19,13 +19,12 @@ public class TimerConsole : Singleton<TimerConsole>
     {
         base.Awake();
 
+        m_Root = new GameObject("TimerList");
+        m_Pool.AddListener(Instance);
     }
 
     public void Start()
     {
-        m_Root = new GameObject("TimerList");
-        m_Pool.AddListener(Instance);
-
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnUnSceneLoaded;
 

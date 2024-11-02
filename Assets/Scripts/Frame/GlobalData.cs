@@ -73,6 +73,8 @@ public static class GlobalData
     public static ScoreInfo currScoreInfo = new ScoreInfo(); // 当前用户的选择考试课程的成绩信息
     public static int ExamTime = 10; // 考核时间（分钟）
     public static List<ScoreInfo> scoresInfo = new List<ScoreInfo>(); // 成绩信息
+    public static bool theorSubmit = false; // 理论考试是否提交
+    public static bool practSubmit = false; // 实训考试是否提交
 
     // 场景模型实例
     public static GameObject SceneModel;
