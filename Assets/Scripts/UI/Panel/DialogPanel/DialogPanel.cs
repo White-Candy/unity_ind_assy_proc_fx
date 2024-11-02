@@ -40,14 +40,14 @@ public class DialogPanel : BasePanel
     public override void Awake()
     {
         base.Awake();
+
+        DontDestroyOnLoad(this);
+
+        m_Pool.AddListener(OnInstanceItem);
     }
 
     public void Start()
     {
-        DontDestroyOnLoad(this);
-
-        m_Pool.AddListener(OnInstanceItem);
-
         closeButton.onClick.AddListener(() => 
         {
             Active(false);

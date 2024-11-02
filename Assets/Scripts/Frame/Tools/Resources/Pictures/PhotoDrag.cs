@@ -18,13 +18,13 @@ public class PhotoDrag : MonoBehaviour,IBeginDragHandler,IDragHandler,IEndDragHa
 
     private void Awake()
     {
-
+        m_ImageTransform = this.transform;
     }
 
     public void Start()
     {
         rt = this.transform.GetComponent<RectTransform>();
-        m_ImageTransform = this.transform;
+        
         //初始化当前图片大小
         m_ImageTransform.localScale = Vector3.one;
     }

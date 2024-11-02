@@ -24,7 +24,7 @@ public class TheoreticalExamAction : BaseAction
                                              && x.courseName == GlobalData.currExamsInfo.CourseName && x.registerTime == GlobalData.currExamsInfo.RegisterTime);
                                              
         //Debug.Log($"{GlobalData.usrInfo.UnitName} | {GlobalData.usrInfo.userName} | {GlobalData.currExamsInfo.CourseName} | {GlobalData.currExamsInfo.RegisterTime} ");
-        if (inf != null && inf.theoryFinished)
+        if (inf != null && inf.theoryFinished || GlobalData.theorSubmit)
         {
             UITools.OpenDialog("考核完成", "已完成理论考核。", new ButtonData("确定", FPath.DialogBlue, () => { }));
             return;
@@ -69,6 +69,6 @@ public class TheoreticalExamAction : BaseAction
     public override void Exit(Action callback)
     {
         base.Exit(callback);
-        m_Panel.Close();
+        if (m_Panel) m_Panel.Close();
     }
 }

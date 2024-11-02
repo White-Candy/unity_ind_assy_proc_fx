@@ -55,7 +55,7 @@ public class PictureAction : BaseAction
         m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
 #elif UNITY_WEBGL
         string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
-            Debug.Log("tupian an config path: "  + configPath);
+            // Debug.Log("tupian an config path: "  + configPath);
         m_Paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".png");
 #endif
         List<Sprite> sprites = new List<Sprite>();

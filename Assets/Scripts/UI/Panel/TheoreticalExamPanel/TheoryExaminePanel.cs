@@ -113,7 +113,11 @@ public class TheoryExaminePanel : BasePanel
     /// </summary>
     public void FinishAction()
     {
-        UITools.OpenDialog("成绩提交", "是否提交本次理论考核？", new ButtonData("取消", FPath.DialogWhite, () => { }), new ButtonData("确定", FPath.DialogBlue, () => { ExamineSubmit(); }));
+        UITools.OpenDialog("成绩提交", "是否提交本次理论考核？", new ButtonData("取消", FPath.DialogWhite, () => { }), new ButtonData("确定", FPath.DialogBlue, () => 
+        { 
+            ExamineSubmit();
+            GlobalData.theorSubmit = true;
+        }));
     }
 
     public void ExamineSubmit()

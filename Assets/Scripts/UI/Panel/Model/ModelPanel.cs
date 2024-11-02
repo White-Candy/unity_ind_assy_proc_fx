@@ -24,7 +24,7 @@ public class ModelPanel : BasePanel
 
     public Transform m_EquiItemParent; // 父组件
 
-    public TextMeshProUGUI m_DescriptionText; // 介绍文本
+    public TextMeshProUGUI m_DescriptionText; // 介绍
 
     public Button m_RevertBtn; // 重置按钮
 

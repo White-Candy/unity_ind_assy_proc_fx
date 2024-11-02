@@ -341,7 +341,7 @@ public class VideoPlayerControl
         m_Player.targetTexture = m_Texture;
         m_RawImg.texture = m_Texture;
 
-        Debug.Log("Video Play");
+        // Debug.Log("Video Play");
         m_Player.Play();
     }
 

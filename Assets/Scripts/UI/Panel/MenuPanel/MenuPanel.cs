@@ -95,7 +95,7 @@ public class MenuPanel : BasePanel
         await Utilly.DownLoadTextFromServer(Application.streamingAssetsPath + "\\Config\\WebGLTargetMode.txt", async (text) => 
         {
             string[] split = text.Split("|");
-            Debug.Log($"BuildMenuList: {split[0]} | {split[1]}");
+            // Debug.Log($"BuildMenuList: {split[0]} | {split[1]}");
             Proj project = new Proj()
             {
                 Columns = split[0],

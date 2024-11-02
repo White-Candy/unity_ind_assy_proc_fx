@@ -126,9 +126,13 @@ public class InfoPanel : BasePanel
     // 考核模式成绩提交
     private void SubmitScore()
     {
-        UITools.OpenDialog("考核提交", $"是否提交{GlobalData.ProjGroupName}的实训成绩？",
+        UITools.OpenDialog("考核提交", $"是否提交{GlobalData.courseName}的实训成绩？",
                 new ButtonData("取消", FPath.DialogWhite, () => { }),
-                new ButtonData("确定", FPath.DialogBlue, () => { ExamineSubmit(); }));
+                new ButtonData("确定", FPath.DialogBlue, () => 
+                {
+                    ExamineSubmit();
+                    GlobalData.practSubmit = true;
+                }));
     }
 
 
@@ -172,8 +176,16 @@ public class InfoPanel : BasePanel
     {
         // GlobalData.currModuleName = "";
         float trainingScore = GameMode.Instance.totalScore;
+
+        GlobalData.currScoreInfo.userName = GlobalData.usrInfo.userName;
+        GlobalData.currScoreInfo.Name = GlobalData.usrInfo.Name;
+        GlobalData.currScoreInfo.className = GlobalData.usrInfo.UnitName;
+
+        GlobalData.currScoreInfo.columnsName = GlobalData.columnsName;
+        GlobalData.currScoreInfo.courseName = GlobalData.courseName;
+        GlobalData.currScoreInfo.registerTime = GlobalData.currExamsInfo.RegisterTime;
         GlobalData.currScoreInfo.trainingScore = trainingScore.ToString();
-        GlobalData.currScoreInfo.trainingFinished = true;            
+        GlobalData.currScoreInfo.trainingFinished = true;
         // Debug.Log("training Score total: " + trainingScore);
         HTTPConsole.SendAsyncPost(JsonMapper.ToJson(GlobalData.currScoreInfo), EventType.ScoreEvent, OperateType.REVISE);
         Utilly.ExitModeSceneAction();

@@ -69,7 +69,7 @@ public class CameraMovementController : Singleton<CameraMovementController>
             return;
         if (Input.GetMouseButton(1))
         {
-            CursorActive(false);
+            //CursorActive(false);
             m_Yaw += Input.GetAxis("Mouse X") * Time.deltaTime * m_RotateSpeed;
             m_Pitch -= Input.GetAxis("Mouse Y") * Time.deltaTime * m_RotateSpeed;
             
@@ -77,7 +77,7 @@ public class CameraMovementController : Singleton<CameraMovementController>
             m_Yaw = ClampAngle(m_Yaw, m_MinYawAngle, m_MaxYawAngle);
             m_IdleTime = 0f;
         }
-        else if (Input.GetMouseButtonUp(1)) { CursorActive(true); }
+        //else if (Input.GetMouseButtonUp(1)) { CursorActive(true); }
 
         if (isAutoRotate)
         {
