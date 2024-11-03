@@ -49,17 +49,11 @@ public class PictureAction : BaseAction
 
     private async UniTask<List<Sprite>> LoadPictureAsync(string name)
     {
-#if UNITY_STANDALONE_WIN
         m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
         await NetHelper.RsCkAndDLReq(m_Paths, name);
         m_Paths = NetworkManager._Instance.DownLoadAaset(name, "png");
-#elif UNITY_WEBGL
-        string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
-            Debug.Log("tupian an config path: "  + configPath);
-        m_Paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".png");
-#endif
-        List<Sprite> sprites = new List<Sprite>();
 
+        List<Sprite> sprites = new List<Sprite>();
         if (m_Paths.Count == 0)
             UITools.ShowMessage("当前模块没有图片资源");
 

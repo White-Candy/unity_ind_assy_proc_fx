@@ -32,7 +32,6 @@ public class MenuGridPanel : BasePanel
     public override async void Start()
     {
         BuildItem();
-
 #if UNITY_STANDALONE_WIN
         Active(false);
 #elif UNITY_WEBGL

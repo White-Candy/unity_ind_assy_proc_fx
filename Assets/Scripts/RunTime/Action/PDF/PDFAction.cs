@@ -29,17 +29,15 @@ public class PDFAction : BaseAction
         if (!m_initList.ContainsKey(name))
         {
             List<string> paths = new List<string>();
-#if UNITY_STANDALONE_WIN
-            paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
-            await NetHelper.RsCkAndDLReq(paths, name);
-            paths = NetworkManager._Instance.DownLoadAaset(name, "pdf");
-#elif UNITY_WEBGL
             string configPath = FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name);
-            Debug.Log("jiao an config path: "  + configPath);
             paths = await FileHelper.DownLoadConfig(name, configPath + "\\Config.txt", ".pdf");
-#endif
-            m_Panel = UIConsole.FindAssetPanel<PDFPanel>();
+            if (paths.Count == 0)
+            {
+                UITools.ShowMessage("当前模块没有PDF资源");
+                return;
+            }
 
+            m_Panel = UIConsole.FindAssetPanel<PDFPanel>();
             m_Panel.Init(paths, name);
             m_initList.Add(name, paths);
             m_init = true;

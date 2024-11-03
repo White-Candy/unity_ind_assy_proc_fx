@@ -23,16 +23,16 @@ public class NetworkManager : MonoBehaviour
             URL.IP = $"http://{ip}/";
 
             // 与局服务器连接请求
-            string[] split = ip.Split(":");
-            TCP.Connect(split[0], int.Parse(split[1]));
+            //string[] split = ip.Split(":");
+            //TCP.Connect(split[0], int.Parse(split[1]));
         });
     }
 
     public void Update()
     {
-        if (TCP.m_MessQueue.Count > 0)
+        if (HTTPConsole.m_MessQueue.Count > 0)
         {
-            MessPackage pkg = TCP.m_MessQueue.Dequeue();
+            MessPackage pkg = HTTPConsole.m_MessQueue.Dequeue();
             BaseEvent @event = Tools.CreateObject<BaseEvent>(pkg.event_type);
             @event.OnEvent(pkg);
         }
