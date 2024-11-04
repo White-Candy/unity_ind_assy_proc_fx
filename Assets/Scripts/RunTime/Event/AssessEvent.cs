@@ -233,8 +233,8 @@ public class ScoreInfo
     public string registerTime; // 该次考试的注册时间
     public string userName;
     public string Name;
-    public string theoryScore = "";
-    public string trainingScore = "";
+    public string theoryScore = "0";
+    public string trainingScore = "0";
     public bool theoryFinished = false; //本次理论考试是否完成
     public bool trainingFinished = false; //本次实训考试是否完成
 
