@@ -123,8 +123,8 @@ public class SingleChoice
         single.Topic = Topic;
         single.toA = toA.Clone();
         single.toB = toB.Clone();
-        single.toC = toB.Clone();
-        single.toD = toB.Clone();
+        single.toC = toC.Clone();
+        single.toD = toD.Clone();
         single.Answer = Answer;
         single.Score = Score;
         return single;
