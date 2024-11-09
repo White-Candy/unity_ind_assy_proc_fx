@@ -263,13 +263,12 @@ public static class Tools
     /// </summary>
     private static void SpawnTask()
     {
-        DragTask task;
-        task = new DragTask();
-        if (!task.IsInit)
+        DragTask dragTask = new DragTask();
+        if (!dragTask.IsInit)
         {
-            task.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("MainCanvas/InfoPanel").transform); //MenuPanel/Content/BG
+            dragTask.Init(GlobalData.Tools, GlobalData.Materials, GameObject.Find("MainCanvas/InfoPanel").transform); //MenuPanel/Content/BG
         }
-        task.Show();      
+        dragTask.Show();      
     }
 
     /// <summary>

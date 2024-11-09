@@ -29,7 +29,7 @@ public class SelectStepPanel : BasePanel
         base.Awake();
     }
 
-    private void Start()
+    public override void Start()
     {
         // this.gameObject.SetActive(false);
         //m_Parent = transform.Find("Content");
@@ -57,6 +57,7 @@ public class SelectStepPanel : BasePanel
             Destroy(item.gameObject);
         }
         m_Items.Clear();
+        stepNameList.Clear();
 
         for (int i = 0; i < GlobalData.stepStructs.Count; ++i)
         {

@@ -50,6 +50,8 @@ public class ModuleSelectPanel : BasePanel
         {
             m_ParentTrans.GetChild(i).gameObject.SetActive(false);
         }
+
+        GlobalData.ExitUser();
         UITools.Loading("Login");
         // m_TaskListPanel.SetActive(false);
     }

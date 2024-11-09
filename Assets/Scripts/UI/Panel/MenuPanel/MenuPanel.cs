@@ -123,8 +123,8 @@ public class MenuPanel : BasePanel
                 if (examinesInfo.Count > 0) 
                 {
                     GlobalData.currExamsInfo = examinesInfo[0];
-                    if (m_MenuGridPanel) Debug.Log("m_MenuGridPanel is vaild!");
-                    else Debug.Log("m_MenuGridPanel is not vaild!");
+                    //if (m_MenuGridPanel) Debug.Log("m_MenuGridPanel is vaild!");
+                    //else Debug.Log("m_MenuGridPanel is not vaild!");
                     m_MenuGridPanel.Active(true); 
                 }
                 else UITools.OpenDialog("理论考题", "该模块没有考题。", new ButtonData("确定", FPath.DialogBlue, () => { }));

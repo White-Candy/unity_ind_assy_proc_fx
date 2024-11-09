@@ -44,7 +44,7 @@ public static class Utilly
         MenuPanel._instance.SetActiveMenuList(true);
         TitlePanel._instance.SetTitle(GlobalData.currModuleName);
 
-        UnityEngine.Object.Destroy(GlobalData.SceneModel.gameObject);
+        UnityEngine.Object.DestroyImmediate(GlobalData.SceneModel.gameObject);
         GlobalData.DestroyModel = true;
         GlobalData.StepIdx = 0;
         GlobalData.currItemMode = "";
