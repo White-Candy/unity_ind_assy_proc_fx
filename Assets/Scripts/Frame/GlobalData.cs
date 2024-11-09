@@ -87,4 +87,9 @@ public static class GlobalData
 
     // 是否为最新的资源(PDF, 视频，图片)
     public static bool IsLatestRes = false;
+
+    public static void ExitUser()
+    {
+
+    }
 }

@@ -55,6 +55,8 @@ public class TitlePanel : BasePanel
     public void SetTitlePanelActive(bool b)
     {
         titlePanel.SetActive(b);
+        if (GlobalData.mode == Mode.Examination) 
+            exitButton.gameObject.SetActive(b);
     }
 
     public void SetTitle(string title)

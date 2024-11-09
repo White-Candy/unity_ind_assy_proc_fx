@@ -61,7 +61,7 @@ public class SubMenuDragItem : MonoBehaviour, IDragHandler, IBeginDragHandler, I
     /// <param name="eventdata"></param>
     public void OnEndDrag(PointerEventData eventdata)
     {
-       // Debug.Log("OnEndDrag: " + m_Name);
+        Debug.Log("OnEndDrag: " + m_Name);
         if (m_ItemModel != null)
         {
             RaycastHit hit;

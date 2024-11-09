@@ -47,10 +47,12 @@ public class GameMode : Singleton<GameMode>
 
     public async void Start()
     {
+        Debug.Log("GameMode Start!!!!!!!!!!!!!!");
         await UniTask.WaitUntil(() => GlobalData.stepStructs.Count != 0);
-
+        Debug.Log("GameMode Start222!!!!!!!!!!!!!!");
         m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
-        // Debug.Log(m_arrowTrans.Count);
+        Debug.Log(m_arrowTrans.Count);
+
         // 提示物体位置的调整
         for (int i = 0; i < m_arrowTrans.Count && i < GlobalData.stepStructs.Count; i++)
         {
@@ -88,20 +90,7 @@ public class GameMode : Singleton<GameMode>
         }
     }
 
-    private void FixedUpdate()
-    {
-        StateMachine();
-    }
-
-    private void OnEnable()
-    {
-        //UnityEventCenter.AddListener(EnumDefine.EventKey.NotificationCallback, UpdateRealBody);
-    }
-
-    private void OnDisable()
-    {
-        //UnityEventCenter.RemoveEventLister(EnumDefine.EventKey.NotificationCallback);
-    }
+    public void Update() { StateMachine(); }
 
     private void StateMachine()
     {
@@ -192,10 +181,10 @@ public class GameMode : Singleton<GameMode>
         if (GlobalData.stepStructs != null && GlobalData.stepStructs.Count > 0)
         {
             await UniTask.WaitUntil(() => m_Init == true);
-            // Debug.Log("PrepareDragStep: " + GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans.position);
-            var new_trans = GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans;
+            // Debug.Log($"PrepareDragStep: {GlobalData.StepIdx}");
+            // Debug.Log($"PrepareDragStep: {GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans}");
 
-            // Debug.Log("UpdateArrowTrans(): " + new_trans.localPosition);
+            var new_trans = GlobalData.stepStructs[GlobalData.StepIdx].arrowTrans;
             m_Arrow.transform.localPosition = new_trans.localPosition;
             m_Arrow.transform.localRotation = new_trans.localRotation;
         }
@@ -236,6 +225,7 @@ public class GameMode : Singleton<GameMode>
         if (GlobalData.StepIdx + 1 < GlobalData.stepStructs.Count)
         {
             GlobalData.StepIdx++;
+            //StateMachine();
             if (GlobalData.mode != Mode.Examination)
             {
                 AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip); // 播放新步骤的提示音
@@ -279,6 +269,13 @@ public class GameMode : Singleton<GameMode>
     public string NumberOfToolsRemaining()
     {
         return m_Tools.Count.ToString();
+    }
+
+    public void OnDestroy()
+    {
+        Debug.Log("GameMode On Destroy!");
+        m_Init = false;
+        GlobalData.stepStructs = new List<StepStruct>();
     }
 
     // private void UpdateRealBody(IMessage msg)

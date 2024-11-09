@@ -21,6 +21,8 @@ public class DragTask
     private List<string> m_Tools;
     private List<string> m_Materials;
 
+    private SubMenuDragGrid m_SubMenuDragGrid;
+
     public bool IsInit { get; protected set; }
 
     /// <summary>
@@ -48,9 +50,9 @@ public class DragTask
     /// </summary>
     protected virtual void SpawnSubMenus()
     {
-        SubMenuDragGrid subMenuDragGrid = Object.Instantiate(Resources.Load<SubMenuDragGrid>("Prefabs/UI/Control/SubMenuDragGrid"), m_SubMenuGridParent);
-        SubMenuGridInit("ToolScrolView", m_Tools, out m_ToolSubMenuGrid, subMenuDragGrid);
-        SubMenuGridInit("MaterialScrolView", m_Materials, out m_MaterialSubMenuGrid, subMenuDragGrid);
+        m_SubMenuDragGrid = Object.Instantiate(Resources.Load<SubMenuDragGrid>("Prefabs/UI/Control/SubMenuDragGrid"), m_SubMenuGridParent);
+        SubMenuGridInit("ToolScrolView", m_Tools, out m_ToolSubMenuGrid, m_SubMenuDragGrid);
+        SubMenuGridInit("MaterialScrolView", m_Materials, out m_MaterialSubMenuGrid, m_SubMenuDragGrid);
     }
 
     private void SubMenuGridInit(string name, List<string> list, out SubMenuGrid grid, SubMenuDragGrid subMenuDragGrid)
@@ -65,6 +67,8 @@ public class DragTask
 
     public virtual void Exit()
     {
+        if (m_SubMenuDragGrid) m_SubMenuDragGrid.gameObject.SetActive(false);
+        Object.Destroy(m_SubMenuDragGrid);
         ClearData();
         DestoryGridObj();
     }
