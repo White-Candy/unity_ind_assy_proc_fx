@@ -57,11 +57,14 @@ public class FileHelper
         List<string> paths = new List<string>();
         await Utilly.DownLoadTextFromServer(configPath, (text) => 
         {
-            string[] strs = text.Split('_');
-            for (int i = 0; i < strs.Length; i++)
+            if (text.Count() != 0)
             {
-                paths.Add(FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name) + "/" + strs[i] + suffix);
-            }    
+                string[] strs = text.Split('_');
+                for (int i = 0; i < strs.Length; i++)
+                {
+                    paths.Add(FPath.AssetRootPath + GlobalData.ProjGroupName + Tools.GetModulePath(name) + "/" + strs[i] + suffix);
+                }
+            }
         });
         return paths;
     }
