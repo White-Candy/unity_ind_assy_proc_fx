@@ -47,9 +47,7 @@ public class GameMode : Singleton<GameMode>
 
     public async void Start()
     {
-        Debug.Log("GameMode Start!!!!!!!!!!!!!!");
         await UniTask.WaitUntil(() => GlobalData.stepStructs.Count != 0);
-        Debug.Log("GameMode Start222!!!!!!!!!!!!!!");
         m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
         Debug.Log(m_arrowTrans.Count);
 
@@ -71,9 +69,11 @@ public class GameMode : Singleton<GameMode>
             GlobalData.stepStructs[i] = step_info;
         }
 
+        Debug.Log("mode: " + GlobalData.mode);
         // 播放第一个提示音
         if (GlobalData.mode != Mode.Examination)
         {
+            Debug.Log("Audio Play");
             AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip);
         }
         m_Init = true;
@@ -228,6 +228,7 @@ public class GameMode : Singleton<GameMode>
             //StateMachine();
             if (GlobalData.mode != Mode.Examination)
             {
+                Debug.Log("Audio Play");
                 AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip); // 播放新步骤的提示音
             }
             SetStep(GlobalData.StepIdx);
@@ -260,6 +261,7 @@ public class GameMode : Singleton<GameMode>
                 float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
                 // Debug.Log(frame);
                 await ModelAnimControl._Instance.Slice(frame, frame + 1); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
+                AudioManager.Instance.Play(GlobalData.stepStructs[i].clip);
             }
             Prepare();
         }
@@ -273,7 +275,7 @@ public class GameMode : Singleton<GameMode>
 
     public void OnDestroy()
     {
-        Debug.Log("GameMode On Destroy!");
+        // Debug.Log("GameMode On Destroy!");
         m_Init = false;
         GlobalData.stepStructs = new List<StepStruct>();
     }

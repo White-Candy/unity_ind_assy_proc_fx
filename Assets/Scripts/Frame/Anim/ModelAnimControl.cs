@@ -174,7 +174,7 @@ public class ModelAnimControl : MonoBehaviour
 
         Play();
         await UniTask.WaitForSeconds(0.1f);
-        Debug.Log(start);
+        // Debug.Log(start);
         m_Animtor.PlayInFixedTime("Play", 0, start); // 从 start时间开始播放动画
         GoOn();
 

@@ -1386,6 +1386,7 @@ GameObject:
   - component: {fileID: 972267939}
   - component: {fileID: 972267938}
   - component: {fileID: 972267942}
+  - component: {fileID: 972267943}
   m_Layer: 5
   m_Name: MainCanvas
   m_TagString: Untagged
@@ -1492,6 +1493,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff60e6225285684791420a09d93fc83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &972267943
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972267937}
+  m_Enabled: 1
 --- !u!1 &1098155958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,7 +2560,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1320495926}
   - component: {fileID: 1320495925}
-  - component: {fileID: 1320495924}
   - component: {fileID: 1320495927}
   - component: {fileID: 1320495928}
   m_Layer: 0
@@ -2561,14 +2569,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1320495924
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1320495923}
-  m_Enabled: 1
 --- !u!20 &1320495925
 Camera:
   m_ObjectHideFlags: 0
