@@ -11,7 +11,7 @@ public class AudioManager : Singleton<AudioManager>
     public override void Awake()
     {
         base.Awake();
-
+        // Debug.Log("Audio Awake");
         if (m_AudioSource == null)
         {
             gameObject.TryGetComponent(out m_AudioSource);
@@ -38,11 +38,10 @@ public class AudioManager : Singleton<AudioManager>
         if (m_AudioSource != null && clip != null)
         {
             if (m_AudioSource.isPlaying)
-            {
                 m_AudioSource.Stop();
-                m_AudioSource.clip = clip;
-                m_AudioSource.Play();
-            }
+
+            m_AudioSource.clip = clip;
+            m_AudioSource.Play();
         }
     }
 
