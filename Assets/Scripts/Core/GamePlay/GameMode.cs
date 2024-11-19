@@ -226,11 +226,7 @@ public class GameMode : Singleton<GameMode>
         {
             GlobalData.StepIdx++;
             //StateMachine();
-            if (GlobalData.mode != Mode.Examination)
-            {
-                Debug.Log("Audio Play");
-                AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip); // 播放新步骤的提示音
-            }
+
             SetStep(GlobalData.StepIdx);
         }
         else
@@ -260,7 +256,7 @@ public class GameMode : Singleton<GameMode>
                 // TODO..这部分代码可能存在冗余，后续要修改
                 float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
                 // Debug.Log(frame);
-                await ModelAnimControl._Instance.Slice(frame, frame + 1); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
+                await ModelAnimControl._Instance.Slice(frame, frame + 0.1f); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
                 AudioManager.Instance.Play(GlobalData.stepStructs[i].clip);
             }
             Prepare();

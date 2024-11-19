@@ -43,7 +43,7 @@ public class InfoPanel : BasePanel
         base.Awake();
     }
 
-    private void Start()
+    public override void Start()
     {
         _instance = this;
         Active(false);
@@ -97,9 +97,15 @@ public class InfoPanel : BasePanel
     private void AudioButtonClicked()
     {
         if (m_OpenAudio)
+        {
             m_Audio.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Training/Audio");
+            AudioManager.Instance.SetVolume(1.0f);
+        }
         else
+        {
             m_Audio.GetComponent<Image>().sprite = Resources.Load<Sprite>("Textures/NewUI/Training/AudioOpen");
+            AudioManager.Instance.SetVolume(0.0f);
+        }
 
         m_OpenAudio = !m_OpenAudio;
     }

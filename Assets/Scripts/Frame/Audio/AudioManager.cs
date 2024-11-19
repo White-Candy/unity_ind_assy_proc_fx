@@ -78,4 +78,13 @@ public class AudioManager : Singleton<AudioManager>
             m_AudioSource.Play();
         }
     }
+
+    /// <summary>
+    /// ÒôÁ¿µ÷½Ú
+    /// </summary>
+    /// <param name="volume"></param>
+    public void SetVolume(float volume)
+    {
+        m_AudioSource.volume = volume;
+    }
 }
