@@ -37,7 +37,7 @@ public class TitlePanel : BasePanel
         if (GlobalData.SceneModel != null)
         {
             Utilly.ExitModeSceneAction();
-            
+            AudioManager.Instance.Stop();
 #if UNITY_WEBGL
             GlobalData.currModuleName = "";
             UITools.Loading("Menu");
