@@ -49,7 +49,7 @@ public class GameMode : Singleton<GameMode>
     {
         await UniTask.WaitUntil(() => GlobalData.stepStructs.Count != 0);
         m_arrowTrans = GameObject.FindGameObjectsWithTag("trans").ToList();
-        Debug.Log(m_arrowTrans.Count);
+        Debug.Log("GameMode Start: " + m_arrowTrans.Count);
 
         // 提示物体位置的调整
         for (int i = 0; i < m_arrowTrans.Count && i < GlobalData.stepStructs.Count; i++)
@@ -73,8 +73,8 @@ public class GameMode : Singleton<GameMode>
         // 播放第一个提示音
         if (GlobalData.mode != Mode.Examination)
         {
-            Debug.Log("Audio Play");
-            AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip);
+            //Debug.Log("Audio Play");
+            // AudioManager.Instance.Play(GlobalData.stepStructs[GlobalData.StepIdx].clip);
         }
         m_Init = true;
 
@@ -257,7 +257,7 @@ public class GameMode : Singleton<GameMode>
                 float frame = float.Parse(GlobalData.stepStructs[i].animLimite[0]);
                 // Debug.Log(frame);
                 await ModelAnimControl._Instance.Slice(frame, frame + 0.1f); // 这是为了 显示这一步场景中模型的状态[每一步模型都会改变]
-                AudioManager.Instance.Play(GlobalData.stepStructs[i].clip);
+                //AudioManager.Instance.Play(GlobalData.stepStructs[i].clip);
             }
             Prepare();
         }

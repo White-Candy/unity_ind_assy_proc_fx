@@ -38,6 +38,8 @@ public class InfoPanel : BasePanel
 
     private bool m_OpenAudio = false;
 
+    private int m_OldStepIdx = -1;
+
     public override void Awake()
     {
         base.Awake();
@@ -89,6 +91,11 @@ public class InfoPanel : BasePanel
     {
         if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < ModelAnimControl._Instance.m_ConPtStep.Count)
         {
+            if (GlobalData.StepIdx != m_OldStepIdx)
+            {
+                m_OldStepIdx = GlobalData.StepIdx;
+                AudioManager.Instance.Play(GameMode.Instance.m_AudioClip[GlobalData.StepIdx]);
+            } 
             m_StepText.text = ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].step;
             m_IntroduceText.text = "     " + ModelAnimControl._Instance.m_ConPtStep?[GlobalData.StepIdx].constrPt;
         }
