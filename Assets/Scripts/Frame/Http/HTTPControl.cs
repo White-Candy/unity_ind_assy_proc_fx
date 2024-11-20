@@ -42,6 +42,7 @@ public class HTTPConsole
             FileHelper.WriteFileByLine(Application.streamingAssetsPath, "HTTPLog.txt", text);
 #endif
             HttpFieldProcessing(text);
+            GlobalData.RequestOnce = false;
         });       
     }
 

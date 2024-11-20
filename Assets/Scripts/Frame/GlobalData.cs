@@ -88,8 +88,11 @@ public static class GlobalData
     // 是否为最新的资源(PDF, 视频，图片)
     public static bool IsLatestRes = false;
 
+    public static bool RequestOnce = false; // 登录按钮只能请求一次
+
     public static void ExitUser()
     {
-
+        theorSubmit = false;
+        practSubmit = false;
     }
 }

@@ -84,13 +84,17 @@ public class LoginPanel : BasePanel
     {
         if (UITools.InputFieldCheck(m_UserIF.text, "用户名不能为空")) { return; }
         if (UITools.InputFieldCheck(m_PwdIF.text, "密码不能为空")) { return; }
-        
-        // 客户端请求登录
-        UserInfo inf = new UserInfo()
+
+        if (!GlobalData.RequestOnce)
         {
-            userName = m_UserIF.text,
-            password = m_PwdIF.text
-        };
-        HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
+            // 客户端请求登录
+            UserInfo inf = new UserInfo()
+            {
+                userName = m_UserIF.text,
+                password = m_PwdIF.text
+            };
+            HTTPConsole.SendAsyncPost(JsonMapper.ToJson(inf), EventType.UserLoginEvent, OperateType.NONE);
+            GlobalData.RequestOnce = true;
+        }
     }
 }
