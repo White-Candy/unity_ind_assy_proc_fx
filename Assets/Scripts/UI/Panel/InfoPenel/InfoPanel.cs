@@ -91,7 +91,7 @@ public class InfoPanel : BasePanel
     {
         if (GlobalData.StepIdx >= 0 && GlobalData.StepIdx < ModelAnimControl._Instance.m_ConPtStep.Count)
         {
-            if (GlobalData.StepIdx != m_OldStepIdx)
+            if (GlobalData.StepIdx != m_OldStepIdx && GlobalData.StepIdx >= 0 && GlobalData.StepIdx < GameMode.Instance.m_AudioClip.Count)
             {
                 m_OldStepIdx = GlobalData.StepIdx;
                 AudioManager.Instance.Play(GameMode.Instance.m_AudioClip[GlobalData.StepIdx]);
