@@ -16,7 +16,7 @@ public class CameraMovementController : Singleton<CameraMovementController>
 
     [SerializeField]private float m_RotLerpSpeed = 10f;
     
-    [SerializeField]private float m_Distance = 5f;//相机与模型的距离
+    [SerializeField]private float m_Distance = 1.5f;//相机与模型的距离
 
     [SerializeField]private float m_MinYawAngle = -360f;
     [SerializeField]private float m_MaxYawAngle = 360f;
