@@ -28,6 +28,15 @@ public class UserInfo
     public string hint = "";
 }
 
+/// <summary>
+/// 人次统计
+/// </summary>
+public class NumOfPeopleInfo
+{
+    public string moduleName = "";
+    public long count = 0;
+}
+
 
 public class LoginPanel : BasePanel
 {
