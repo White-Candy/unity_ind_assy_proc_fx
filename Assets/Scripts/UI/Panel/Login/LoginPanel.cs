@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.TextCore;
 using UnityEngine.UI;
 
 /// <summary>
@@ -37,6 +38,15 @@ public class NumOfPeopleInfo
     public long count = 0;
 }
 
+/// <summary>
+/// 时长统计
+/// </summary>
+public class UsrTimeInfo
+{
+    public string usrName = "";
+    public string moduleName = "";
+    public long min = 1; // 分钟
+}
 
 public class LoginPanel : BasePanel
 {

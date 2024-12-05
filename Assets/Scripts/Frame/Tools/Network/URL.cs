@@ -54,4 +54,9 @@ public class URL
     {
         get { return IP + "NumOfPeople"; }
     }
+
+    public static string usrTimeOfModule
+    {
+        get { return IP + "UsrTime"; }
+    }
 }
