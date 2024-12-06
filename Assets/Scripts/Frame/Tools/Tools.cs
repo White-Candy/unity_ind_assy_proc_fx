@@ -10,6 +10,7 @@ using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 using Random = UnityEngine.Random;
@@ -397,6 +398,21 @@ public static class Tools
 
             await UniTask.WaitUntil(() => GlobalData.IsLatestRes == true);
             GlobalData.IsLatestRes = false;
+        }
+    }
+
+    public static async void UsrTimeUpdate()
+    {
+        while(true)
+        {
+            await UniTask.Delay(60000);
+            UsrTimeInfo usrTimeInfo = new UsrTimeInfo();
+            usrTimeInfo.usrName = GlobalData.usrInfo.userName;
+            usrTimeInfo.moduleName = GlobalData.courseName;
+            usrTimeInfo.min = 1;
+
+            string s_inf = JsonMapper.ToJson(usrTimeInfo);
+            HTTPConsole.NativeHttpSend(URL.usrTimeOfModule, s_inf, (text) => { }, UnityWebRequest.kHttpVerbPOST);
         }
     }
 }

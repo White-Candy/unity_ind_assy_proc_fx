@@ -1,7 +1,6 @@
 using Cysharp.Threading.Tasks;
 using LitJson;
-
-using UnityEngine;
+using UnityEngine.Networking;
 
 public class UserLoginEvent : BaseEvent
 {
@@ -15,6 +14,14 @@ public class UserLoginEvent : BaseEvent
         if (info.login)
         {
             UITools.Loading("Menu");
+
+            NumOfPeopleInfo nop = new NumOfPeopleInfo();
+            nop.moduleName = GlobalData.courseName;
+            nop.count = 1;          
+            string nopReqStr = JsonMapper.ToJson(nop);
+            HTTPConsole.NativeHttpSend(URL.numberOfPeople, nopReqStr, (text) => { }, UnityWebRequest.kHttpVerbPOST);
+
+            Tools.UsrTimeUpdate();
         }
 
         UITools.ShowMessage(info.hint);

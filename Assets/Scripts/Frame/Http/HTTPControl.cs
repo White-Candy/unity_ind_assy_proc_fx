@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LitJson;
 using Unity.VisualScripting;
+using System;
 
 public class HTTPConsole
 {
@@ -21,6 +22,18 @@ public class HTTPConsole
         {
             InforProcessing(message, mp);
         }           
+    }
+
+
+    /// <summary>
+    /// 原生HTTP发送，不依赖于SendAsyncPost发送规则
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="mess"></param>
+    /// <param name="method">eg. UnityWebRequest.kHttpVerbPOST </param>
+    public static async void NativeHttpSend(string url, string mess, Action<string> callback, string method)
+    {
+        await Client.m_Server.Post(url, mess, callback, method);
     }
 
     public static async void SendAsyncPost(string mess, EventType event_type, OperateType operateType)

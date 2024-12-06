@@ -49,4 +49,14 @@ public class URL
     {
         get { return ROOT_API + $"endExam?examSerializeId={GlobalData.examData.data.examSerializeId}"; }
     }
+
+    public static string numberOfPeople
+    {
+        get { return IP + "NumOfPeople"; }
+    }
+
+    public static string usrTimeOfModule
+    {
+        get { return IP + "UsrTime"; }
+    }
 }
